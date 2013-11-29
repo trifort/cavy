@@ -3047,10 +3047,7 @@
 		this.container.style.height = height + "px";
 		
 		var style = this.canvas.style;
-		//Androidバグ対応 #transparentにすると１コマで消えちゃう
-		if (!style.backgroundColor && cavy.isBuggyDevice("background")) {
-			style.backgroundColor = cavy.backgroundColor;
-		}
+		
 		if (cavy.retina) {
 			style.width = this.width + "px";
 			style.height = this.height + "px";
@@ -3062,6 +3059,11 @@
 		}
 		this.canvas.width = this.width;
 		this.canvas.height = this.height;
+
+		//Androidバグ対応 #transparentにすると１コマで消えちゃう
+		if (!style.backgroundColor && cavy.isBuggyDevice("background")) {
+			style.backgroundColor = cavy.backgroundColor;
+		}
 		
 		if (this.interactive) {
 			this.container.addEventListener("touchstart", this._triggerHandler);
@@ -3082,8 +3084,10 @@
 	 */
 	Stage.prototype.clear = function () {
 		this.clearCanvas(this.context, this.canvas.width, this.canvas.height);
-		this.canvas.width = this.canvas.width;
-		this.context.scale(cavy.deviceRatio,cavy.deviceRatio);
+		if (cavy.isBuggyDevice("background")) {
+			this.canvas.width = this.canvas.width;
+			this.context.scale(cavy.deviceRatio,cavy.deviceRatio);
+		}
 	};
 	/**
 	 * canvasのレンダリング開始
