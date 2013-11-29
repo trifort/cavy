@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Source: CircleGradient.js | cavy.js</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link href="styles/bootstrap.css" rel="stylesheet">
+    <link href="styles/docs.css" rel="stylesheet">
+    <link href="styles/bootstrap-custom.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+    		var _gaq = _gaq || [];
+    	_gaq.push(['_setAccount', 'UA-34280482-1']);
+    	_gaq.push(['_trackPageview']);
+        (function() {
+    		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    	})();
+    </script>
+  </head>
+  <body>
+    <header class="header navbar navbar-inverse">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="#"><strong>cavy.js</strong> API documentation</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+          <div class="span3">
+              <h2><a href="index.html">Index</a></h2><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Classes</li><li><a href="cavy.BackgroundColor.html"><i class="icon-shield" style="color: #0186d1"></i> BackgroundColor</a></li><li><a href="cavy.Circle.html"><i class="icon-shield" style="color: #0186d1"></i> Circle</a></li><li><a href="cavy.CircleGradient.html"><i class="icon-shield" style="color: #0186d1"></i> CircleGradient</a></li><li><a href="cavy.DisplayObject.html"><i class="icon-shield" style="color: #0186d1"></i> DisplayObject</a></li><li><a href="cavy.EventDispatcher.html"><i class="icon-shield" style="color: #0186d1"></i> EventDispatcher</a></li><li><a href="cavy.Graphic.html"><i class="icon-shield" style="color: #0186d1"></i> Graphic</a></li><li><a href="cavy.InteractiveObject.html"><i class="icon-shield" style="color: #0186d1"></i> InteractiveObject</a></li><li><a href="cavy.LinearGradient.html"><i class="icon-shield" style="color: #0186d1"></i> LinearGradient</a></li><li><a href="cavy.Matrix2D.html"><i class="icon-shield" style="color: #0186d1"></i> Matrix2D</a></li><li><a href="cavy.Preload.html"><i class="icon-shield" style="color: #0186d1"></i> Preload</a></li><li><a href="cavy.Rectangle.html"><i class="icon-shield" style="color: #0186d1"></i> Rectangle</a></li><li><a href="cavy.Scene.html"><i class="icon-shield" style="color: #0186d1"></i> Scene</a></li><li><a href="cavy.Shape.html"><i class="icon-shield" style="color: #0186d1"></i> Shape</a></li><li><a href="cavy.Sprite.html"><i class="icon-shield" style="color: #0186d1"></i> Sprite</a></li><li><a href="cavy.SpriteSheet.html"><i class="icon-shield" style="color: #0186d1"></i> SpriteSheet</a></li><li><a href="cavy.Stage.html"><i class="icon-shield" style="color: #0186d1"></i> Stage</a></li><li><a href="cavy.Text.html"><i class="icon-shield" style="color: #0186d1"></i> Text</a></li><li><a href="cavy.Timeline.html"><i class="icon-shield" style="color: #0186d1"></i> Timeline</a></li><li><a href="cavy.Timer.html"><i class="icon-shield" style="color: #0186d1"></i> Timer</a></li><li><a href="cavy.TimerObject.html"><i class="icon-shield" style="color: #0186d1"></i> TimerObject</a></li><li><a href="cavy.Tween.html"><i class="icon-shield" style="color: #0186d1"></i> Tween</a></li><li><a href="cavy.TweenObject.html"><i class="icon-shield" style="color: #0186d1"></i> TweenObject</a></li></ul></div><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Namespaces</li><li><a href="cavy.html"><i class="icon-code"></i> cavy</a></li></ul></div>
+          </div>
+
+          <div class="span9">
+              <h1 class="page-header">Source: CircleGradient.js</h1>
+              
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/**
+ * @fileOverview CircleGradient
+ **/
+(function (window) {
+	"use strict";
+	window.cavy = window.cavy || {};
+	/**
+	 * 円形グラデーション
+	 * @alias cavy.CircleGradient
+	 * @augments cavy.BackgroundColor
+	 * @param x0 {Number} 中心点x
+	 * @param y0 {Number} 中心点y
+	 * @param r0 {Number} 半径
+	 * @param x1 {Number} (option)第２中心点x
+	 * @param y1 {Number} (option)第２中心点y
+	 * @param r1 {Number} (option)第２半径
+	 * @constructor
+	 */
+	var CircleGradient = function (x0, y0, r0, x1, y1, r1) {
+		this.x0 = x0 || 0;
+		this.y0 = y0 || 0;
+		this.x1 = x0 || 0;
+		this.y1 = y0 || 0;
+		this.r0 = r0 || 0;
+		this.r1 = r1 || 0;
+		this.steps = [];
+	};
+	CircleGradient.prototype = Object.create(cavy.BackgroundColor.prototype);
+	CircleGradient.prototype.constructor = CircleGradient;
+	/**
+	 * グラデーションステップを追加
+	 * @public
+	 * @param step {Number} グラデーションステップ(0-1)
+	 * @param color {String} 色(#000,black)
+	 */
+	CircleGradient.prototype.addStep = function (step, color) {
+		this.steps.push([step, color]);
+	};
+	/**
+	 * グラデーション書き出し
+	 * @private
+	 * @param ctx {Context}
+	 * @param p {Object} プロパティオブジェクト
+	 * @param m {cavy.Matrix2D} Matrixオブジェクト
+	 * @returns {CanvasGradient}
+	 */
+	CircleGradient.prototype.draw = function (ctx, p) {
+		var grad = ctx.createRadialGradient(this.x0 + p.width / 2, this.y0 + p.height / 2, this.r0, this.x1 + p.width / 2, this.y1 + p.height / 2, this.r1);
+		var l = this.steps.length;
+		for (var i = 0; i &lt; l; i++) {
+			var s = this.steps[i];
+			grad.addColorStop(s[0], s[1]);
+		}
+		return grad;
+	};
+	cavy.CircleGradient = CircleGradient;
+})(window);</code></pre>
+        </article>
+    </section>
+
+
+
+
+          </div>
+      </div>
+
+        <br clear="both">
+
+      <footer>
+        Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Wed Nov 27 2013 16:10:46 GMT+0900 (JST)
+        <br>
+        &copy; TriFort.inc
+      </footer>
+      <script> prettyPrint(); </script>
+    </div>
+  </body>
+</html>

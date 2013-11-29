@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Source: Core.js | cavy.js</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link href="styles/bootstrap.css" rel="stylesheet">
+    <link href="styles/docs.css" rel="stylesheet">
+    <link href="styles/bootstrap-custom.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+    		var _gaq = _gaq || [];
+    	_gaq.push(['_setAccount', 'UA-34280482-1']);
+    	_gaq.push(['_trackPageview']);
+        (function() {
+    		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    	})();
+    </script>
+  </head>
+  <body>
+    <header class="header navbar navbar-inverse">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="#"><strong>cavy.js</strong> API documentation</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+          <div class="span3">
+              <h2><a href="index.html">Index</a></h2><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Classes</li><li><a href="cavy.BackgroundColor.html"><i class="icon-shield" style="color: #0186d1"></i> BackgroundColor</a></li><li><a href="cavy.Circle.html"><i class="icon-shield" style="color: #0186d1"></i> Circle</a></li><li><a href="cavy.CircleGradient.html"><i class="icon-shield" style="color: #0186d1"></i> CircleGradient</a></li><li><a href="cavy.DisplayObject.html"><i class="icon-shield" style="color: #0186d1"></i> DisplayObject</a></li><li><a href="cavy.EventDispatcher.html"><i class="icon-shield" style="color: #0186d1"></i> EventDispatcher</a></li><li><a href="cavy.Graphic.html"><i class="icon-shield" style="color: #0186d1"></i> Graphic</a></li><li><a href="cavy.InteractiveObject.html"><i class="icon-shield" style="color: #0186d1"></i> InteractiveObject</a></li><li><a href="cavy.LinearGradient.html"><i class="icon-shield" style="color: #0186d1"></i> LinearGradient</a></li><li><a href="cavy.Matrix2D.html"><i class="icon-shield" style="color: #0186d1"></i> Matrix2D</a></li><li><a href="cavy.Preload.html"><i class="icon-shield" style="color: #0186d1"></i> Preload</a></li><li><a href="cavy.Rectangle.html"><i class="icon-shield" style="color: #0186d1"></i> Rectangle</a></li><li><a href="cavy.Scene.html"><i class="icon-shield" style="color: #0186d1"></i> Scene</a></li><li><a href="cavy.Shape.html"><i class="icon-shield" style="color: #0186d1"></i> Shape</a></li><li><a href="cavy.Sprite.html"><i class="icon-shield" style="color: #0186d1"></i> Sprite</a></li><li><a href="cavy.SpriteSheet.html"><i class="icon-shield" style="color: #0186d1"></i> SpriteSheet</a></li><li><a href="cavy.Stage.html"><i class="icon-shield" style="color: #0186d1"></i> Stage</a></li><li><a href="cavy.Text.html"><i class="icon-shield" style="color: #0186d1"></i> Text</a></li><li><a href="cavy.Timeline.html"><i class="icon-shield" style="color: #0186d1"></i> Timeline</a></li><li><a href="cavy.Timer.html"><i class="icon-shield" style="color: #0186d1"></i> Timer</a></li><li><a href="cavy.TimerObject.html"><i class="icon-shield" style="color: #0186d1"></i> TimerObject</a></li><li><a href="cavy.Tween.html"><i class="icon-shield" style="color: #0186d1"></i> Tween</a></li><li><a href="cavy.TweenObject.html"><i class="icon-shield" style="color: #0186d1"></i> TweenObject</a></li></ul></div><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Namespaces</li><li><a href="cavy.html"><i class="icon-code"></i> cavy</a></li></ul></div>
+          </div>
+
+          <div class="span9">
+              <h1 class="page-header">Source: Core.js</h1>
+              
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>(function (window) {
+	"use strict";
+
+	/**
+	 * すべてのクラスを内包するネームスペース
+	 * @public
+	 * @namespace cavy
+	 * @type {Object}
+	 */
+	window.cavy = window.cavy || {};
+	/**
+	 * userAgent
+	 * @public
+	 * @default navigator.userAgent
+	 * @type {string}
+	 */
+	cavy.userAgent = navigator.userAgent;
+	window.requestAnimationFrame = (function (window) {
+		return window.webkitRequestAnimationFrame || window.requestAnimationFrame || (function () {
+			var lastTime = Date.now(),
+				startTime = Date.now();
+			return function (callback) {
+				var currTime = Date.now(),
+					timeToCall = Math.max(0, 16 - (currTime - lastTime));
+				lastTime = currTime + timeToCall;
+				return window.setTimeout(callback, timeToCall, lastTime - startTime)
+			};
+		})(window)
+	})(window);
+	window.cancelAnimationFrame = (function (window) {
+		return window.webkitCancelAnimationFrame || window.webkitCancelRequestAnimationFrame || window.clearTimeout;
+	})(window);
+	
+	/**
+	 * Retinaディスプレイ対応
+	 * @public
+	 * @default false
+	 * @type {boolean}
+	 */
+	cavy.retina = true;
+	/**
+	 * pixelSnap
+	 * @public
+	 * @default false
+	 * @type {boolean}
+	 */
+	cavy.pixelSnap = false;
+	/**
+	 * アニメーションフレームを実時間で調整する
+	 * @public
+	 * @default true
+	 * @type {boolean}
+	 */
+	cavy.strict = true;
+	/**
+	 * フレームレート
+	 * @public
+	 * @default 60
+	 * @type {number}
+	 */
+	cavy.frameRate = 60;
+	/**
+	 * フレームを飛ばす最大値
+	 * @public
+	 * @default 60
+	 * @type {number}
+	 */
+	cavy.maxSkip = 60;
+
+	/**
+	 * deviceRatio
+	 * @public
+	 * @default 1
+	 * @type {number}
+	 */
+	cavy.deviceRatio = 1;
+	/**
+	 * バグ種類別にユーザーエージェントを格納するオブジェクト
+	 * @private
+	 * @type {object}
+	 */
+	cavy.bugs = {
+		//背景色つけないとcanvas消えちゃう
+		background: ["F-06E","L-05E","SC-04E"]
+	};
+
+	/**
+	 * Canvas外描画を行うかどうか
+	 * @type {boolean}
+	 */
+	cavy.outOfRendering = true;
+
+	/**
+	 * Filter機能を使うかどうか
+	 * @type {boolean}
+	 */
+	cavy.useFilter = false;
+
+	/**
+	 * canvasの背景色（色を何かしらつけないと一部のAndroid端末で描画されないバグがある）
+	 * @default "rgba(255,255,255,0.01)"
+	 * @type {string}
+	 */
+	cavy.backgroundColor = "rgba(255,255,255,0.01)";
+
+    /**
+     * アクセス端末に指定したバグがあるかどうか
+	 * @private
+     * @param type {string} バグタイプを表す文字列
+     * @returns {boolean}
+     */
+    cavy.isBuggyDevice = function(type) {
+        var bug = cavy.bugs[type];
+        if (!bug) { return false; }
+        var l = bug.length;
+        while(l--) {
+            if (cavy.userAgent.search(bug[l]) !== -1) {
+                return true;
+            }
+        }
+        return false;
+    };
+	/**
+	 * Retinaディスプレイかどうかを返却
+	 * @public
+	 * @return {boolean}
+	 */
+	cavy.isRetina = function() {
+		if (window.devicePixelRatio !== 1) {
+			return true;
+		}
+		return false;
+	};
+	/**
+	 * ネームスペースをすべてwindowに書き出す
+	 * @public
+	 */
+	cavy.expand = function () {
+		for (var key in this) {
+			window[key] = this[key];
+		}
+	};
+})(window);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+          </div>
+      </div>
+
+        <br clear="both">
+
+      <footer>
+        Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Wed Nov 27 2013 16:10:46 GMT+0900 (JST)
+        <br>
+        &copy; TriFort.inc
+      </footer>
+      <script> prettyPrint(); </script>
+    </div>
+  </body>
+</html>

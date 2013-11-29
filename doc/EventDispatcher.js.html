@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Source: EventDispatcher.js | cavy.js</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link href="styles/bootstrap.css" rel="stylesheet">
+    <link href="styles/docs.css" rel="stylesheet">
+    <link href="styles/bootstrap-custom.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+    		var _gaq = _gaq || [];
+    	_gaq.push(['_setAccount', 'UA-34280482-1']);
+    	_gaq.push(['_trackPageview']);
+        (function() {
+    		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    	})();
+    </script>
+  </head>
+  <body>
+    <header class="header navbar navbar-inverse">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="#"><strong>cavy.js</strong> API documentation</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+          <div class="span3">
+              <h2><a href="index.html">Index</a></h2><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Classes</li><li><a href="cavy.BackgroundColor.html"><i class="icon-shield" style="color: #0186d1"></i> BackgroundColor</a></li><li><a href="cavy.Circle.html"><i class="icon-shield" style="color: #0186d1"></i> Circle</a></li><li><a href="cavy.CircleGradient.html"><i class="icon-shield" style="color: #0186d1"></i> CircleGradient</a></li><li><a href="cavy.DisplayObject.html"><i class="icon-shield" style="color: #0186d1"></i> DisplayObject</a></li><li><a href="cavy.EventDispatcher.html"><i class="icon-shield" style="color: #0186d1"></i> EventDispatcher</a></li><li><a href="cavy.Graphic.html"><i class="icon-shield" style="color: #0186d1"></i> Graphic</a></li><li><a href="cavy.InteractiveObject.html"><i class="icon-shield" style="color: #0186d1"></i> InteractiveObject</a></li><li><a href="cavy.LinearGradient.html"><i class="icon-shield" style="color: #0186d1"></i> LinearGradient</a></li><li><a href="cavy.Matrix2D.html"><i class="icon-shield" style="color: #0186d1"></i> Matrix2D</a></li><li><a href="cavy.Preload.html"><i class="icon-shield" style="color: #0186d1"></i> Preload</a></li><li><a href="cavy.Rectangle.html"><i class="icon-shield" style="color: #0186d1"></i> Rectangle</a></li><li><a href="cavy.Scene.html"><i class="icon-shield" style="color: #0186d1"></i> Scene</a></li><li><a href="cavy.Shape.html"><i class="icon-shield" style="color: #0186d1"></i> Shape</a></li><li><a href="cavy.Sprite.html"><i class="icon-shield" style="color: #0186d1"></i> Sprite</a></li><li><a href="cavy.SpriteSheet.html"><i class="icon-shield" style="color: #0186d1"></i> SpriteSheet</a></li><li><a href="cavy.Stage.html"><i class="icon-shield" style="color: #0186d1"></i> Stage</a></li><li><a href="cavy.Text.html"><i class="icon-shield" style="color: #0186d1"></i> Text</a></li><li><a href="cavy.Timeline.html"><i class="icon-shield" style="color: #0186d1"></i> Timeline</a></li><li><a href="cavy.Timer.html"><i class="icon-shield" style="color: #0186d1"></i> Timer</a></li><li><a href="cavy.TimerObject.html"><i class="icon-shield" style="color: #0186d1"></i> TimerObject</a></li><li><a href="cavy.Tween.html"><i class="icon-shield" style="color: #0186d1"></i> Tween</a></li><li><a href="cavy.TweenObject.html"><i class="icon-shield" style="color: #0186d1"></i> TweenObject</a></li></ul></div><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Namespaces</li><li><a href="cavy.html"><i class="icon-code"></i> cavy</a></li></ul></div>
+          </div>
+
+          <div class="span9">
+              <h1 class="page-header">Source: EventDispatcher.js</h1>
+              
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>(function (window) {
+	"use strict";
+	window.cavy = window.cavy || {};
+	/**
+	 * イベントの登録・発火を管理するクラス
+	 * @alias cavy.EventDispatcher
+	 * @constructor
+	 **/
+	var EventDispatcher = function () {
+		this.__store__ = {};
+	};
+	EventDispatcher.prototype = {
+		constructor: EventDispatcher,
+		/**
+		 * イベントを登録する
+		 * @public
+		 * @alias EventDispatcher.on
+		 * @param {String} type 追加するイベントタイプ
+		 * @param {Function} listener イベント発火時の処理
+		 * @return {EventDispatcher}
+		 **/
+		addEventListener: function (type, listener) {
+			return this.on(type, listener);
+		},
+		/**
+		 * イベントを登録する
+		 * @public
+		 * @param {String} type 追加するイベントタイプ
+		 * @param {Function} listener イベント発火時の処理
+		 * @return {EventDispatcher}
+		 **/
+		on: function(type, listener) {
+			var typeStore = this.__store__[type] || [];
+			typeStore.push(listener);
+			this.__store__[type] = typeStore;
+			return this;
+		},
+		/**
+		 * イベントを削除する
+		 * @public
+		 * @alias @alias EventDispatcher.off
+		 * @param {String} type 削除するイベントタイプ。省略するとすべてのイベントを削除します。
+		 * @param {Function} listener 削除するイベント発火時の処理。省略すると指定イベントタイプのすべての処理を削除します。
+		 * @return {EventDispatcher}
+		 **/
+		removeEventListener: function (type, listener) {
+			return this.off(type, listener)
+		},
+		/**
+		 * イベントを削除する
+		 * @public
+		 * @param {String} type 削除するイベントタイプ。省略するとすべてのイベントを削除します。
+		 * @param {Function} listener 削除するイベント発火時の処理。省略すると指定イベントタイプのすべての処理を削除します。
+		 * @return {EventDispatcher}
+		 **/
+		off: function(type, listener) {
+			if (!type) {
+				this.__store__ = {};
+			} else if (typeof listener === "function") {
+				var typeStore = this.__store__[type];
+				if (typeStore) {
+					var index = typeStore.indexOf(listener);
+					if (index !== -1) {
+						typeStore.splice(index, 1);
+						this.__store__[type] = typeStore;
+					}
+				}
+			} else {
+				delete this.__store__[type];
+			}
+			return this;
+		},
+		/**
+		 * イベントが登録されているかどうかを返却
+		 * @public
+		 * @param {String} type イベントタイプ
+		 * @return {Boolean} イベントが登録されているかどうか
+		 **/
+		hasEvent: function (type) {
+			return this.__store__[type] ? true : false;
+		},
+		/**
+		 * 指定したイベントを発火
+		 * @public
+		 * @alias EventDispatcher.trigger
+		 * @param {String} type イベントタイプ
+		 * @param {Object} e イベント発火後の処理に渡す引数
+		 * @param {Object} thisObj thisに設定するオブジェクト。省略するとEventDispatcherを設定します。
+		 * @return {Boolean} イベントが登録されているかどうか
+		 **/
+		dispatchEvent: function (type, e, thisObj) {
+			return this.trigger(type, e, thisObj);
+		},
+		/**
+		 * 指定したイベントを発火
+		 * @public
+		 * @param {String} type イベントタイプ
+		 * @param {Object} e イベント発火後の処理に渡す引数
+		 * @param {Object} thisObj thisに設定するオブジェクト。省略するとEventDispatcherを設定します。
+		 * @return {Boolean} イベントが登録されているかどうか
+		 **/
+		trigger: function (type, e, thisObj) {
+			var typeStore = this.__store__[type] || null;
+			if (typeStore) {
+				thisObj = thisObj || this;
+				var args = Array.prototype.slice.apply(arguments, [1]);
+				var t = typeStore.slice();
+				for (var i = 0, len = t.length; i &lt; len; i++) {
+					t[i].apply(thisObj, args);
+				}
+				t = null;
+			}
+			return this;
+		}
+	};
+	cavy.EventDispatcher = EventDispatcher;
+})(window);</code></pre>
+        </article>
+    </section>
+
+
+
+
+          </div>
+      </div>
+
+        <br clear="both">
+
+      <footer>
+        Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Wed Nov 27 2013 16:10:46 GMT+0900 (JST)
+        <br>
+        &copy; TriFort.inc
+      </footer>
+      <script> prettyPrint(); </script>
+    </div>
+  </body>
+</html>

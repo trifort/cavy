@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Source: Preload.js | cavy.js</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link href="styles/bootstrap.css" rel="stylesheet">
+    <link href="styles/docs.css" rel="stylesheet">
+    <link href="styles/bootstrap-custom.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+    		var _gaq = _gaq || [];
+    	_gaq.push(['_setAccount', 'UA-34280482-1']);
+    	_gaq.push(['_trackPageview']);
+        (function() {
+    		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    	})();
+    </script>
+  </head>
+  <body>
+    <header class="header navbar navbar-inverse">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="#"><strong>cavy.js</strong> API documentation</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+          <div class="span3">
+              <h2><a href="index.html">Index</a></h2><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Classes</li><li><a href="cavy.BackgroundColor.html"><i class="icon-shield" style="color: #0186d1"></i> BackgroundColor</a></li><li><a href="cavy.Circle.html"><i class="icon-shield" style="color: #0186d1"></i> Circle</a></li><li><a href="cavy.CircleGradient.html"><i class="icon-shield" style="color: #0186d1"></i> CircleGradient</a></li><li><a href="cavy.DisplayObject.html"><i class="icon-shield" style="color: #0186d1"></i> DisplayObject</a></li><li><a href="cavy.EventDispatcher.html"><i class="icon-shield" style="color: #0186d1"></i> EventDispatcher</a></li><li><a href="cavy.Graphic.html"><i class="icon-shield" style="color: #0186d1"></i> Graphic</a></li><li><a href="cavy.InteractiveObject.html"><i class="icon-shield" style="color: #0186d1"></i> InteractiveObject</a></li><li><a href="cavy.LinearGradient.html"><i class="icon-shield" style="color: #0186d1"></i> LinearGradient</a></li><li><a href="cavy.Matrix2D.html"><i class="icon-shield" style="color: #0186d1"></i> Matrix2D</a></li><li><a href="cavy.Preload.html"><i class="icon-shield" style="color: #0186d1"></i> Preload</a></li><li><a href="cavy.Rectangle.html"><i class="icon-shield" style="color: #0186d1"></i> Rectangle</a></li><li><a href="cavy.Scene.html"><i class="icon-shield" style="color: #0186d1"></i> Scene</a></li><li><a href="cavy.Shape.html"><i class="icon-shield" style="color: #0186d1"></i> Shape</a></li><li><a href="cavy.Sprite.html"><i class="icon-shield" style="color: #0186d1"></i> Sprite</a></li><li><a href="cavy.SpriteSheet.html"><i class="icon-shield" style="color: #0186d1"></i> SpriteSheet</a></li><li><a href="cavy.Stage.html"><i class="icon-shield" style="color: #0186d1"></i> Stage</a></li><li><a href="cavy.Text.html"><i class="icon-shield" style="color: #0186d1"></i> Text</a></li><li><a href="cavy.Timeline.html"><i class="icon-shield" style="color: #0186d1"></i> Timeline</a></li><li><a href="cavy.Timer.html"><i class="icon-shield" style="color: #0186d1"></i> Timer</a></li><li><a href="cavy.TimerObject.html"><i class="icon-shield" style="color: #0186d1"></i> TimerObject</a></li><li><a href="cavy.Tween.html"><i class="icon-shield" style="color: #0186d1"></i> Tween</a></li><li><a href="cavy.TweenObject.html"><i class="icon-shield" style="color: #0186d1"></i> TweenObject</a></li></ul></div><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Namespaces</li><li><a href="cavy.html"><i class="icon-code"></i> cavy</a></li></ul></div>
+          </div>
+
+          <div class="span9">
+              <h1 class="page-header">Source: Preload.js</h1>
+              
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>(function (window) {
+	"use strict";
+	window.cavy = window.cavy || {};
+	/**
+	 * 画像をプリロードするクラス
+	 * @alias cavy.Preload
+	 * @constructor
+	 * @param data プリロードする画像データ
+	 * @param callback 読み込み完了時に実行する処理
+	 * @param connection 一度に並列処理する件数(初期値:5)
+	 * @example
+	 *  var preload = new Preload([{id:"hoge",src:"http://example.jp/img.jpg"},{id:"hoge2",src:"http://example.jp/img2.jpg"}]);
+	 *  var preload = new Preload(["http://example.jp/img.jpg","http://example.jp/img2.jpg"]);
+	 *  var preload = new Preload({"hoge": "http://example.jp/img.jpg", "hoge2":"http://example.jp/img2.jpg"});
+	 *  preload.addEventListener("complete",function(result)) {
+	 *		result["hoge"];
+	 *		result[0];
+	 *		result["hoge2"];
+	 *		preload.get("hoge");
+	 *	});
+	 *  
+	 */
+	var Preload = function (data, callback, connection) {
+		cavy.EventDispatcher.apply(this);
+		this.data = data;
+		this.keys = [];
+		this.result = [];
+		this.index = 0;
+		this.loadedCount = 0;
+		this.length = 0;
+		this.leaveCount = 0;
+		if (typeof callback === "function") {
+			this.callback = callback;
+		} else if (typeof connection === "function") {
+			this.callback = connection;
+		}
+		if (typeof callback === "number") {
+			this.maxConnection = connection;
+		} else if (typeof connection === "number") {
+			this.maxConnection = connection;
+		} else {
+			this.maxConnection = 5;
+		}
+		var self = this;
+		this.loadedHandler = function (e) {
+			self.loaded(e.target);
+		};
+		this.errorHandler = function (e) {
+			self._error(e);
+		};
+		window.setTimeout(function () {
+			self.init();
+		}, 0);
+	};
+	Preload.prototype = Object.create(cavy.EventDispatcher.prototype);
+	Preload.prototype.constructor = Preload;
+	/**
+	 * 初期化
+	 * @private
+	 */
+	Preload.prototype.init = function () {
+		var max = this.maxConnection;
+		this.keys = Object.keys(this.data);
+		this.length = this.keys.length;
+		if (max > this.length) {
+			max = this.length;
+		}
+		this.leaveCount = this.length - max;
+		this.index = max;
+		for (var i = 0; i &lt; max; i++) {
+			this.load(i);
+		}
+	};
+	/**
+	 * 画像読み込み完了時処理
+	 * @private
+	 * @param img
+	 */
+	Preload.prototype.loaded = function (img) {
+		++this.loadedCount;
+		this.dispatchEvent("step", img);
+		img.removeEventListener("load", this.loadedHandler);
+		img.removeEventListener("error", this.errorHandler);
+		this.result[img.id] = img;
+		if (this.loadedCount === this.length) {
+			this.dispatchEvent("complete", this.result);
+			if (typeof this.callback === "function") {
+				this.callback(this.result);
+			}
+		} else if (this.leaveCount !== 0) {
+			this.leaveCount--;
+			this.load(this.index++);
+		}
+	};
+	/**
+	 * 指定インデックスの画像読み込み開始
+	 * @private
+	 * @param i
+	 */
+	Preload.prototype.load = function (i) {
+		var img = new Image();
+		img.id = this.keys[i];
+		img.addEventListener("load", this.loadedHandler);
+		img.addEventListener("error", this.errorHandler);
+		img.src = this.data[this.keys[i]];
+		if (img.complete) {
+			this.loaded(img);
+		}
+	};
+	/**
+	 * エラー発生
+	 * @private
+	 * @param e
+	 * @returns {*}
+	 */
+	Preload.prototype._error = function (e) {
+		this.trigger("error", e);
+		return this;
+	};
+	/**
+	 * 読み込んだ画像を取得する
+	 * @public
+	 * @param id
+	 * @returns {ImageElement}
+	 */
+	Preload.prototype.get = function (id) {
+		return this.result[id];
+	};
+
+	/**
+	 * 読み込みエラー時に行う処理を追加
+	 * @public
+	 * @param callback
+	 * @returns {*}
+	 */
+	Preload.prototype.error = function (callback) {
+		var errorFunction = function () {
+			this.removeEventListener("error", errorFunction);
+			callback.apply(this, [arguments]);
+		};
+		this.addEventListener("error", errorFunction);
+		return this;
+	};
+	/**
+	 * 読み込み完了時に行う処理を追加
+	 * @public
+	 * @param callback
+	 * @returns {*}
+	 */
+	Preload.prototype.complete = function (callback) {
+		var completeFunction = function () {
+			this.removeEventListener("complete", completeFunction);
+			callback.apply(this, [arguments]);
+		};
+		this.addEventListener("complete", completeFunction);
+		return this;
+	};
+	/**
+	 * すべてのイメージデータをクリア
+	 * @public
+	 */
+	Preload.prototype.destroy = function () {
+		delete this.result;
+		delete this.data;
+		this.result = [];
+	};
+	cavy.Preload = Preload;
+})(window);</code></pre>
+        </article>
+    </section>
+
+
+
+
+          </div>
+      </div>
+
+        <br clear="both">
+
+      <footer>
+        Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Wed Nov 27 2013 16:10:46 GMT+0900 (JST)
+        <br>
+        &copy; TriFort.inc
+      </footer>
+      <script> prettyPrint(); </script>
+    </div>
+  </body>
+</html>

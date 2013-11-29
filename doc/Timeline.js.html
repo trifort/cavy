@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Source: Timeline.js | cavy.js</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link href="styles/bootstrap.css" rel="stylesheet">
+    <link href="styles/docs.css" rel="stylesheet">
+    <link href="styles/bootstrap-custom.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+    		var _gaq = _gaq || [];
+    	_gaq.push(['_setAccount', 'UA-34280482-1']);
+    	_gaq.push(['_trackPageview']);
+        (function() {
+    		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    	})();
+    </script>
+  </head>
+  <body>
+    <header class="header navbar navbar-inverse">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="#"><strong>cavy.js</strong> API documentation</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+          <div class="span3">
+              <h2><a href="index.html">Index</a></h2><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Classes</li><li><a href="cavy.BackgroundColor.html"><i class="icon-shield" style="color: #0186d1"></i> BackgroundColor</a></li><li><a href="cavy.Circle.html"><i class="icon-shield" style="color: #0186d1"></i> Circle</a></li><li><a href="cavy.CircleGradient.html"><i class="icon-shield" style="color: #0186d1"></i> CircleGradient</a></li><li><a href="cavy.DisplayObject.html"><i class="icon-shield" style="color: #0186d1"></i> DisplayObject</a></li><li><a href="cavy.EventDispatcher.html"><i class="icon-shield" style="color: #0186d1"></i> EventDispatcher</a></li><li><a href="cavy.Graphic.html"><i class="icon-shield" style="color: #0186d1"></i> Graphic</a></li><li><a href="cavy.InteractiveObject.html"><i class="icon-shield" style="color: #0186d1"></i> InteractiveObject</a></li><li><a href="cavy.LinearGradient.html"><i class="icon-shield" style="color: #0186d1"></i> LinearGradient</a></li><li><a href="cavy.Matrix2D.html"><i class="icon-shield" style="color: #0186d1"></i> Matrix2D</a></li><li><a href="cavy.Preload.html"><i class="icon-shield" style="color: #0186d1"></i> Preload</a></li><li><a href="cavy.Rectangle.html"><i class="icon-shield" style="color: #0186d1"></i> Rectangle</a></li><li><a href="cavy.Scene.html"><i class="icon-shield" style="color: #0186d1"></i> Scene</a></li><li><a href="cavy.Shape.html"><i class="icon-shield" style="color: #0186d1"></i> Shape</a></li><li><a href="cavy.Sprite.html"><i class="icon-shield" style="color: #0186d1"></i> Sprite</a></li><li><a href="cavy.SpriteSheet.html"><i class="icon-shield" style="color: #0186d1"></i> SpriteSheet</a></li><li><a href="cavy.Stage.html"><i class="icon-shield" style="color: #0186d1"></i> Stage</a></li><li><a href="cavy.Text.html"><i class="icon-shield" style="color: #0186d1"></i> Text</a></li><li><a href="cavy.Timeline.html"><i class="icon-shield" style="color: #0186d1"></i> Timeline</a></li><li><a href="cavy.Timer.html"><i class="icon-shield" style="color: #0186d1"></i> Timer</a></li><li><a href="cavy.TimerObject.html"><i class="icon-shield" style="color: #0186d1"></i> TimerObject</a></li><li><a href="cavy.Tween.html"><i class="icon-shield" style="color: #0186d1"></i> Tween</a></li><li><a href="cavy.TweenObject.html"><i class="icon-shield" style="color: #0186d1"></i> TweenObject</a></li></ul></div><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Namespaces</li><li><a href="cavy.html"><i class="icon-code"></i> cavy</a></li></ul></div>
+          </div>
+
+          <div class="span9">
+              <h1 class="page-header">Source: Timeline.js</h1>
+              
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>(function (window) {
+	"use strict";
+	window.cavy = window.cavy || {};
+	/**
+	 * タイムラインオブジェクトクラス
+	 * @constructor
+	 * @alias cavy.Timeline
+	 * @augments cavy.EventDispatcher
+	 * @param frameCount {Int} 必要なフレーム数（先に定義しておくとパフォーマンスUP）
+	 * @example
+	 *  var t = new cavy.Timeline(1000);
+	 *  t.addLabel(0,"start",function(){});
+	 *  t.addLabel(1000,"end",function(){});
+	 *  t.add("start", function() {});
+	 *  t.add(1000,function() {});
+	 *  t.play();
+	 *  t.gotoAndStop("end");
+	 *  t.gotoAndPlay("start");
+	 *  t.stop();
+	 **/
+	var Timeline = function (frameCount) {
+		if (frameCount) {
+			this.queue = new Array(frameCount);
+		} else {
+			this.queue = [];
+		}
+		/**
+		 * ラベル
+		 * @type {}
+		 */
+		this.labels = {};
+		/**
+		 * 現在フレーム数
+		 * @type {number}
+		 */
+		this.frame = 0;
+		/**
+		 * タイマー
+		 * @private
+		 * @type {TimerId}
+		 */
+		this.timer = null;
+		/**
+		 * 現在時間
+		 * @type {number}
+		 */
+		this.time = 0;
+		/**
+		 * 経過時間
+		 * @type {number}
+		 */
+		this.passedTime = 0;
+		var self = this;
+		this._enterframeHandler = function () {
+			self._tick();
+			self.frame++;
+		};
+		cavy.EventDispatcher.apply(this);
+	};
+	Timeline.prototype = Object.create(cavy.EventDispatcher.prototype);
+	Timeline.prototype.constructor = Timeline;
+
+	/**
+	 * ミリ秒
+	 * @contant
+	 * @default 1000
+	 * @type {number}
+	 */
+	Timeline.prototype.SECOND = 1000;
+	/**
+	 * フレームにイベントを追加
+	 * @public
+	 * @param frame {Number|String} フレーム数またはラベル名
+	 * @param callback {Function} 指定フレーム時に実行する処理
+	 * @return {void}
+	 **/
+	Timeline.prototype.add = function (frame, callback) {
+		if (typeof frame === "string") {
+			var f = this.labels[frame];
+			if (isNaN(f)) {
+				window.console.error("Not found label [" + frame + "]");
+				return;
+			}
+			frame = f;
+		}
+		frame = Math.round(frame / (this.SECOND / cavy.frameRate));
+		if (typeof this.queue[frame] === "object") {
+			this.queue[frame].push(callback);
+		} else {
+			this.queue[frame] = [callback];
+		}
+		return this;
+	};
+	/**
+	 * ラベルを追加
+	 * @public
+	 * @param frame {Number} フレーム数
+	 * @param name {String} ラベル名
+	 * @param callback {Function} 指定フレーム時に実行する処理
+	 * @return {void}
+	 **/
+	Timeline.prototype.addLabel = function (frame, name, callback) {
+		this.labels[name] = frame;
+		if (callback) {
+			this.add(frame, callback);
+		}
+	};
+	/**
+	 * ラベルを削除
+	 * @public
+	 * @param name {String} ラベル名
+	 * @return {void}
+	 **/
+	Timeline.prototype.removeLabel = function (name) {
+		delete this.labels[name];
+	};
+	/**
+	 * フレームイベントを削除
+	 * @public
+	 * @param frame {Number} フレーム数
+	 * @return {void}
+	 **/
+	Timeline.prototype.remove = function (frame, callback) {
+		var q = this.queue[frame];
+		if (q) {
+			var i = q.indexOf(callback);
+			if (i !== -1) {
+				q.splice(i, 1);
+			}
+		}
+		return this;
+	};
+	/**
+	 * タイムライン開始
+	 * @public
+	 * @return {void}
+	 **/
+	Timeline.prototype.play = function () {
+		this.stop();
+		this.time = Date.now();
+		this.timer = cavy.Timer.repeat(this._enterframeHandler);
+		return this;
+	};
+	/**
+	 * タイムライン停止
+	 * @public
+	 * @return {void}
+	 **/
+	Timeline.prototype.stop = function () {
+		cavy.Timer.stop(this.timer);
+		return this;
+	};
+	/**
+	 * 指定フレームへ移動しタイムラインを開始
+	 * @public
+	 * @param frame {Number|String} フレーム数またはラベル名
+	 * @return {void}
+	 **/
+	Timeline.prototype.goToAndPlay = function (frame) {
+		if (typeof frame === "string") {
+			var f = this.labels[frame];
+			if (isNaN(f)) {
+				window.console.error("Not found label [" + frame + "]");
+				return;
+			}
+			frame = f;
+		}
+		this.frame = Math.round(frame / (this.SECOND / cavy.frameRate));
+		this.passedTime = Math.floor(this.frame * (this.SECOND / cavy.frameRate));
+		this._tick();
+		this.play();
+	};
+	/**
+	 * 指定フレームへ移動しタイムラインを停止
+	 * @public
+	 * @param frame {Number|String} フレーム数またはラベル名
+	 * @return {void}
+	 **/
+	Timeline.prototype.goToAndStop = function (frame) {
+		if (typeof frame === "string") {
+			var f = this.labels[frame];
+			if (isNaN(f)) {
+				window.console.error("Not found label [" + frame + "]");
+				return;
+			}
+			frame = f;
+		}
+		this.frame = Math.round(frame / (Timeline.SECOND / cavy.Tween.frameRate));
+		this.passedTime = Math.floor(this.frame * (this.SECOND / cavy.frameRate));
+		this._tick();
+		this.stop();
+	};
+	/**
+	 * タイムラインをリセット
+	 * @public
+	 * @return {void}
+	 **/
+	Timeline.prototype.reset = function () {
+		this.frame = 0;
+		return this;
+	};
+	/**
+	 * フレーム毎の処理
+	 * @private
+	 * @return {void}
+	 **/
+	Timeline.prototype._tick = function () {
+		var t = Date.now(),
+			lt = t - this.time;
+		this.passedTime += lt;
+		this.time = t;
+		var frame = Math.floor(this.passedTime / (1000 / cavy.frameRate));
+		if (frame - this.frame > cavy.maxSkip) {
+			frame = this.frame + cavy.maxSkip;
+		}
+		var range = [this.frame, frame];
+		this.frame = frame;
+		for (var i = range[0]; i &lt;= range[1]; i++) {
+			if (this.frame !== frame) {
+				break;
+			}
+			var f = this.queue[i];
+			if (f && f.length !== 0) {
+				var l = f.length;
+				while (l--) {
+					f[l].apply(this, [this.frame]);
+				}
+			}
+		}
+		if (this.frame > this.queue.length) {
+			this.stop();
+			this.dispatchEvent("complete");
+			return;
+		}
+
+	};
+	cavy.Timeline = Timeline;
+})(window);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+          </div>
+      </div>
+
+        <br clear="both">
+
+      <footer>
+        Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Wed Nov 27 2013 16:10:46 GMT+0900 (JST)
+        <br>
+        &copy; TriFort.inc
+      </footer>
+      <script> prettyPrint(); </script>
+    </div>
+  </body>
+</html>

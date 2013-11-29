@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Source: Stage.js | cavy.js</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link href="styles/bootstrap.css" rel="stylesheet">
+    <link href="styles/docs.css" rel="stylesheet">
+    <link href="styles/bootstrap-custom.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+    		var _gaq = _gaq || [];
+    	_gaq.push(['_setAccount', 'UA-34280482-1']);
+    	_gaq.push(['_trackPageview']);
+        (function() {
+    		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    	})();
+    </script>
+  </head>
+  <body>
+    <header class="header navbar navbar-inverse">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="#"><strong>cavy.js</strong> API documentation</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+          <div class="span3">
+              <h2><a href="index.html">Index</a></h2><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Classes</li><li><a href="cavy.BackgroundColor.html"><i class="icon-shield" style="color: #0186d1"></i> BackgroundColor</a></li><li><a href="cavy.Circle.html"><i class="icon-shield" style="color: #0186d1"></i> Circle</a></li><li><a href="cavy.CircleGradient.html"><i class="icon-shield" style="color: #0186d1"></i> CircleGradient</a></li><li><a href="cavy.DisplayObject.html"><i class="icon-shield" style="color: #0186d1"></i> DisplayObject</a></li><li><a href="cavy.EventDispatcher.html"><i class="icon-shield" style="color: #0186d1"></i> EventDispatcher</a></li><li><a href="cavy.Graphic.html"><i class="icon-shield" style="color: #0186d1"></i> Graphic</a></li><li><a href="cavy.InteractiveObject.html"><i class="icon-shield" style="color: #0186d1"></i> InteractiveObject</a></li><li><a href="cavy.LinearGradient.html"><i class="icon-shield" style="color: #0186d1"></i> LinearGradient</a></li><li><a href="cavy.Matrix2D.html"><i class="icon-shield" style="color: #0186d1"></i> Matrix2D</a></li><li><a href="cavy.Preload.html"><i class="icon-shield" style="color: #0186d1"></i> Preload</a></li><li><a href="cavy.Rectangle.html"><i class="icon-shield" style="color: #0186d1"></i> Rectangle</a></li><li><a href="cavy.Scene.html"><i class="icon-shield" style="color: #0186d1"></i> Scene</a></li><li><a href="cavy.Shape.html"><i class="icon-shield" style="color: #0186d1"></i> Shape</a></li><li><a href="cavy.Sprite.html"><i class="icon-shield" style="color: #0186d1"></i> Sprite</a></li><li><a href="cavy.SpriteSheet.html"><i class="icon-shield" style="color: #0186d1"></i> SpriteSheet</a></li><li><a href="cavy.Stage.html"><i class="icon-shield" style="color: #0186d1"></i> Stage</a></li><li><a href="cavy.Text.html"><i class="icon-shield" style="color: #0186d1"></i> Text</a></li><li><a href="cavy.Timeline.html"><i class="icon-shield" style="color: #0186d1"></i> Timeline</a></li><li><a href="cavy.Timer.html"><i class="icon-shield" style="color: #0186d1"></i> Timer</a></li><li><a href="cavy.TimerObject.html"><i class="icon-shield" style="color: #0186d1"></i> TimerObject</a></li><li><a href="cavy.Tween.html"><i class="icon-shield" style="color: #0186d1"></i> Tween</a></li><li><a href="cavy.TweenObject.html"><i class="icon-shield" style="color: #0186d1"></i> TweenObject</a></li></ul></div><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Namespaces</li><li><a href="cavy.html"><i class="icon-code"></i> cavy</a></li></ul></div>
+          </div>
+
+          <div class="span9">
+              <h1 class="page-header">Source: Stage.js</h1>
+              
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>(function (window) {
+	"use strict";
+	window.cavy = window.cavy || {};
+	/**
+	 * Stageオブジェクトクラス
+	 * @constructor
+	 * @alias cavy.Stage
+	 * @augments cavy.DisplayObject
+	 * @param container {HTMLElement} canvasを出力するHTML要素
+	 * @param width {Number} canvas横幅
+	 * @param height {Number} canvas高さ
+	 * @param interactive {Boolean} イベントを発行するかどうか
+	 * @param strictEvent {Boolean} interactiveがtrueのときにイベント発行範囲を要素の形に厳密に合わせる
+	 **/
+	var Stage = function (container, width, height, interactive, strictEvent) {
+		/**
+		 * canvasを出力している親要素
+		 * @public
+		 * @return {HTMLElement}     
+		 */
+		this.container = container;
+		if (typeof this.container === "string") {
+			this.container = document.getElementById(this.container);
+		}
+		if (this.container === null) {
+			return;
+		}
+		/**
+		 * 描画しているcanvas要素 * @public
+		 * @return {Canvas|null}
+		 */
+		this.canvas = document.createElement("canvas");
+		/**     * canvasのcontext
+		 * @public
+		 * @return {Context}
+		 */
+		this.context = null;
+		/**
+		 * レンダリング用タイマーID
+		 * @private
+		 * @return {String|null}
+		 */
+		this.rendering = null;
+		/**
+		 * レンダリング毎に実行する処理
+		 * @private
+		 * @return {Function|null}
+		 */
+		this.tick = null;
+		/**
+		 * イベントを発行するかどうか
+		 * @type {boolean}
+		 */
+		this.interactive = interactive ? true : false;
+
+		/**
+		 * イベントの発行を厳密に行うかどうか
+		 * この設定をtrueにするとイベント発行位置が画像の形あわせて行われます。（パフォーマンスと引き換え
+		 * @type {boolean}
+		 */
+		this.strictEvent = strictEvent ? true : false;
+
+		var self = this;
+		this._loopHandler = function (t) {
+			self.update(t);
+		};
+		this._triggerHandler = function (e) {
+			self._triggerEvent(e);
+		};
+		this._refreshHandler = function () {
+			self._refresh();
+		};
+		this._initialize(width, height);
+	};
+	Stage.prototype = Object.create(cavy.InteractiveObject.prototype);
+	Stage.prototype.constructor = Stage;
+	/**
+	 * 初期化
+	 * @private
+	 * @param width {Number}
+	 * @param height {Number}
+	 * @return {void}
+	 */
+	Stage.prototype._initialize = function (width, height) {
+		this.width = width || 320;
+		this.height = height || 240;
+		this.context = this.canvas.getContext("2d");
+		
+		this.container.style.overflow = "hidden";
+		this.container.style.webkitTapHighlightColor = "rgba(0,0,0,0)";
+		this.container.style.tapHighlightColor = "rgba(0,0,0,0)";
+		this.container.style.width = width + "px";
+		this.container.style.height = height + "px";
+		
+		var style = this.canvas.style;
+		//Androidバグ対応 #transparentにすると１コマで消えちゃう
+		if (!style.backgroundColor && cavy.isBuggyDevice("background")) {
+			style.backgroundColor = cavy.backgroundColor;
+		}
+		if (cavy.retina) {
+			cavy.deviceRatio = window.webkitDevicePixelRatio || window.devicePixelRatio || 1;
+			this.canvas.width = this.width * cavy.deviceRatio;
+			this.canvas.height = this.height * cavy.deviceRatio;
+			style.width = this.width + "px";
+			style.height = this.height + "px";
+			this.width *= cavy.deviceRatio;
+			this.height *= cavy.deviceRatio;
+		}
+		
+		if (this.interactive) {
+			this.container.addEventListener("touchstart", this._triggerHandler);
+			this.container.addEventListener("touchmove", this._triggerHandler);
+			this.container.addEventListener("touchend", this._triggerHandler);
+			this.container.addEventListener("gesturestart", this._triggerHandler);
+			this.container.addEventListener("gesturechange", this._triggerHandler);
+			this.container.addEventListener("gestureend", this._triggerHandler);
+			this.container.addEventListener("click", this._triggerHandler);
+		}
+		this.container.appendChild(this.canvas);
+		cavy.InteractiveObject.apply(this, [this.canvas]);
+	};
+	/**
+	 * canvasをクリア
+	 * @public
+	 * @return {void}
+	 */
+	Stage.prototype.clear = function () {
+		this.clearCanvas(this.context, this.canvas.width, this.canvas.height);
+		this.canvas.width = this.canvas.width;
+		this.context.setTransform(cavy.deviceRatio,0,0,cavy.deviceRatio,0,0);
+	};
+	/**
+	 * canvasのレンダリング開始
+	 * @public
+	 * @param tick {Function} レンダリング毎に実行する処理(省略可)
+	 * @return {void}
+	 */
+	Stage.prototype.startRender = function (tick) {
+		this.stopRender();
+		this.tick = tick;
+		this.rendering = cavy.Timer.repeat(this._loopHandler);
+		this.update();
+	};
+	/**
+	 * canvasのレンダリング停止
+	 * @public
+	 * @return {void}
+	 */
+	Stage.prototype.stopRender = function () {
+		if (this.rendering) {
+			this.rendering.stop();
+		}
+		this.rendering = this.tick = null;
+	};
+	/**
+	 * 渡したDisplayObjectをcanvasに描画
+	 * @public
+	 * @param s {DisplayObject} 描画したいDisplayObject
+	 * @return {void}
+	 */
+	Stage.prototype.render = function (s) {
+		this.context.save();
+		s.draw(this.context);
+		this.context.restore();
+	};
+	/**
+	 * canvasを更新
+	 * @public
+	 * @param t {Number} 更新時間
+	 * @return {void}
+	 */
+	Stage.prototype.update = function (t) {
+		if (this.tick) {
+			this.tick(t || 0);
+		}
+		this.clear();
+		this._render(this.children);
+	};
+	/**
+	 * canvasを破棄
+	 * @public
+	 * @return {void}
+	 */
+	Stage.prototype.destroy = function () {
+		this.children = [];
+		if (this.interactive) {
+			this.container.removeEventListener("touchstart", this._triggerHandler);
+			this.container.removeEventListener("touchmove", this._triggerHandler);
+			this.container.removeEventListener("touchend", this._triggerHandler);
+			this.container.removeEventListener("gesturestart", this._triggerHandler);
+			this.container.removeEventListener("gesturechange", this._triggerHandler);
+			this.container.removeEventListener("gestureend", this._triggerHandler);
+			this.container.removeEventListener("click", this._triggerHandler);
+		}
+		this.stopRender();
+		this.clear();
+		this.container.removeChild(this.canvas);
+		this.context = this.canvas = null;
+		this.container = null;
+	};
+	/**
+	 * 子要素を描画
+	 * @private
+	 * @param children {Array} 子要素配列
+	 * @return {void}
+	 */
+	Stage.prototype._render = function (children) {
+		var c = children.slice(0);
+		for (var i = 0,l = c.length; i &lt; l; i++) {
+			var s = c[i];
+			if (!s.visible) {
+				continue;
+			}
+			if (!cavy.outOfRendering) {
+				var rect = s.getBoundingRect(),
+					hw = this.width / 2,
+					hh = this.height / 2;
+				if (rect.bottom &lt; -hh || rect.right &lt; -hw || rect.top > this.height + hh || rect.left > this.width + hw) {
+					s._visible = false;
+					continue;
+				} else {
+					s._visible = true;
+				}
+			}
+			if (cavy.useFilter) {
+				var sl = s.children.length;
+				while (sl--) {
+					if (s.children[sl].filter !== null) {
+						s.createCache();
+						break;
+					}
+				}
+			}
+			this.render(s);
+			if (s.children.length !== 0 && !s.cache) {
+				this._render(s.children);
+			}
+		}
+	};
+	/**
+	 * イベントを発火
+	 * @private
+	 * @param e {Object} イベントオブジェクト
+	 * @return {void}
+	 */
+	Stage.prototype._triggerEvent = function (e) {
+		var t = e.touches,
+			et = e.changedTouches,
+			x = (t && t[0]) ? t[0].pageX : e.pageX,
+			y = (t && t[0]) ? t[0].pageY : e.pageY;
+		if (!x && et) {
+			x = et[0].pageX;
+		}
+		if (!y && e.changedTouches) {
+			y = et[0].pageY;
+		}
+		x -= document.body.scrollLeft;
+		y -= document.body.scrollTop;
+		var bounds = this.canvas.getBoundingClientRect();
+		this._trigger(e, x - bounds.left, y - bounds.top, this.children);
+		if (this.hasEvent(e.type)) {
+			this.dispatchEvent(e.type, e);
+		}
+	};
+	/**
+	 * イベントを発火
+	 * @private
+	 * @param e {Object} イベントオブジェクト
+	 * @param x {Number} イベントが発生したx座標
+	 * @param y {Number} イベントが発生したy座標
+	 * @param children {Array} 子要素配列
+	 * @return {void}
+	 */
+	Stage.prototype._trigger = function (e, x, y, children) {
+		if (!children) {
+			return;
+		}
+		var c = children.slice(),
+			l = c.length;
+		while (l--) {
+			var s = c[l];
+			if (!s || !s.visible || !s._visible || !s.interactive) {
+				continue;
+			}
+			if (s.children.length !== 0) {
+				this._trigger(e, x, y, s.children);
+			}
+			if (s._interactive && s.hasEvent(e.type) && s.hitTest(x, y, this.strictEvent)) {
+				s.dispatchEvent(e.type, e);
+				if (e.returnValue === false) {
+					break;
+				}
+			}
+		}
+	};
+	cavy.Stage = Stage;
+})(window);</code></pre>
+        </article>
+    </section>
+
+
+
+
+          </div>
+      </div>
+
+        <br clear="both">
+
+      <footer>
+        Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Wed Nov 27 2013 16:10:46 GMT+0900 (JST)
+        <br>
+        &copy; TriFort.inc
+      </footer>
+      <script> prettyPrint(); </script>
+    </div>
+  </body>
+</html>

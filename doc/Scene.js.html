@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Source: Scene.js | cavy.js</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link href="styles/bootstrap.css" rel="stylesheet">
+    <link href="styles/docs.css" rel="stylesheet">
+    <link href="styles/bootstrap-custom.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+    		var _gaq = _gaq || [];
+    	_gaq.push(['_setAccount', 'UA-34280482-1']);
+    	_gaq.push(['_trackPageview']);
+        (function() {
+    		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    	})();
+    </script>
+  </head>
+  <body>
+    <header class="header navbar navbar-inverse">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="#"><strong>cavy.js</strong> API documentation</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+          <div class="span3">
+              <h2><a href="index.html">Index</a></h2><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Classes</li><li><a href="cavy.BackgroundColor.html"><i class="icon-shield" style="color: #0186d1"></i> BackgroundColor</a></li><li><a href="cavy.Circle.html"><i class="icon-shield" style="color: #0186d1"></i> Circle</a></li><li><a href="cavy.CircleGradient.html"><i class="icon-shield" style="color: #0186d1"></i> CircleGradient</a></li><li><a href="cavy.DisplayObject.html"><i class="icon-shield" style="color: #0186d1"></i> DisplayObject</a></li><li><a href="cavy.EventDispatcher.html"><i class="icon-shield" style="color: #0186d1"></i> EventDispatcher</a></li><li><a href="cavy.Graphic.html"><i class="icon-shield" style="color: #0186d1"></i> Graphic</a></li><li><a href="cavy.InteractiveObject.html"><i class="icon-shield" style="color: #0186d1"></i> InteractiveObject</a></li><li><a href="cavy.LinearGradient.html"><i class="icon-shield" style="color: #0186d1"></i> LinearGradient</a></li><li><a href="cavy.Matrix2D.html"><i class="icon-shield" style="color: #0186d1"></i> Matrix2D</a></li><li><a href="cavy.Preload.html"><i class="icon-shield" style="color: #0186d1"></i> Preload</a></li><li><a href="cavy.Rectangle.html"><i class="icon-shield" style="color: #0186d1"></i> Rectangle</a></li><li><a href="cavy.Scene.html"><i class="icon-shield" style="color: #0186d1"></i> Scene</a></li><li><a href="cavy.Shape.html"><i class="icon-shield" style="color: #0186d1"></i> Shape</a></li><li><a href="cavy.Sprite.html"><i class="icon-shield" style="color: #0186d1"></i> Sprite</a></li><li><a href="cavy.SpriteSheet.html"><i class="icon-shield" style="color: #0186d1"></i> SpriteSheet</a></li><li><a href="cavy.Stage.html"><i class="icon-shield" style="color: #0186d1"></i> Stage</a></li><li><a href="cavy.Text.html"><i class="icon-shield" style="color: #0186d1"></i> Text</a></li><li><a href="cavy.Timeline.html"><i class="icon-shield" style="color: #0186d1"></i> Timeline</a></li><li><a href="cavy.Timer.html"><i class="icon-shield" style="color: #0186d1"></i> Timer</a></li><li><a href="cavy.TimerObject.html"><i class="icon-shield" style="color: #0186d1"></i> TimerObject</a></li><li><a href="cavy.Tween.html"><i class="icon-shield" style="color: #0186d1"></i> Tween</a></li><li><a href="cavy.TweenObject.html"><i class="icon-shield" style="color: #0186d1"></i> TweenObject</a></li></ul></div><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Namespaces</li><li><a href="cavy.html"><i class="icon-code"></i> cavy</a></li></ul></div>
+          </div>
+
+          <div class="span9">
+              <h1 class="page-header">Source: Scene.js</h1>
+              
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>(function (window) {
+	"use strict";
+	window.cavy = window.cavy || {};
+	/**
+	 * シーンイベント管理をするクラス
+	 * @constructor
+	 * @alias cavy.Scene
+	 * @augments Object
+	 * @param {Object} sceneData
+	 * @example
+	 *    var scene = new Scene([
+	 *        function() {},
+	 *        function() {}
+	 *  ]);
+	 *    scene.next();
+	 *  //scene.go(0);
+	 *  scene.prev();
+	 *
+	 *  var scene2 = new Scene();
+	 *  scene2.add("start", function(){});
+	 *  scene2.add("end", function(){});
+	 *  scene2.go("start");
+	 *
+	 **/
+	var Scene = function (sceneData) {
+		this.scenes = [];
+		this.scenesData = {};
+		this.index = -1;
+		var self = this;
+		this.addHandler = function (id, callback) {
+			self.add(id, callback);
+		};
+		this.removeHandler = function (id) {
+			self.remove(id);
+		};
+		this.goHandler = function (id, param) {
+			self.go(id, param);
+		};
+		this.selectHandler = function (index, param) {
+			self.select(index, param);
+		};
+		this.nextHandler = function (param) {
+			self.next(param);
+		};
+		this.prevHandler = function (param) {
+			self.prev(param);
+		};
+		this.destroyHandler = function () {
+			self.destroy();
+		};
+		this._initialize(sceneData);
+
+		return {
+			add: this.addHandler,
+			remove: this.removeHandler,
+			go: this.goHandler,
+			select: this.selectHandler,
+			next: this.nextHandler,
+			prev: this.prevHandler,
+			destroy: this.destroyHandler
+		};
+	};
+	Scene.prototype = {
+		constructor: Scene,
+		/**
+		 * 初期化
+		 * @private
+		 * @param {Object} sceneData
+		 * @return {void}
+		 **/
+		_initialize: function (sceneData) {
+			if (!sceneData) return;
+			for (var key in sceneData) {
+				this.add(key, sceneData[key]);
+			}
+		},
+		/**
+		 * シーンの追加
+		 * @public
+		 * @param {String} id シーンID
+		 * @param {Function} callback 実行する処理
+		 * @return {void}
+		 **/
+		add: function (id, callback) {
+			this.scenes.push(id);
+			this.scenesData[id] = callback;
+		},
+		/**
+		 * シーンの削除
+		 * @public
+		 * @param {String} id シーンID
+		 * @return {void}
+		 **/
+		remove: function (id) {
+			delete this.scenes[id];
+		},
+		/**
+		 * 指定シーンへ移動
+		 * @public
+		 * @param {String} id シーンID
+		 * @param {Object} param 渡したい引数
+		 * @return {void}
+		 **/
+		go: function (id, param) {
+			if (typeof id === "string") {
+				var f = this.scenesData[id];
+				if (f) {
+					this.index = this.scenes.indexOf(id);
+					f(param, this.index);
+				} else {
+					window.error("Not found: Scene [" + id + "]");
+				}
+			} else {
+				this.select(id, param);
+			}
+		},
+		/**
+		 * 指定インデックスのシーンへ移動
+		 * @public
+		 * @param {String} index シーンインデックス
+		 * @param {Object} param 渡したい引数
+		 * @return {void}
+		 **/
+		select: function (index, param) {
+			var id = this.scenes[index];
+			if (id) {
+				this.index = index;
+				this.scenesData[id](param, index);
+			}
+		},
+		/**
+		 * 次のシーンへ移動
+		 * @public
+		 * @param {Object} param 渡したい引数
+		 * @return {void}
+		 **/
+		next: function (param) {
+			var i = this.index + 1,
+				id = this.scenes[i];
+			if (id) {
+				this.index = i;
+				this.scenesData[id](param, i);
+			}
+		},
+		/**
+		 * 前のシーンへ移動
+		 * @private
+		 * @param {Object} param 渡したい引数
+		 * @return {void}
+		 **/
+		prev: function (param) {
+			var i = this.index - 1,
+				id = this.scenes[i];
+			if (id) {
+				this.index = i;
+				this.scenesData[id](param, i);
+			}
+		},
+		/**
+		 * シーンをすべて削除する
+		 * @private
+		 * @return {void}
+		 **/
+		destroy: function () {
+			this.scenes = [];
+			this.scenesData = {};
+			this.index = -1;
+		}
+	};
+	cavy.Scene = Scene;
+})(window);</code></pre>
+        </article>
+    </section>
+
+
+
+
+          </div>
+      </div>
+
+        <br clear="both">
+
+      <footer>
+        Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Wed Nov 27 2013 16:10:46 GMT+0900 (JST)
+        <br>
+        &copy; TriFort.inc
+      </footer>
+      <script> prettyPrint(); </script>
+    </div>
+  </body>
+</html>
