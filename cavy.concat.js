@@ -3045,21 +3045,26 @@
 		this.container.style.tapHighlightColor = "rgba(0,0,0,0)";
 		this.container.style.width = width + "px";
 		this.container.style.height = height + "px";
+
+		
 		
 		var style = this.canvas.style;
-		
 		if (cavy.retina) {
+			cavy.deviceRatio = window.webkitDevicePixelRatio || window.devicePixelRatio || 1;
 			style.width = this.width + "px";
 			style.height = this.height + "px";
 			
-			cavy.deviceRatio = window.webkitDevicePixelRatio || window.devicePixelRatio || 1;
 			this.width *= cavy.deviceRatio;
 			this.height *= cavy.deviceRatio;
+			this.canvas.width = this.width;
+			this.canvas.height = this.height;
 			this.context.scale(cavy.deviceRatio,cavy.deviceRatio);
+		} else {
+			this.canvas.width = this.width;
+			this.canvas.height = this.height;
 		}
-		this.canvas.width = this.width;
-		this.canvas.height = this.height;
-
+		
+		
 		//Androidバグ対応 #transparentにすると１コマで消えちゃう
 		if (!style.backgroundColor && cavy.isBuggyDevice("background")) {
 			style.backgroundColor = cavy.backgroundColor;
