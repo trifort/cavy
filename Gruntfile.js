@@ -3,9 +3,13 @@ module.exports = function(grunt) {
 	var setting = {
 		pkg: pkg,
 		concat: {
-			dist: {
+			release: {
 				src: pkg.target,
 				dest: '<%= pkg.name %>.concat.js'
+			},
+			debug: {
+				src: pkg.target,
+				dest: '<%= pkg.name %>.js'
 			}
 		},
 		uglify: {
@@ -25,8 +29,7 @@ module.exports = function(grunt) {
  * Visit http://createjs.com/ for documentation, updates and examples.\n\
  * Copyright (c) 2010 gskinner.com, inc.\n\
  */\n',
-	 			//report: "gzip",
-				compress: true,
+	 			compress: true,
 				beautify: false
 				//sourceMap: 'cavy.source.js',
 				//sourceMapRoot: 'http://example.com/path/to/src/', // the location to find your original source
@@ -44,7 +47,7 @@ module.exports = function(grunt) {
 		watch: {
 			scripts: {
 				files: ['js/*.js','Gruntfile.js'],
-				tasks: ['concat','uglify']
+				tasks: ['concat:debug']
 			}
 		}
 	};
@@ -56,7 +59,7 @@ module.exports = function(grunt) {
 			grunt.loadNpmTasks(taskName);
 		}
 	}
-	grunt.registerTask('compile', ['concat','uglify']);
+	grunt.registerTask('compile', ['concat:debug','concat:release','uglify']);
 	grunt.registerTask('default', ['watch']);
 	grunt.registerTask('doc', ['jsdoc']);
 };
