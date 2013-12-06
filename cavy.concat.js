@@ -1681,10 +1681,12 @@
 			if (f - q.count > cavy.maxSkip) {
 				f = q.count + cavy.maxSkip;
 			}
-			q.count = Math.min(~~f, q.frame);
+			if (q.count < q.frame) {
+				q.count = Math.min(~~f, q.frame);
+			}
 		}
 		var easing = Tween.Easing[q.easing];
-		if (q.count === q.frame) {
+		if (q.count > q.frame) {
 			for (var key in q.end) {
 				this.sprite[key] = q.end[key];
 			}
@@ -1720,6 +1722,8 @@
 				}
 				return;
 			}
+		} else if (q.count === q.frame) {
+			q.count++;
 		} else if (q.QUEUE_TYPE === "tween") {
 			for (var key in q.end) {
 				var s = q.start[key],
@@ -1730,7 +1734,7 @@
 		} else if (q.QUEUE_TYPE === "wait") {
 			if (cavy.strict) {q.count++};
 		}
-		if (this.stepCallback) {
+		if (q.count <= q.frame && this.stepCallback) {
 			this.stepCallback.apply(this);
 		}
 	};
