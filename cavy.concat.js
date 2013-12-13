@@ -155,6 +155,60 @@
 (function (window) {
 	"use strict";
 	window.cavy = window.cavy || {};
+	
+	var Util = {
+		/**
+		 * オブジェクトの複製
+		 * @param obj {Object}
+		 * @returns {Object}
+		 */
+		clone: function(obj) {
+			return Util.extend({}, obj);
+		},
+		/**
+		 * オブジェクトの継承
+		 * @param what {Object} 継承先
+		 * @param wit {Object} 継承元
+		 * @returns {Object}
+		 */
+		extend: function(target, source, deep) {
+			for (var key in source) {
+				if (deep && (this.isPlainObject(source[key]) || this.isArray(source[key]))) {
+					if (this.isPlainObject(source[key]) && !this.isPlainObject(target[key])) {
+						target[key] = {};
+					}
+					if (this.isArray(source[key]) && !this.isArray(target[key])) {
+						target[key] = [];
+						extend(target[key], source[key], deep)
+					}
+				} else if (source[key] !== undefined) {
+					target[key] = source[key];
+				}
+			}
+			return target;
+		},
+		/**
+		 * Objectかどうかの判定
+		 * @param obj {*}
+		 * @returns {Boolean}
+		 */
+		isPlainObject: function(obj) {
+			return (obj && typeof obj === "object" && obj !== obj.window && Object.getPrototypeOf(obj) === Object.prototype);
+		},
+		/**
+		 * 配列かどうかの判定
+		 * @param obj
+		 * @returns {boolean}
+		 */
+		isArray: function(obj) {
+			return obj instanceof Array;
+		}
+	};
+	cavy.Util = Util;
+})(window);
+(function (window) {
+	"use strict";
+	window.cavy = window.cavy || {};
 	/**
 	 * イベントの登録・発火を管理するクラス
 	 * @alias cavy.EventDispatcher
@@ -885,13 +939,11 @@
 		 **/
 		update: function () {
 			var t = Date.now(),
-				l = this.repeats.length,
 				d = null,
-				r = this.repeats.slice(0);
-			
+				r = this.repeats.slice(0),
+				l = this.repeats.length;
+
 			this.time = t;
-			this.timer = window.requestAnimationFrame(this._loopHandler);
-			
 			while (l--) {
 				d = r[l];
 				if (d && t - d.time >= d.delay) {
@@ -906,6 +958,7 @@
 					d.time = t;
 				}
 			}
+			this.timer = window.requestAnimationFrame(this._loopHandler);
 		},
 		/**
 		 * 繰り返し処理
@@ -939,6 +992,7 @@
 				this.isTick = true;
 				this.update();
 			}
+			return this;
 		},
 		/**
 		 * 遅延処理
@@ -955,6 +1009,14 @@
 				window.cancelAnimationFrame(this.timer);
 				this.isTick = false;
 			}
+			return this;
+		},
+		stopAll: function() {
+			if (this.timer) {
+				window.cancelAnimationFrame(this.timer);
+				this.isTick = false;
+			}
+			return this;
 		}
 	};
 	cavy.Timer = new Timer();
@@ -1687,9 +1749,6 @@
 		}
 		var easing = Tween.Easing[q.easing];
 		if (q.count > q.frame) {
-			for (var key in q.end) {
-				this.sprite[key] = q.end[key];
-			}
 			if (this._hasAttach()) {
 				this._doAttach();
 			} else if (this.isRepeat) {
@@ -2538,26 +2597,7 @@
 	 * @returns {cavy.DisplayObject} 複製した要素
 	 */
 	DisplayObject.prototype.clone = function () {
-		var c = new this.constructor();
-		c = (function copy(obj, base) {
-			if (!obj) {
-				return base;
-			}
-			var props = Object.getOwnPropertyNames(base);
-			var i = 0, len = props.length;
-			for (; i < len; i++) {
-				var p = props[i];
-				if (base.hasOwnProperty(p)) {
-					if (base[p] && typeof base[p] === "object") {
-						obj[p] = copy(obj[p], base[p]);
-					} else {
-						Object.defineProperty(obj, p, Object.getOwnPropertyDescriptor(base, p));
-					}
-				}
-			}
-			return obj;
-		})(c, this);
-		return c;
+		return cavy.Util.clone(this);
 	};
 	/**
 	 * BoundingRectを取得する

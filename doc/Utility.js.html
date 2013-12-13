@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Source: Shape.js | cavy.js</title>
+    <title>Source: Utility.js | cavy.js</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
     <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
     <link href="styles/bootstrap.css" rel="stylesheet">
@@ -42,7 +42,7 @@
           </div>
 
           <div class="span9">
-              <h1 class="page-header">Source: Shape.js</h1>
+              <h1 class="page-header">Source: Utility.js</h1>
               
 
 
@@ -52,37 +52,56 @@
             <pre class="prettyprint source"><code>(function (window) {
 	"use strict";
 	window.cavy = window.cavy || {};
-	/**
-	 * 図形を描画するクラス
-	 * @alias cavy.Shape
-	 * @augments cavy.Graphic
-	 * @param w {Number} 横幅
-	 * @param h {Number} 高さ
-	 * @param param {Object} 初期パラメータ
-	 * @constructor
-	 */
-	var Shape = function (w, h, param) {
-		var obj = {
-			width: w,
-			height: h
-		};
-		cavy.Graphic.apply(this, [obj, param]);
+	
+	var Util = {
+		/**
+		 * オブジェクトの複製
+		 * @param obj {Object}
+		 * @returns {Object}
+		 */
+		clone: function(obj) {
+			return Util.extend({}, obj);
+		},
+		/**
+		 * オブジェクトの継承
+		 * @param what {Object} 継承先
+		 * @param wit {Object} 継承元
+		 * @returns {Object}
+		 */
+		extend: function(target, source, deep) {
+			for (var key in source) {
+				if (deep && (this.isPlainObject(source[key]) || this.isArray(source[key]))) {
+					if (this.isPlainObject(source[key]) && !this.isPlainObject(target[key])) {
+						target[key] = {};
+					}
+					if (this.isArray(source[key]) && !this.isArray(target[key])) {
+						target[key] = [];
+						extend(target[key], source[key], deep)
+					}
+				} else if (source[key] !== undefined) {
+					target[key] = source[key];
+				}
+			}
+			return target;
+		},
+		/**
+		 * Objectかどうかの判定
+		 * @param obj {*}
+		 * @returns {Boolean}
+		 */
+		isPlainObject: function(obj) {
+			return (obj && typeof obj === "object" && obj !== obj.window && Object.getPrototypeOf(obj) === Object.prototype);
+		},
+		/**
+		 * 配列かどうかの判定
+		 * @param obj
+		 * @returns {boolean}
+		 */
+		isArray: function(obj) {
+			return obj instanceof Array;
+		}
 	};
-	Shape.prototype = Object.create(cavy.Graphic.prototype);
-	Shape.prototype.constructor = Shape;
-	/**
-	 * 図形を描画
-	 * @private
-	 * @param ctx
-	 */
-	Shape.prototype.draw = function (ctx,mask) {
-		if (!this.parent && !mask) {return;}
-		var p = this.update(),
-			m = this.matrix;
-		this.updateContext(ctx);
-		this.drawPath(ctx, p, m, mask);
-	};
-	cavy.Shape = Shape;
+	cavy.Util = Util;
 })(window);</code></pre>
         </article>
     </section>
