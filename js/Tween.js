@@ -453,9 +453,6 @@
 		}
 		var easing = Tween.Easing[q.easing];
 		if (q.count > q.frame) {
-			for (var key in q.end) {
-				this.sprite[key] = q.end[key];
-			}
 			if (this._hasAttach()) {
 				this._doAttach();
 			} else if (this.isRepeat) {
