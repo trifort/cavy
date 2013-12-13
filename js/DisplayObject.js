@@ -448,26 +448,7 @@
 	 * @returns {cavy.DisplayObject} 複製した要素
 	 */
 	DisplayObject.prototype.clone = function () {
-		var c = new this.constructor();
-		c = (function copy(obj, base) {
-			if (!obj) {
-				return base;
-			}
-			var props = Object.getOwnPropertyNames(base);
-			var i = 0, len = props.length;
-			for (; i < len; i++) {
-				var p = props[i];
-				if (base.hasOwnProperty(p)) {
-					if (base[p] && typeof base[p] === "object") {
-						obj[p] = copy(obj[p], base[p]);
-					} else {
-						Object.defineProperty(obj, p, Object.getOwnPropertyDescriptor(base, p));
-					}
-				}
-			}
-			return obj;
-		})(c, this);
-		return c;
+		return cavy.Util.clone(this);
 	};
 	/**
 	 * BoundingRectを取得する
