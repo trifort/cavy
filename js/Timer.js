@@ -32,13 +32,11 @@
 		 **/
 		update: function () {
 			var t = Date.now(),
-				l = this.repeats.length,
 				d = null,
-				r = this.repeats.slice(0);
-			
+				r = this.repeats.slice(0),
+				l = this.repeats.length;
+
 			this.time = t;
-			this.timer = window.requestAnimationFrame(this._loopHandler);
-			
 			while (l--) {
 				d = r[l];
 				if (d && t - d.time >= d.delay) {
@@ -53,6 +51,7 @@
 					d.time = t;
 				}
 			}
+			this.timer = window.requestAnimationFrame(this._loopHandler);
 		},
 		/**
 		 * 繰り返し処理
@@ -86,6 +85,7 @@
 				this.isTick = true;
 				this.update();
 			}
+			return this;
 		},
 		/**
 		 * 遅延処理
@@ -102,6 +102,14 @@
 				window.cancelAnimationFrame(this.timer);
 				this.isTick = false;
 			}
+			return this;
+		},
+		stopAll: function() {
+			if (this.timer) {
+				window.cancelAnimationFrame(this.timer);
+				this.isTick = false;
+			}
+			return this;
 		}
 	};
 	cavy.Timer = new Timer();
