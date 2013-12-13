@@ -1,51 +1,52 @@
 {
-  "name": "cavy",
-  "version": "1.0.0",
-  "description": "HTML5 canvas library for smart devices.",
-  "main": "cavy.js",
-  "dependencies": {
-    "grunt": "~0.4.1"
-  },
-  "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-concat": "~0.3.0",
-    "grunt-contrib-uglify": "~0.2.5",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-jsdoc": "~0.4.2"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": "",
-  "keywords": [
-    "html5",
-    "canvas",
-    "library"
-  ],
-  "author": "Hayashi Yuichi",
-  "license": "MIT License",
-  "readmeFilename": "README.md",
-  "target": [
-    "js/Core.js",
-    "js/EventDispatcher.js",
-    "js/Preload.js",
-    "js/Matrix.js",
-    "js/Timer.js",
-    "js/Timeline.js",
-    "js/Tween.js",
-    "js/Scene.js",
-    "js/DisplayObject.js",
-    "js/InteractiveObject.js",
-    "js/Stage.js",
-    "js/Graphic.js",
-    "js/BackgroundColor.js",
-    "js/LinearGradient.js",
-    "js/CircleGradient.js",
-    "js/Shape.js",
-    "js/Rectangle.js",
-    "js/Circle.js",
-    "js/Sprite.js",
-    "js/SpriteSheet.js",
-    "js/Text.js"
-  ]
+	"name": "cavy",
+	"version": "1.0.0",
+	"description": "HTML5 canvas library for smart devices.",
+	"main": "cavy.js",
+	"dependencies": {
+		"grunt": "~0.4.1"
+	},
+	"devDependencies": {
+		"grunt": "~0.4.1",
+		"grunt-contrib-concat": "~0.3.0",
+		"grunt-contrib-uglify": "~0.2.5",
+		"grunt-contrib-watch": "~0.5.3",
+		"grunt-jsdoc": "~0.4.2"
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": "",
+	"keywords": [
+		"html5",
+		"canvas",
+		"library"
+	],
+	"author": "Hayashi Yuichi",
+	"license": "MIT License",
+	"readmeFilename": "README.md",
+	"target": [
+		"js/Core.js",
+		"js/Utility.js",
+		"js/EventDispatcher.js",
+		"js/Preload.js",
+		"js/Matrix.js",
+		"js/Timer.js",
+		"js/Timeline.js",
+		"js/Tween.js",
+		"js/Scene.js",
+		"js/DisplayObject.js",
+		"js/InteractiveObject.js",
+		"js/Stage.js",
+		"js/Graphic.js",
+		"js/BackgroundColor.js",
+		"js/LinearGradient.js",
+		"js/CircleGradient.js",
+		"js/Shape.js",
+		"js/Rectangle.js",
+		"js/Circle.js",
+		"js/Sprite.js",
+		"js/SpriteSheet.js",
+		"js/Text.js"
+	]
 }
