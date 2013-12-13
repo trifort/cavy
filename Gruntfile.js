@@ -59,7 +59,8 @@ module.exports = function(grunt) {
 			grunt.loadNpmTasks(taskName);
 		}
 	}
-	grunt.registerTask('compile', ['concat:debug','concat:release','uglify']);
+	grunt.registerTask('build', ['concat:debug','concat:release','uglify']);
+	grunt.registerTask('compile', ['concat:debug','uglify']);
 	grunt.registerTask('default', ['watch']);
 	grunt.registerTask('doc', ['jsdoc']);
 };
