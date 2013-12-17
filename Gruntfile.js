@@ -30,10 +30,7 @@ module.exports = function(grunt) {
  * Copyright (c) 2010 gskinner.com, inc.\n\
  */\n',
 	 			compress: true,
-				beautify: false//,
-				//mangle: true
-				//sourceMap: 'cavy.source.js',
-				//sourceMapRoot: 'http://example.com/path/to/src/', // the location to find your original source
+				beautify: false
 			}
 		},
 		jsdoc : {

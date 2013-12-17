@@ -942,7 +942,7 @@
 			var t = Date.now(),
 				d = null,
 				r = this.repeats,
-				l = this.repeats.length;
+				l = r.length;
 			this.time = t;
 			while (l--) {
 				d = r[l];
@@ -3131,15 +3131,12 @@
 	 * @return {void}
 	 */
 	p.clear = function () {
-		
-		/*
 		this.clearCanvas(this.context, this.canvas.width, this.canvas.height);
 		if (cavy.isBuggyDevice("background")) {
 			this.canvas.width = this.canvas.width;
 			this.context.scale(cavy.deviceRatio,cavy.deviceRatio);
 		}
-		*/
-		this.context.clearRect(0,0,this.canvas.width+1,this.canvas.height+1);
+		//this.context.clearRect(0,0,this.canvas.width+1,this.canvas.height+1);
 	};
 	/**
 	 * canvasのレンダリング開始
@@ -3821,12 +3818,16 @@
 	 * @return {void}
 	 **/
 	p.draw = function (ctx) {
-		if (!this.parent || !this.source || !this.source.complete) {
-			return;
-		}
+		if (!this.parent) {return;}
 		var p = this.update();
-		this.updateContext(ctx)
-		if (this.cache === null) {
+		this.updateContext(ctx);
+		if (this.cache) {
+			if (this.imageCache && this.imageCache.src !== "data:,") {
+				ctx.drawImage(this.imageCache, 0, 0, p.width, p.height);
+			} else {
+				ctx.drawImage(this.cache, 0, 0, p.width, p.height);
+			}
+		} else if (this.source && this.source.complete) {
 			if (p.sx + p.innerWidth > this.source.width) {
 				p.width = this.source.width;
 				p.innerWidth = this.source.width;
@@ -3836,12 +3837,6 @@
 				p.innerHeight = this.source.height;
 			}
 			ctx.drawImage(this.source, p.sx, p.sy, p.innerWidth, p.innerHeight, 0, 0, p.width, p.height);
-		} else {
-			if (this.imageCache && this.imageCache.src !== "data:,") {
-				ctx.drawImage(this.imageCache, 0, 0, p.width, p.height);
-			} else {
-				ctx.drawImage(this.cache, 0, 0, p.width, p.height);
-			}
 		}
 	};
 	cavy.Sprite = Sprite;

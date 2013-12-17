@@ -22,12 +22,16 @@
 	 * @return {void}
 	 **/
 	p.draw = function (ctx) {
-		if (!this.parent || !this.source || !this.source.complete) {
-			return;
-		}
+		if (!this.parent) {return;}
 		var p = this.update();
-		this.updateContext(ctx)
-		if (this.cache === null) {
+		this.updateContext(ctx);
+		if (this.cache) {
+			if (this.imageCache && this.imageCache.src !== "data:,") {
+				ctx.drawImage(this.imageCache, 0, 0, p.width, p.height);
+			} else {
+				ctx.drawImage(this.cache, 0, 0, p.width, p.height);
+			}
+		} else if (this.source && this.source.complete) {
 			if (p.sx + p.innerWidth > this.source.width) {
 				p.width = this.source.width;
 				p.innerWidth = this.source.width;
@@ -37,12 +41,6 @@
 				p.innerHeight = this.source.height;
 			}
 			ctx.drawImage(this.source, p.sx, p.sy, p.innerWidth, p.innerHeight, 0, 0, p.width, p.height);
-		} else {
-			if (this.imageCache && this.imageCache.src !== "data:,") {
-				ctx.drawImage(this.imageCache, 0, 0, p.width, p.height);
-			} else {
-				ctx.drawImage(this.cache, 0, 0, p.width, p.height);
-			}
 		}
 	};
 	cavy.Sprite = Sprite;

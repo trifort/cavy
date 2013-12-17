@@ -133,15 +133,12 @@
 	 * @return {void}
 	 */
 	p.clear = function () {
-		
-		/*
 		this.clearCanvas(this.context, this.canvas.width, this.canvas.height);
 		if (cavy.isBuggyDevice("background")) {
 			this.canvas.width = this.canvas.width;
 			this.context.scale(cavy.deviceRatio,cavy.deviceRatio);
 		}
-		*/
-		this.context.clearRect(0,0,this.canvas.width+1,this.canvas.height+1);
+		//this.context.clearRect(0,0,this.canvas.width+1,this.canvas.height+1);
 	};
 	/**
 	 * canvasのレンダリング開始

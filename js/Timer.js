@@ -34,7 +34,7 @@
 			var t = Date.now(),
 				d = null,
 				r = this.repeats,
-				l = this.repeats.length;
+				l = r.length;
 			this.time = t;
 			while (l--) {
 				d = r[l];
