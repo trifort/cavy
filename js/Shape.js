@@ -15,16 +15,16 @@
 			width: w,
 			height: h
 		};
-		cavy.Graphic.apply(this, [obj, param]);
+		cavy.Graphic.call(this,obj,param);
 	};
-	Shape.prototype = Object.create(cavy.Graphic.prototype);
-	Shape.prototype.constructor = Shape;
+	var p = Shape.prototype = Object.create(cavy.Graphic.prototype);
+	p.constructor = Shape;
 	/**
 	 * 図形を描画
 	 * @private
 	 * @param ctx
 	 */
-	Shape.prototype.draw = function (ctx,mask) {
+	p.draw = function (ctx,mask) {
 		if (!this.parent && !mask) {return;}
 		var p = this.update(),
 			m = this.matrix;

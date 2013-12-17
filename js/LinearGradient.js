@@ -16,15 +16,15 @@
 		this.height = height || null;
 		this.steps = [];
 	};
-	LinearGradient.prototype = Object.create(cavy.BackgroundColor.prototype);
-	LinearGradient.prototype.constructor = LinearGradient;
+	var p = LinearGradient.prototype = Object.create(cavy.BackgroundColor.prototype);
+	p.constructor = LinearGradient;
 	/**
 	 * グラデーションステップを追加
 	 * @public
 	 * @param step {Number} グラデーションステップ(0-1)
 	 * @param color {String} 色(#000,black)
 	 */
-	LinearGradient.prototype.addStep = function (step, color) {
+	p.addStep = function (step, color) {
 		this.steps.push([step, color]);
 	};
 	/**
@@ -33,7 +33,7 @@
 	 * @param ctx
 	 * @returns {CanvasGradient}
 	 */
-	LinearGradient.prototype.draw = function (ctx) {
+	p.draw = function (ctx) {
 		var x = this.x || 0, y = this.y || 0,
 			width = this.width || 0, height = this.height || 0,
 			grad = ctx.createLinearGradient(x, y, width, height),

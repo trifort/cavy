@@ -57,8 +57,8 @@
 		};
 		cavy.EventDispatcher.apply(this);
 	};
-	Timeline.prototype = Object.create(cavy.EventDispatcher.prototype);
-	Timeline.prototype.constructor = Timeline;
+	var p = p = Object.create(cavy.EventDispatcher.prototype);
+	p.constructor = Timeline;
 
 	/**
 	 * ミリ秒
@@ -66,7 +66,7 @@
 	 * @default 1000
 	 * @type {number}
 	 */
-	Timeline.prototype.SECOND = 1000;
+	p.SECOND = 1000;
 	/**
 	 * フレームにイベントを追加
 	 * @public
@@ -74,7 +74,7 @@
 	 * @param callback {Function} 指定フレーム時に実行する処理
 	 * @return {void}
 	 **/
-	Timeline.prototype.add = function (frame, callback) {
+	p.add = function (frame, callback) {
 		if (typeof frame === "string") {
 			var f = this.labels[frame];
 			if (isNaN(f)) {
@@ -99,7 +99,7 @@
 	 * @param callback {Function} 指定フレーム時に実行する処理
 	 * @return {void}
 	 **/
-	Timeline.prototype.addLabel = function (frame, name, callback) {
+	p.addLabel = function (frame, name, callback) {
 		this.labels[name] = frame;
 		if (callback) {
 			this.add(frame, callback);
@@ -111,7 +111,7 @@
 	 * @param name {String} ラベル名
 	 * @return {void}
 	 **/
-	Timeline.prototype.removeLabel = function (name) {
+	p.removeLabel = function (name) {
 		delete this.labels[name];
 	};
 	/**
@@ -120,7 +120,7 @@
 	 * @param frame {Number} フレーム数
 	 * @return {void}
 	 **/
-	Timeline.prototype.remove = function (frame, callback) {
+	p.remove = function (frame, callback) {
 		var q = this.queue[frame];
 		if (q) {
 			var i = q.indexOf(callback);
@@ -135,7 +135,7 @@
 	 * @public
 	 * @return {void}
 	 **/
-	Timeline.prototype.play = function () {
+	p.play = function () {
 		this.stop();
 		this.time = Date.now();
 		this.timer = cavy.Timer.repeat(this._enterframeHandler);
@@ -146,7 +146,7 @@
 	 * @public
 	 * @return {void}
 	 **/
-	Timeline.prototype.stop = function () {
+	p.stop = function () {
 		cavy.Timer.stop(this.timer);
 		return this;
 	};
@@ -156,7 +156,7 @@
 	 * @param frame {Number|String} フレーム数またはラベル名
 	 * @return {void}
 	 **/
-	Timeline.prototype.goToAndPlay = function (frame) {
+	p.goToAndPlay = function (frame) {
 		if (typeof frame === "string") {
 			var f = this.labels[frame];
 			if (isNaN(f)) {
@@ -176,7 +176,7 @@
 	 * @param frame {Number|String} フレーム数またはラベル名
 	 * @return {void}
 	 **/
-	Timeline.prototype.goToAndStop = function (frame) {
+	p.goToAndStop = function (frame) {
 		if (typeof frame === "string") {
 			var f = this.labels[frame];
 			if (isNaN(f)) {
@@ -195,7 +195,7 @@
 	 * @public
 	 * @return {void}
 	 **/
-	Timeline.prototype.reset = function () {
+	p.reset = function () {
 		this.frame = 0;
 		return this;
 	};
@@ -204,7 +204,7 @@
 	 * @private
 	 * @return {void}
 	 **/
-	Timeline.prototype._tick = function () {
+	p._tick = function () {
 		var t = Date.now(),
 			lt = t - this.time;
 		this.passedTime += lt;

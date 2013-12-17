@@ -72,8 +72,8 @@
 		};
 		this._initialize(width, height);
 	};
-	Stage.prototype = Object.create(cavy.InteractiveObject.prototype);
-	Stage.prototype.constructor = Stage;
+	var p = Stage.prototype = Object.create(cavy.InteractiveObject.prototype);
+	p.constructor = Stage;
 	/**
 	 * 初期化
 	 * @private
@@ -81,7 +81,7 @@
 	 * @param height {Number}
 	 * @return {void}
 	 */
-	Stage.prototype._initialize = function (width, height) {
+	p._initialize = function (width, height) {
 		this.width = width || 320;
 		this.height = height || 240;
 		this.context = this.canvas.getContext("2d");
@@ -91,7 +91,6 @@
 		this.container.style.tapHighlightColor = "rgba(0,0,0,0)";
 		this.container.style.width = width + "px";
 		this.container.style.height = height + "px";
-
 		
 		
 		var style = this.canvas.style;
@@ -126,19 +125,23 @@
 			this.container.addEventListener("click", this._triggerHandler);
 		}
 		this.container.appendChild(this.canvas);
-		cavy.InteractiveObject.apply(this, [this.canvas]);
+		cavy.InteractiveObject.call(this,this.canvas);
 	};
 	/**
 	 * canvasをクリア
 	 * @public
 	 * @return {void}
 	 */
-	Stage.prototype.clear = function () {
+	p.clear = function () {
+		
+		/*
 		this.clearCanvas(this.context, this.canvas.width, this.canvas.height);
 		if (cavy.isBuggyDevice("background")) {
 			this.canvas.width = this.canvas.width;
 			this.context.scale(cavy.deviceRatio,cavy.deviceRatio);
 		}
+		*/
+		this.context.clearRect(0,0,this.canvas.width+1,this.canvas.height+1);
 	};
 	/**
 	 * canvasのレンダリング開始
@@ -146,7 +149,7 @@
 	 * @param tick {Function} レンダリング毎に実行する処理(省略可)
 	 * @return {void}
 	 */
-	Stage.prototype.startRender = function (tick) {
+	p.startRender = function (tick) {
 		this.stopRender();
 		this.tick = tick;
 		this.rendering = cavy.Timer.repeat(this._loopHandler);
@@ -156,7 +159,7 @@
 	 * @public
 	 * @return {void}
 	 */
-	Stage.prototype.stopRender = function () {
+	p.stopRender = function () {
 		if (this.rendering) {
 			this.rendering.stop();
 			this.rendering = null;
@@ -168,7 +171,7 @@
 	 * @param s {DisplayObject} 描画したいDisplayObject
 	 * @return {void}
 	 */
-	Stage.prototype.render = function (s) {
+	p.render = function (s) {
 		this.context.save();
 		s.draw(this.context);
 		this.context.restore();
@@ -179,7 +182,7 @@
 	 * @param t {Number} 更新時間
 	 * @return {void}
 	 */
-	Stage.prototype.update = function (t) {
+	p.update = function (t) {
 		this.tick ? this.tick(t || 0) : 0 ;
 		this.clear();
 		this._render(this.children);
@@ -189,7 +192,7 @@
 	 * @public
 	 * @return {void}
 	 */
-	Stage.prototype.destroy = function () {
+	p.destroy = function () {
 		this.children = [];
 		if (this.interactive) {
 			this.container.removeEventListener("touchstart", this._triggerHandler);
@@ -212,15 +215,14 @@
 	 * @param children {Array} 子要素配列
 	 * @return {void}
 	 */
-	Stage.prototype._render = function (children) {
-		var c = children.slice(0),
-			i = 0,
-			l = c.length,
+	p._render = function (children) {
+		var i = 0,
+			l = children.length,
 			outRender = cavy.outOfRendering;//,
 			//useFilter = cavy.useFilter;
 		for (; i < l; i++) {
-			var s = c[i];
-			if (!s.visible) {
+			var s = children[i];
+			if (!s || !s.visible) {
 				continue;
 			}
 			
@@ -258,7 +260,7 @@
 	 * @param e {Object} イベントオブジェクト
 	 * @return {void}
 	 */
-	Stage.prototype._triggerEvent = function (e) {
+	p._triggerEvent = function (e) {
 		var t = e.touches,
 			et = e.changedTouches,
 			x = (t && t[0]) ? t[0].pageX : e.pageX,
@@ -286,14 +288,10 @@
 	 * @param children {Array} 子要素配列
 	 * @return {void}
 	 */
-	Stage.prototype._trigger = function (e, x, y, children) {
-		if (!children) {
-			return;
-		}
-		var c = children.slice(),
-			l = c.length;
+	p._trigger = function (e, x, y, children) {
+		var l = children.length;
 		while (l--) {
-			var s = c[l];
+			var s = children[l];
 			if (!s || !s.visible || !s._visible || !s.interactive) {
 				continue;
 			}

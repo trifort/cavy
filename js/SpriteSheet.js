@@ -63,16 +63,16 @@
 		this._enterframeHandler = function () {
 			self.enterframe();
 		};
-		cavy.Sprite.apply(this, [obj, param]);
+		cavy.Sprite.call(this,obj,param);
 	};
-	SpriteSheet.prototype = Object.create(cavy.Sprite.prototype);
-	SpriteSheet.prototype.constructor = SpriteSheet;
+	var p = SpriteSheet.prototype = Object.create(cavy.Sprite.prototype);
+	p.constructor = SpriteSheet;
 	/**
 	 * スプライトアニメーション実行
 	 * @public
 	 * @return {void}
 	 **/
-	SpriteSheet.prototype.play = function () {
+	p.play = function () {
 		this.timer = cavy.Timer.repeat(this._enterframeHandler, this.interval);
 	};
 	/**
@@ -80,7 +80,7 @@
 	 * @public
 	 * @return {void}
 	 **/
-	SpriteSheet.prototype.stop = function () {
+	p.stop = function () {
 		cavy.Timer.stop(this.timer);
 	};
 	/**
@@ -88,7 +88,7 @@
 	 * @private
 	 * @return {void}
 	 **/
-	SpriteSheet.prototype.enterframe = function () {
+	p.enterframe = function () {
 		var pat = this.pattern[this.sheet];
 		if (!pat) {
 			return;

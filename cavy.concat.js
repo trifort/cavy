@@ -15,32 +15,31 @@
 	 * @type {string}
 	 */
 	cavy.userAgent = navigator.userAgent;
-	var isiOS6 = (cavy.userAgent.search(/OS 6/) !== -1);
+	var userTimeout = (cavy.userAgent.search(/OS 6/) !== -1 || cavy.userAgent.search(/android/) !== -1);
 	window.requestAnimationFrame = (function (window) {
-		var timeout = (function () {
-			var lastTime = Date.now(),
-				startTime = Date.now();
-			return function (callback) {
-				var currTime = Date.now(),
-					timeToCall = Math.max(0, 16 - (currTime - lastTime));
-				lastTime = currTime + timeToCall;
-				return window.setTimeout(callback, timeToCall, lastTime - startTime)
-			}
-		})(window);
-		if (isiOS6) {
-			return timeout;
+		if (userTimeout) {
+			return (function () {
+				var lastTime = Date.now(),
+					startTime = lastTime;
+				return function (callback) {
+					var currTime = Date.now(),
+						timeToCall = Math.max(0, 16 - (currTime - lastTime));
+					lastTime = currTime + timeToCall;
+					return window.setTimeout(callback, timeToCall, lastTime - startTime)
+				}
+			})(window);
 		} else {
 			return window.webkitRequestAnimationFrame || window.requestAnimationFrame || timeout;
 		}
 	})(window);
 	window.cancelAnimationFrame = (function (window) {
-		if (isiOS6) {
+		if (userTimeout) {
 			return window.clearTimeout;
 		} else {
 			return window.webkitCancelAnimationFrame || window.webkitCancelRequestAnimationFrame || window.clearTimeout;
 		}
 	})(window);
-	
+
 	/**
 	 * Retinaディスプレイ対応
 	 * @public
@@ -91,7 +90,7 @@
 	 */
 	cavy.bugs = {
 		//背景色つけないとcanvas消えちゃう
-		background: ["F-06E","L-05E","SC-04E"]
+		background: ["F-06E", "L-05E", "SC-04E"]
 	};
 
 	/**
@@ -113,29 +112,31 @@
 	 */
 	cavy.backgroundColor = "rgba(255,255,255,0.01)";
 
-    /**
-     * アクセス端末に指定したバグがあるかどうか
+	/**
+	 * アクセス端末に指定したバグがあるかどうか
 	 * @private
-     * @param type {string} バグタイプを表す文字列
-     * @returns {boolean}
-     */
-    cavy.isBuggyDevice = function(type) {
-        var bug = cavy.bugs[type];
-        if (!bug) { return false; }
-        var l = bug.length;
-        while(l--) {
-            if (cavy.userAgent.search(bug[l]) !== -1) {
-                return true;
-            }
-        }
-        return false;
-    };
+	 * @param type {string} バグタイプを表す文字列
+	 * @returns {boolean}
+	 */
+	cavy.isBuggyDevice = function (type) {
+		var bug = cavy.bugs[type];
+		if (!bug) {
+			return false;
+		}
+		var l = bug.length;
+		while (l--) {
+			if (cavy.userAgent.search(bug[l]) !== -1) {
+				return true;
+			}
+		}
+		return false;
+	};
 	/**
 	 * Retinaディスプレイかどうかを返却
 	 * @public
 	 * @return {boolean}
 	 */
-	cavy.isRetina = function() {
+	cavy.isRetina = function () {
 		if (window.devicePixelRatio !== 1) {
 			return true;
 		}
@@ -311,7 +312,7 @@
 			var typeStore = this.__store__[type] || null;
 			if (typeStore) {
 				thisObj = thisObj || this;
-				var args = Array.prototype.slice.apply(arguments, [1]);
+				var args = Array.prototype.slice.call(arguments,1);
 				var t = typeStore.slice();
 				for (var i = 0, len = t.length; i < len; i++) {
 					t[i].apply(thisObj, args);
@@ -346,7 +347,7 @@
 	 *  
 	 */
 	var Preload = function (data, callback, connection) {
-		cavy.EventDispatcher.apply(this);
+		cavy.EventDispatcher.call(this);
 		this.data = data;
 		this.keys = [];
 		this.result = [];
@@ -377,13 +378,13 @@
 			self.init();
 		}, 0);
 	};
-	Preload.prototype = Object.create(cavy.EventDispatcher.prototype);
-	Preload.prototype.constructor = Preload;
+	var p = Preload.prototype = Object.create(cavy.EventDispatcher.prototype);
+	p.constructor = Preload;
 	/**
 	 * 初期化
 	 * @private
 	 */
-	Preload.prototype.init = function () {
+	p.init = function () {
 		var max = this.maxConnection;
 		this.keys = Object.keys(this.data);
 		this.length = this.keys.length;
@@ -401,7 +402,7 @@
 	 * @private
 	 * @param img
 	 */
-	Preload.prototype.loaded = function (img) {
+	p.loaded = function (img) {
 		++this.loadedCount;
 		this.dispatchEvent("step", img);
 		img.removeEventListener("load", this.loadedHandler);
@@ -422,7 +423,7 @@
 	 * @private
 	 * @param i
 	 */
-	Preload.prototype.load = function (i) {
+	p.load = function (i) {
 		var img = new Image();
 		img.id = this.keys[i];
 		img.addEventListener("load", this.loadedHandler);
@@ -438,7 +439,7 @@
 	 * @param e
 	 * @returns {*}
 	 */
-	Preload.prototype._error = function (e) {
+	p._error = function (e) {
 		this.trigger("error", e);
 		return this;
 	};
@@ -448,7 +449,7 @@
 	 * @param id
 	 * @returns {ImageElement}
 	 */
-	Preload.prototype.get = function (id) {
+	p.get = function (id) {
 		return this.result[id];
 	};
 
@@ -458,10 +459,10 @@
 	 * @param callback
 	 * @returns {*}
 	 */
-	Preload.prototype.error = function (callback) {
+	p.error = function (callback) {
 		var errorFunction = function () {
 			this.removeEventListener("error", errorFunction);
-			callback.apply(this, [arguments]);
+			callback.call(this, arguments);
 		};
 		this.addEventListener("error", errorFunction);
 		return this;
@@ -472,10 +473,10 @@
 	 * @param callback
 	 * @returns {*}
 	 */
-	Preload.prototype.complete = function (callback) {
+	p.complete = function (callback) {
 		var completeFunction = function () {
 			this.removeEventListener("complete", completeFunction);
-			callback.apply(this, [arguments]);
+			callback.call(this, arguments);
 		};
 		this.addEventListener("complete", completeFunction);
 		return this;
@@ -484,7 +485,7 @@
 	 * すべてのイメージデータをクリア
 	 * @public
 	 */
-	Preload.prototype.destroy = function () {
+	p.destroy = function () {
 		delete this.result;
 		delete this.data;
 		this.result = [];
@@ -940,9 +941,8 @@
 		update: function () {
 			var t = Date.now(),
 				d = null,
-				r = this.repeats.slice(0),
+				r = this.repeats,
 				l = this.repeats.length;
-
 			this.time = t;
 			while (l--) {
 				d = r[l];
@@ -1114,8 +1114,8 @@
 		};
 		cavy.EventDispatcher.apply(this);
 	};
-	Timeline.prototype = Object.create(cavy.EventDispatcher.prototype);
-	Timeline.prototype.constructor = Timeline;
+	var p = p = Object.create(cavy.EventDispatcher.prototype);
+	p.constructor = Timeline;
 
 	/**
 	 * ミリ秒
@@ -1123,7 +1123,7 @@
 	 * @default 1000
 	 * @type {number}
 	 */
-	Timeline.prototype.SECOND = 1000;
+	p.SECOND = 1000;
 	/**
 	 * フレームにイベントを追加
 	 * @public
@@ -1131,7 +1131,7 @@
 	 * @param callback {Function} 指定フレーム時に実行する処理
 	 * @return {void}
 	 **/
-	Timeline.prototype.add = function (frame, callback) {
+	p.add = function (frame, callback) {
 		if (typeof frame === "string") {
 			var f = this.labels[frame];
 			if (isNaN(f)) {
@@ -1156,7 +1156,7 @@
 	 * @param callback {Function} 指定フレーム時に実行する処理
 	 * @return {void}
 	 **/
-	Timeline.prototype.addLabel = function (frame, name, callback) {
+	p.addLabel = function (frame, name, callback) {
 		this.labels[name] = frame;
 		if (callback) {
 			this.add(frame, callback);
@@ -1168,7 +1168,7 @@
 	 * @param name {String} ラベル名
 	 * @return {void}
 	 **/
-	Timeline.prototype.removeLabel = function (name) {
+	p.removeLabel = function (name) {
 		delete this.labels[name];
 	};
 	/**
@@ -1177,7 +1177,7 @@
 	 * @param frame {Number} フレーム数
 	 * @return {void}
 	 **/
-	Timeline.prototype.remove = function (frame, callback) {
+	p.remove = function (frame, callback) {
 		var q = this.queue[frame];
 		if (q) {
 			var i = q.indexOf(callback);
@@ -1192,7 +1192,7 @@
 	 * @public
 	 * @return {void}
 	 **/
-	Timeline.prototype.play = function () {
+	p.play = function () {
 		this.stop();
 		this.time = Date.now();
 		this.timer = cavy.Timer.repeat(this._enterframeHandler);
@@ -1203,7 +1203,7 @@
 	 * @public
 	 * @return {void}
 	 **/
-	Timeline.prototype.stop = function () {
+	p.stop = function () {
 		cavy.Timer.stop(this.timer);
 		return this;
 	};
@@ -1213,7 +1213,7 @@
 	 * @param frame {Number|String} フレーム数またはラベル名
 	 * @return {void}
 	 **/
-	Timeline.prototype.goToAndPlay = function (frame) {
+	p.goToAndPlay = function (frame) {
 		if (typeof frame === "string") {
 			var f = this.labels[frame];
 			if (isNaN(f)) {
@@ -1233,7 +1233,7 @@
 	 * @param frame {Number|String} フレーム数またはラベル名
 	 * @return {void}
 	 **/
-	Timeline.prototype.goToAndStop = function (frame) {
+	p.goToAndStop = function (frame) {
 		if (typeof frame === "string") {
 			var f = this.labels[frame];
 			if (isNaN(f)) {
@@ -1252,7 +1252,7 @@
 	 * @public
 	 * @return {void}
 	 **/
-	Timeline.prototype.reset = function () {
+	p.reset = function () {
 		this.frame = 0;
 		return this;
 	};
@@ -1261,7 +1261,7 @@
 	 * @private
 	 * @return {void}
 	 **/
-	Timeline.prototype._tick = function () {
+	p._tick = function () {
 		var t = Date.now(),
 			lt = t - this.time;
 		this.passedTime += lt;
@@ -1512,7 +1512,7 @@
 	 * @augments cavy.EventDispatcher
 	 **/
 	var TweenObject = function (sprite, autoRelease) {
-		cavy.EventDispatcher.apply(this);
+		cavy.EventDispatcher.call(this);
 		this.sprite = sprite;
 		this.autoRelease = autoRelease;
 		/**
@@ -1548,8 +1548,8 @@
 			self.update();
 		};
 	};
-	TweenObject.prototype = Object.create(cavy.EventDispatcher.prototype);
-	TweenObject.prototype.constructor = TweenObject;
+	var p = TweenObject.prototype = Object.create(cavy.EventDispatcher.prototype);
+	p.constructor = TweenObject;
 	/**
 	 * アニメーションの追加
 	 * @public
@@ -1558,8 +1558,8 @@
 	 * @example
 	 *  var t = cavy.Tween(sprite).to({x:100,y:100});
 	 **/
-	TweenObject.prototype.to = function (param) {
-		var args = Array.prototype.slice.apply(arguments);
+	p.to = function (param) {
+		var args = Array.prototype.slice.call(arguments);
 		param = args.shift();
 		var q = new TweenQueue(param, args);
 		this.__attach__.push(q);
@@ -1577,7 +1577,7 @@
 	 * @example
 	 *  var t = cavy.Tween(sprite).set({x:100,y:100});
 	 **/
-	TweenObject.prototype.set = function (param) {
+	p.set = function (param) {
 		var q = new ParamQueue(param);
 		this.__attach__.push(q);
 		if (!this.isPlaying) {
@@ -1594,7 +1594,7 @@
 	 * @example
 	 *  var t = cavy.Tween(sprite).wait(1000).to({x:100,y:100});
 	 **/
-	TweenObject.prototype.wait = function (time) {
+	p.wait = function (time) {
 		var q = new WaitQueue(time);
 		if (q.frame !== 0) {
 			this.__attach__.push(q);
@@ -1613,7 +1613,7 @@
 	 * @example
 	 *  var t = cavy.Tween(sprite).wait(1000).call(function(){alert("hoge")});
 	 **/
-	TweenObject.prototype.call = function (callback) {
+	p.call = function (callback) {
 		var q = new CallQueue(callback);
 		this.__attach__.push(q);
 		if (!this.isPlaying) {
@@ -1631,10 +1631,10 @@
 	 * @example
 	 *  var t = cavy.Tween(sprite).to({x:100,y:100}).complete(function(){});
 	 **/
-	TweenObject.prototype.complete = function (callback) {
+	p.complete = function (callback) {
 		var completeFunction = function () {
 			this.removeEventListener("complete", completeFunction);
-			callback.apply(this, [arguments]);
+			callback.call(this,arguments);
 		};
 		this.addEventListener("complete", completeFunction);
 		return this;
@@ -1646,7 +1646,7 @@
 	 * @example
 	 *  var t = cavy.Tween(sprite).to({x:100,y:100}).repeat();
 	 **/
-	TweenObject.prototype.repeat = function (reset, limit) {
+	p.repeat = function (reset, limit) {
 		this.isRepeat = true;
 		if (typeof reset === "number") {
 			this.isReset = false;
@@ -1666,7 +1666,7 @@
 	 * 次タスクを実行
 	 * @private
 	 **/
-	TweenObject.prototype._doAttach = function () {
+	p._doAttach = function () {
 		this.reverse ?  --this.index : ++this.index;
 		var q = this.__attach__[this.index];
 		q.initialize(this.sprite, this.reverse, this.isReset);
@@ -1677,7 +1677,7 @@
 	 * @private
 	 * @return {Boolean} 次タスクがあればtrue
 	 **/
-	TweenObject.prototype._hasAttach = function () {
+	p._hasAttach = function () {
 		var l = this.__attach__.length;
 		if (l === 0) return false;
 		if (this.reverse) {
@@ -1692,7 +1692,7 @@
 	 * @public
 	 * @return {TweenObject}
 	 **/
-	TweenObject.prototype.play = function () {
+	p.play = function () {
 		if (!this.isPlaying) {
 			this.stop();
 			this.time = Date.now();
@@ -1706,7 +1706,7 @@
 	 * @public
 	 * @return {TweenObject}
 	 **/
-	TweenObject.prototype.stop = function () {
+	p.stop = function () {
 		this.isPlaying = false;
 		if (this.timer) {
 			this.timer.stop();
@@ -1718,7 +1718,7 @@
 	 * @public
 	 * @return {TweenObject}
 	 **/
-	TweenObject.prototype.reset = function () {
+	p.reset = function () {
 		this.stop();
 		this.index = 0;
 		this.isReset = false;
@@ -1731,7 +1731,7 @@
 	 * @public
 	 * @return {void}
 	 **/
-	TweenObject.prototype.update = function () {
+	p.update = function () {
 		if (!this.sprite || !this.sprite.parent) {
 			this.stop();
 			return;
@@ -1794,7 +1794,7 @@
 			if (cavy.strict) {q.count++};
 		}
 		if (q.count <= q.frame && this.stepCallback) {
-			this.stepCallback.apply(this);
+			this.stepCallback.call(this);
 		}
 	};
 	/**
@@ -1802,7 +1802,7 @@
 	 * @public
 	 * @return {void}
 	 **/
-	TweenObject.prototype.destroy = function () {
+	p.destroy = function () {
 		this.stop();
 		this.stepCallback = null;
 		this.removeEventListener();
@@ -1814,7 +1814,7 @@
 	 * @public
 	 * @return {void}
 	 **/
-	TweenObject.prototype.step = function (callback) {
+	p.step = function (callback) {
 		this.stepCallback = callback;
 		return this;
 	};
@@ -1947,7 +1947,7 @@
 		QUEUE_TYPE: "call",
 		initialize: function (sprite) {
 			this.count = this.frame = 0;
-			this.callback.apply(sprite);
+			this.callback.call(sprite);
 		}
 	};
 	/**
@@ -2159,7 +2159,7 @@
 	 * @constructor
 	 */
 	var DisplayObject = function (source, param) {
-		cavy.EventDispatcher.apply(this);
+		cavy.EventDispatcher.call(this);
 		/**
 		 * Spirteに表示する要素
 		 * @public
@@ -2369,8 +2369,8 @@
 			this.set(param);
 		}
 	};
-	DisplayObject.prototype = Object.create(cavy.EventDispatcher.prototype);
-	DisplayObject.prototype.constructor = DisplayObject;
+	var p = DisplayObject.prototype = Object.create(cavy.EventDispatcher.prototype);
+	p.constructor = DisplayObject;
 
 	/**
 	 * パラメータを一括で設定
@@ -2382,7 +2382,7 @@
 	 * 		y: 200
      * });
 	 */
-	DisplayObject.prototype.set = function (param) {
+	p.set = function (param) {
 		for (var key in param) {
 			this[key] = param[key];
 		}
@@ -2394,7 +2394,7 @@
 	 * @param target {cavy.Stage} ステージオブジェクト
 	 * @returns {DisplayObject} 自身のオブジェクト
 	 */
-	DisplayObject.prototype.addTo = function (target) {
+	p.addTo = function (target) {
 		target.addChild(this);
 		return this;
 	};
@@ -2404,7 +2404,7 @@
 	 * @param target {cavy.Stage} ステージオブジェクト
 	 * @returns {DisplayObject} 自身のオブジェクト
 	 */
-	DisplayObject.prototype.removeFrom = function (target) {
+	p.removeFrom = function (target) {
 		target.removeChild(this);
 		return this;
 	};
@@ -2414,7 +2414,7 @@
 	 * @param sprite {DisplayObject} 追加要素
 	 * @returns {DisplayObject} 自身のオブジェクト
 	 */
-	DisplayObject.prototype.addChild = function (sprite) {
+	p.addChild = function (sprite) {
 		sprite.parent = this;
 		this.children.push(sprite);
 		return this;
@@ -2426,7 +2426,7 @@
 	 * @param index {Int} 深度
 	 * @returns {DisplayObject} 自身のオブジェクト
 	 */
-	DisplayObject.prototype.addChildAt = function (sprite, index) {
+	p.addChildAt = function (sprite, index) {
 		if (sprite.parent) {
 			sprite.parent.removeChild(sprite)
 		}
@@ -2446,7 +2446,7 @@
 	 * @param index {Int} 深度
 	 * @returns {DisplayObject} 自身のオブジェクト
 	 */
-	DisplayObject.prototype.replaceChild = function (sprite, index) {
+	p.replaceChild = function (sprite, index) {
 		if (sprite.parent) {
 			sprite.parent.removeChild(sprite);
 		}
@@ -2465,7 +2465,7 @@
 	 * @param b {DisplayObject} 子要素B
 	 * @returns {DisplayObject} 自身のオブジェクト
 	 */
-	DisplayObject.prototype.swapChild = function (a, b) {
+	p.swapChild = function (a, b) {
 		var aIndex = this.children.indexOf(a);
 		var bIndex = this.children.indexOf(b);
 		this.swapChildAt(aIndex, bIndex);
@@ -2478,7 +2478,7 @@
 	 * @param b {DisplayObject} 子要素B
 	 * @returns {DisplayObject} 自身のオブジェクト
 	 */
-	DisplayObject.prototype.swapChildAt = function (a, b) {
+	p.swapChildAt = function (a, b) {
 		if (a !== -1 && b !== -1) {
 			var temp = this.children[a];
 			this.children[a] = b;
@@ -2492,7 +2492,7 @@
 	 * @param index {Int} 深度
 	 * @returns {DisplayObject} 自身のオブジェクト
 	 */
-	DisplayObject.prototype.setIndex = function (index) {
+	p.setIndex = function (index) {
 		if (!this.parent) {
 			return this;
 		}
@@ -2506,7 +2506,7 @@
 	 * @param index {Int} 深度
 	 * @returns {DisplayObject} 自身のオブジェクト
 	 */
-	DisplayObject.prototype.setChildIndex = function (sprite, index) {
+	p.setChildIndex = function (sprite, index) {
 		if (index > this.children.length) {
 			window.console.error("INDEX_ERROR");
 			return this;
@@ -2524,7 +2524,7 @@
 	 * @param sprite {DisplayObject} 削除する子要素
 	 * @returns {DisplayObject} 自身のオブジェクト
 	 */
-	DisplayObject.prototype.removeChild = function (sprite) {
+	p.removeChild = function (sprite) {
 		var index = this.children.indexOf(sprite);
 		if (index !== -1) {
 			this.children.splice(index, 1);
@@ -2538,7 +2538,7 @@
 	 * @param index {Int} 深度
 	 * @returns {DisplayObject} 自身のオブジェクト
 	 */
-	DisplayObject.prototype.removeChildAt = function (index) {
+	p.removeChildAt = function (index) {
 		this.children.splice(index, 1);
 		return this;
 	};
@@ -2547,7 +2547,7 @@
 	 * @public
 	 * @returns {DisplayObject} 自身のオブジェクト
 	 */
-	DisplayObject.prototype.removeAllChildren = function () {
+	p.removeAllChildren = function () {
 		var l = this.children.length;
 		while (l--) {
 			this.removeChild(this.children[l]);
@@ -2555,7 +2555,7 @@
 		this.children = [];
 		return this;
 	};
-	DisplayObject.prototype.adjustSource = function (dir) {
+	p.adjustSource = function (dir) {
 		if (dir === "width") {
 			this.height = this.source.height * this.width / this.source.width;
 		} else {
@@ -2567,7 +2567,7 @@
 	 * @public
 	 * @returns {{x: number, y: number, width: Number, height: Number, sx: number, sy: number, innerWidth: Number, innerHeight: Number, visible: *}}
 	 */
-	DisplayObject.prototype.update = function () {
+	p.update = function () {
 		this._param.initialize(this);
 		if (this.fitImage && this.source) {
 			this._param.fitSource(this.source,this.fitType);
@@ -2583,7 +2583,7 @@
 	 * @public
 	 * @returns {cavy.Stage|null} ステージオブジェクト
 	 */
-	DisplayObject.prototype.getStage = function () {
+	p.getStage = function () {
 		if (this instanceof cavy.Stage) {
 			return this;
 		} else if (this.parent) {
@@ -2596,7 +2596,7 @@
 	 * @public
 	 * @returns {cavy.DisplayObject} 複製した要素
 	 */
-	DisplayObject.prototype.clone = function () {
+	p.clone = function () {
 		return cavy.Util.clone(this);
 	};
 	/**
@@ -2604,7 +2604,7 @@
 	 * @public
 	 * @returns {Object} bounds
 	 */
-	DisplayObject.prototype.getBoundingRect = function () {
+	p.getBoundingRect = function () {
 		this.update();
 		var bounds = this.getBounds();
 		return this.convertBoundaryRect(bounds);
@@ -2615,7 +2615,7 @@
 	 * @public
 	 * @returns {Object} bounds
 	 */
-	DisplayObject.prototype.getBounds = function () {
+	p.getBounds = function () {
 		var width = this.width,
 			height = this.height,
 			m = this.matrix,
@@ -2651,7 +2651,7 @@
 	 * @param aPoints
 	 * @returns {{left: *, right: *, top: *, bottom: *, width: number, height: number}}
 	 */
-	DisplayObject.prototype.convertBoundaryRect = function (aPoints) {
+	p.convertBoundaryRect = function (aPoints) {
 		var nMinX = aPoints[0][0],
 			nMaxX = aPoints[0][0],
 			nMinY = aPoints[0][1],
@@ -2676,7 +2676,7 @@
 	 * キャッシュを生成。キャッシュ生成後は子要素へのプロパティ変更が反映されません
 	 * @public
 	 */
-	DisplayObject.prototype.createCache = function () {
+	p.createCache = function () {
 		var cache = this.cache || document.createElement("canvas"),
 			ctx = cache.getContext("2d");
 		this.cache = null;
@@ -2700,7 +2700,7 @@
 		*/
 	};
 
-	DisplayObject.prototype.clearCanvas = function(ctx,width,height) {
+	p.clearCanvas = function(ctx,width,height) {
 		var m = (width + 255) >> 8,
 			n = (height + 255) >> 8;
 		while (m--) {
@@ -2718,7 +2718,7 @@
 	 * @ctx {Context}
 	 *
 	 */
-	DisplayObject.prototype._drawCache = function (children, ctx) {
+	p._drawCache = function (children, ctx) {
 		if (!children) { return;}
 		var c = children.slice();
 		var i = 0, l = c.length;
@@ -2737,7 +2737,7 @@
 	 * キャッシュを削除
 	 * @public
 	 */
-	DisplayObject.prototype.deleteCache = function () {
+	p.deleteCache = function () {
 		this.imageCache = null;
 		if (this.cache) {
 			var ctx = this.cache.getContext("2d");
@@ -2750,8 +2750,7 @@
 	 * @private
 	 * @param ctx
 	 */
-	DisplayObject.prototype.updateContext = function (ctx) {
-		if (!this.parent) {return;}
+	p.updateContext = function (ctx) {
 		var m = this.matrix,
 			mask = this.mask || this.parent.mask;
 		if (mask) {
@@ -2764,6 +2763,7 @@
 		}
 		ctx.globalAlpha = m.opacity;
 		ctx.transform(m.a, m.b, m.c, m.d, m.e, m.f);
+		return true;
 	};
 
 	/**
@@ -2772,7 +2772,7 @@
 	 * @param value {*} 保存する値
 	 * @returns {*} keyのみまたは引数がない場合は値を返却
 	 */
-	DisplayObject.prototype.data = function (key,value) {
+	p.data = function (key,value) {
 		if (typeof key === "undefined") {
 			return this._pool;
 		} else if (typeof key === "string") {
@@ -2792,7 +2792,7 @@
 	 * data関数で保存したデータを削除
 	 * @param key 削除する保存データ名。引数を省略するとすべてのデータを削除します。
 	 */
-	DisplayObject.prototype.clearData = function (key) {
+	p.clearData = function (key) {
 		if (!key) {
 			this._pool = {};
 		} else {
@@ -2925,12 +2925,12 @@
 			return data;
 		}
 	};
-	DisplayObject.prototype.on = function(type, listener) {
+	p.on = function(type, listener) {
 		this._interactive = true;
-		return cavy.EventDispatcher.prototype.on.apply(this,[type,listener]);
+		return cavy.EventDispatcher.prototype.on.call(this,type,listener);
 	};
-	DisplayObject.prototype.off = function(type, listener) {
-		var e = cavy.EventDispatcher.prototype.off.apply(this,[type,listener]);
+	p.off = function(type, listener) {
+		var e = cavy.EventDispatcher.prototype.off.call(this,type,listener);
 		if (Object.keys(this.__store__).length === 0) {
 			this._interactive = false;
 		}
@@ -2950,11 +2950,11 @@
 	 * @constructor
 	 */
 	var InteractiveObject = function (source, param) {
-		cavy.DisplayObject.apply(this, [source, param]);
+		cavy.DisplayObject.call(this,source,param);
 	};
-	InteractiveObject.prototype = Object.create(cavy.DisplayObject.prototype);
+	var p = InteractiveObject.prototype = Object.create(cavy.DisplayObject.prototype);
 
-	InteractiveObject.prototype.constructor = InteractiveObject;
+	p.constructor = InteractiveObject;
 	/**
 	 * 指定した座標に要素があるかどうか
 	 * @public
@@ -2962,7 +2962,7 @@
 	 * @param y {Number} y
 	 * @returns {boolean} 指定座標に要素があるかどうか
 	 */
-	InteractiveObject.prototype.hitTest = function (x, y) {
+	p.hitTest = function (x, y) {
 		if (this.mask) {
 			var maskRect = this.mask.getBoundingRect();
 			if (x >= maskRect.left && x <= maskRect.right && y >= maskRect.top && y <= maskRect.bottom) {
@@ -2983,7 +2983,7 @@
 	 * @param target {DisplayObject}
 	 * @returns {boolean}
 	 */
-	InteractiveObject.prototype.hitTestObject = function (target) {
+	p.hitTestObject = function (target) {
 		var rectA = this.getBoundingRect(),
 			rectB = target.getBoundingRect();
 		if (this.mask && !detail) {
@@ -3070,8 +3070,8 @@
 		};
 		this._initialize(width, height);
 	};
-	Stage.prototype = Object.create(cavy.InteractiveObject.prototype);
-	Stage.prototype.constructor = Stage;
+	var p = Stage.prototype = Object.create(cavy.InteractiveObject.prototype);
+	p.constructor = Stage;
 	/**
 	 * 初期化
 	 * @private
@@ -3079,7 +3079,7 @@
 	 * @param height {Number}
 	 * @return {void}
 	 */
-	Stage.prototype._initialize = function (width, height) {
+	p._initialize = function (width, height) {
 		this.width = width || 320;
 		this.height = height || 240;
 		this.context = this.canvas.getContext("2d");
@@ -3089,7 +3089,6 @@
 		this.container.style.tapHighlightColor = "rgba(0,0,0,0)";
 		this.container.style.width = width + "px";
 		this.container.style.height = height + "px";
-
 		
 		
 		var style = this.canvas.style;
@@ -3124,19 +3123,23 @@
 			this.container.addEventListener("click", this._triggerHandler);
 		}
 		this.container.appendChild(this.canvas);
-		cavy.InteractiveObject.apply(this, [this.canvas]);
+		cavy.InteractiveObject.call(this,this.canvas);
 	};
 	/**
 	 * canvasをクリア
 	 * @public
 	 * @return {void}
 	 */
-	Stage.prototype.clear = function () {
+	p.clear = function () {
+		
+		/*
 		this.clearCanvas(this.context, this.canvas.width, this.canvas.height);
 		if (cavy.isBuggyDevice("background")) {
 			this.canvas.width = this.canvas.width;
 			this.context.scale(cavy.deviceRatio,cavy.deviceRatio);
 		}
+		*/
+		this.context.clearRect(0,0,this.canvas.width+1,this.canvas.height+1);
 	};
 	/**
 	 * canvasのレンダリング開始
@@ -3144,7 +3147,7 @@
 	 * @param tick {Function} レンダリング毎に実行する処理(省略可)
 	 * @return {void}
 	 */
-	Stage.prototype.startRender = function (tick) {
+	p.startRender = function (tick) {
 		this.stopRender();
 		this.tick = tick;
 		this.rendering = cavy.Timer.repeat(this._loopHandler);
@@ -3154,7 +3157,7 @@
 	 * @public
 	 * @return {void}
 	 */
-	Stage.prototype.stopRender = function () {
+	p.stopRender = function () {
 		if (this.rendering) {
 			this.rendering.stop();
 			this.rendering = null;
@@ -3166,7 +3169,7 @@
 	 * @param s {DisplayObject} 描画したいDisplayObject
 	 * @return {void}
 	 */
-	Stage.prototype.render = function (s) {
+	p.render = function (s) {
 		this.context.save();
 		s.draw(this.context);
 		this.context.restore();
@@ -3177,7 +3180,7 @@
 	 * @param t {Number} 更新時間
 	 * @return {void}
 	 */
-	Stage.prototype.update = function (t) {
+	p.update = function (t) {
 		this.tick ? this.tick(t || 0) : 0 ;
 		this.clear();
 		this._render(this.children);
@@ -3187,7 +3190,7 @@
 	 * @public
 	 * @return {void}
 	 */
-	Stage.prototype.destroy = function () {
+	p.destroy = function () {
 		this.children = [];
 		if (this.interactive) {
 			this.container.removeEventListener("touchstart", this._triggerHandler);
@@ -3210,15 +3213,14 @@
 	 * @param children {Array} 子要素配列
 	 * @return {void}
 	 */
-	Stage.prototype._render = function (children) {
-		var c = children.slice(0),
-			i = 0,
-			l = c.length,
+	p._render = function (children) {
+		var i = 0,
+			l = children.length,
 			outRender = cavy.outOfRendering;//,
 			//useFilter = cavy.useFilter;
 		for (; i < l; i++) {
-			var s = c[i];
-			if (!s.visible) {
+			var s = children[i];
+			if (!s || !s.visible) {
 				continue;
 			}
 			
@@ -3256,7 +3258,7 @@
 	 * @param e {Object} イベントオブジェクト
 	 * @return {void}
 	 */
-	Stage.prototype._triggerEvent = function (e) {
+	p._triggerEvent = function (e) {
 		var t = e.touches,
 			et = e.changedTouches,
 			x = (t && t[0]) ? t[0].pageX : e.pageX,
@@ -3284,14 +3286,10 @@
 	 * @param children {Array} 子要素配列
 	 * @return {void}
 	 */
-	Stage.prototype._trigger = function (e, x, y, children) {
-		if (!children) {
-			return;
-		}
-		var c = children.slice(),
-			l = c.length;
+	p._trigger = function (e, x, y, children) {
+		var l = children.length;
 		while (l--) {
-			var s = c[l];
+			var s = children[l];
 			if (!s || !s.visible || !s._visible || !s.interactive) {
 				continue;
 			}
@@ -3356,16 +3354,16 @@
 		 * @type {Array}
 		 */
 		this.queue = [];
-		cavy.InteractiveObject.apply(this, [obj, param]);
+		cavy.InteractiveObject.call(this,obj,param);
 	};
-	Graphic.prototype = Object.create(cavy.InteractiveObject.prototype);
+	var p = Graphic.prototype = Object.create(cavy.InteractiveObject.prototype);
 	/**
 	 * 角度からラジアンに変換する係数
 	 * @private
 	 * @type {number}
 	 */
 	Graphic.DEG_TO_RAD = Math.PI / 180;
-	Graphic.prototype.constructor = Graphic;
+	p.constructor = Graphic;
 	/**
 	 * パスを書き出す
 	 * @private
@@ -3373,7 +3371,7 @@
 	 * @param p
 	 * @param m
 	 */
-	Graphic.prototype.drawPath = function (ctx, p, m, mask) {
+	p.drawPath = function (ctx, p, m, mask) {
 		if (this.cache) {
 			if (this.imageCache && this.imageCache.src !== "data:,") {
 				ctx.drawImage(this.imageCache, 0, 0, this.imageCache.width, this.imageCache.height);
@@ -3420,7 +3418,7 @@
 	 * @param w {Number} width
 	 * @param h {Number} height
 	 */
-	Graphic.prototype.rect = function (x, y, w, h) {
+	p.rect = function (x, y, w, h) {
 		this.queue.push(["rect", [x, y, w, h]]);
 	};
 	/**
@@ -3431,7 +3429,7 @@
 	 * @param w {Number} width
 	 * @param h {Number} height
 	 */
-	Graphic.prototype.fillRect = function (x, y, w, h) {
+	p.fillRect = function (x, y, w, h) {
 		this.queue.push(["fillRect", [x, y, w, h]]);
 	};
 	/**
@@ -3442,14 +3440,14 @@
 	 * @param w {Number} width
 	 * @param h {Number} height
 	 */
-	Graphic.prototype.strokeRect = function (x, y, w, h) {
+	p.strokeRect = function (x, y, w, h) {
 		this.queue.push(["strokeRect", [x, y, w, h]]);
 	};
 	/**
 	 * 描画をクリアする
 	 * @public
 	 */
-	Graphic.prototype.clear = function () {
+	p.clear = function () {
 		this.queue = [];
 	};
 	/**
@@ -3460,7 +3458,7 @@
 	 * @param w {Number} width
 	 * @param h {Number} height
 	 */
-	Graphic.prototype.clearRect = function (x, y, w, h) {
+	p.clearRect = function (x, y, w, h) {
 		this.queue.push(["clearRect", [x, y, w, h]]);
 	};
 	/**
@@ -3469,7 +3467,7 @@
 	 * @param x {Number} x
 	 * @param y {Number} y
 	 */
-	Graphic.prototype.lineTo = function (x, y) {
+	p.lineTo = function (x, y) {
 		this.queue.push(["lineTo", [x, y]]);
 	};
 	/**
@@ -3481,7 +3479,7 @@
 	 * @param y2 {Number} y2
 	 * @param radius {Number} radius
 	 */
-	Graphic.prototype.arcTo = function (x1, y1, x2, y2, radius) {
+	p.arcTo = function (x1, y1, x2, y2, radius) {
 		this.queue.push(["arcTo", [x1, y1, x2, y2, radius]]);
 	};
 	/**
@@ -3494,7 +3492,7 @@
 	 * @param centerX {Number} centerX
 	 * @param centerY {Number} centerY
 	 */
-	Graphic.prototype.bezierCurveTo = function (x1, y1, x2, y2, centerX, centerY) {
+	p.bezierCurveTo = function (x1, y1, x2, y2, centerX, centerY) {
 		this.queue.push(["bezierCurveTo", [x1, y1, x2, y2, centerX, centerY]]);
 	};
 	/**
@@ -3503,7 +3501,7 @@
 	 * @param x {Number} x
 	 * @param y {Number} y
 	 */
-	Graphic.prototype.moveTo = function (x, y) {
+	p.moveTo = function (x, y) {
 		this.queue.push(["moveTo", [x, y]]);
 	};
 	/**
@@ -3515,7 +3513,7 @@
 	 * @param tilt {Number} tilt
 	 * @param angle {Number} angle
 	 */
-	Graphic.prototype.fan = function (x, y, radius, tilt, angle) {
+	p.fan = function (x, y, radius, tilt, angle) {
 		this.moveTo(x, y);
 		this.queue.push(["arc", [x, y, radius, ((tilt - 90) * Graphic.DEG_TO_RAD), (((tilt - 90) + angle) * Graphic.DEG_TO_RAD), false]]);
 	};
@@ -3529,7 +3527,7 @@
 	 * @param endAngle {Number} angle
 	 * @param anticlockwise {Boolean}
 	 */
-	Graphic.prototype.arc = function (x, y, radius, startAngle, endAngle, anticlockwise) {
+	p.arc = function (x, y, radius, startAngle, endAngle, anticlockwise) {
 		startAngle = startAngle * Graphic.DEG_TO_RAD;
 		endAngle = endAngle * Graphic.DEG_TO_RAD;
 		this.queue.push(["arc", [x, y, radius, startAngle, endAngle, anticlockwise]]);
@@ -3574,15 +3572,15 @@
 		this.height = height || null;
 		this.steps = [];
 	};
-	LinearGradient.prototype = Object.create(cavy.BackgroundColor.prototype);
-	LinearGradient.prototype.constructor = LinearGradient;
+	var p = LinearGradient.prototype = Object.create(cavy.BackgroundColor.prototype);
+	p.constructor = LinearGradient;
 	/**
 	 * グラデーションステップを追加
 	 * @public
 	 * @param step {Number} グラデーションステップ(0-1)
 	 * @param color {String} 色(#000,black)
 	 */
-	LinearGradient.prototype.addStep = function (step, color) {
+	p.addStep = function (step, color) {
 		this.steps.push([step, color]);
 	};
 	/**
@@ -3591,7 +3589,7 @@
 	 * @param ctx
 	 * @returns {CanvasGradient}
 	 */
-	LinearGradient.prototype.draw = function (ctx) {
+	p.draw = function (ctx) {
 		var x = this.x || 0, y = this.y || 0,
 			width = this.width || 0, height = this.height || 0,
 			grad = ctx.createLinearGradient(x, y, width, height),
@@ -3632,15 +3630,15 @@
 		this.r1 = r1 || 0;
 		this.steps = [];
 	};
-	CircleGradient.prototype = Object.create(cavy.BackgroundColor.prototype);
-	CircleGradient.prototype.constructor = CircleGradient;
+	var p = CircleGradient.prototype = Object.create(cavy.BackgroundColor.prototype);
+	p.constructor = CircleGradient;
 	/**
 	 * グラデーションステップを追加
 	 * @public
 	 * @param step {Number} グラデーションステップ(0-1)
 	 * @param color {String} 色(#000,black)
 	 */
-	CircleGradient.prototype.addStep = function (step, color) {
+	p.addStep = function (step, color) {
 		this.steps.push([step, color]);
 	};
 	/**
@@ -3651,7 +3649,7 @@
 	 * @param m {cavy.Matrix2D} Matrixオブジェクト
 	 * @returns {CanvasGradient}
 	 */
-	CircleGradient.prototype.draw = function (ctx, p) {
+	p.draw = function (ctx, p) {
 		var grad = ctx.createRadialGradient(this.x0 + p.width / 2, this.y0 + p.height / 2, this.r0, this.x1 + p.width / 2, this.y1 + p.height / 2, this.r1);
 		var l = this.steps.length;
 		for (var i = 0; i < l; i++) {
@@ -3679,16 +3677,16 @@
 			width: w,
 			height: h
 		};
-		cavy.Graphic.apply(this, [obj, param]);
+		cavy.Graphic.call(this,obj,param);
 	};
-	Shape.prototype = Object.create(cavy.Graphic.prototype);
-	Shape.prototype.constructor = Shape;
+	var p = Shape.prototype = Object.create(cavy.Graphic.prototype);
+	p.constructor = Shape;
 	/**
 	 * 図形を描画
 	 * @private
 	 * @param ctx
 	 */
-	Shape.prototype.draw = function (ctx,mask) {
+	p.draw = function (ctx,mask) {
 		if (!this.parent && !mask) {return;}
 		var p = this.update(),
 			m = this.matrix;
@@ -3714,17 +3712,17 @@
 			width: w,
 			height: h
 		};
-		cavy.Graphic.apply(this, [obj, param]);
+		cavy.Graphic.call(this,obj,param);
 	};
-	Rectangle.prototype = Object.create(cavy.Graphic.prototype);
-	Rectangle.prototype.constructor = Rectangle;
+	var p = Rectangle.prototype = Object.create(cavy.Graphic.prototype);
+	p.constructor = Rectangle;
 	/**
 	 * 矩形を描画
 	 * @private
 	 * @param ctx
 	 * @param mask
 	 */
-	Rectangle.prototype.draw = function (ctx, mask) {
+	p.draw = function (ctx, mask) {
         if (!this.parent && !mask) {return;}
 		var p = this.update(),
 			m = this.matrix;
@@ -3777,16 +3775,16 @@
 			width: radius * 2,
 			height: radius * 2
 		};
-		cavy.Graphic.apply(this, [obj, param]);
+		cavy.Graphic.call(this,obj,param);
 	};
-	Circle.prototype = Object.create(cavy.Graphic.prototype);
-	Circle.prototype.constructor = Circle;
+	var p = Circle.prototype = Object.create(cavy.Graphic.prototype);
+	p.constructor = Circle;
 	/**
 	 * 円を書き出す
 	 * @private
 	 * @param ctx {Context}
 	 */
-	Circle.prototype.draw = function (ctx,mask) {
+	p.draw = function (ctx,mask) {
 		if (!this.parent && !mask) {return;}
 		var p = this.update(),
 			m = this.matrix;
@@ -3811,10 +3809,10 @@
 	 * @param param {Object} 初期パラメータ
 	 **/
 	var Sprite = function (source, param) {
-		cavy.InteractiveObject.apply(this, [source, param]);
+		cavy.InteractiveObject.call(this,source,param);
 	};
-	Sprite.prototype = Object.create(cavy.InteractiveObject.prototype);
-	Sprite.prototype.constructor = Sprite;
+	var p = Sprite.prototype = Object.create(cavy.InteractiveObject.prototype);
+	p.constructor = Sprite;
 	/**
 	 * canvasに画像を出力
 	 * @private
@@ -3822,17 +3820,13 @@
 	 * @param cached {Boolean} キャッシュ描画かどうか
 	 * @return {void}
 	 **/
-	Sprite.prototype.draw = function (ctx) {
-		if (!this.parent) {return;}
+	p.draw = function (ctx) {
+		if (!this.parent || !this.source || !this.source.complete) {
+			return;
+		}
 		var p = this.update();
-		this.updateContext(ctx);
-		if (this.cache) {
-			if (this.imageCache && this.imageCache.src !== "data:,") {
-				ctx.drawImage(this.imageCache, 0, 0, p.width, p.height);
-			} else {
-				ctx.drawImage(this.cache, 0, 0, p.width, p.height);
-			}
-		} else if (this.source && this.source.width !== 0 && this.source.height !== 0) {
+		this.updateContext(ctx)
+		if (this.cache === null) {
 			if (p.sx + p.innerWidth > this.source.width) {
 				p.width = this.source.width;
 				p.innerWidth = this.source.width;
@@ -3842,6 +3836,12 @@
 				p.innerHeight = this.source.height;
 			}
 			ctx.drawImage(this.source, p.sx, p.sy, p.innerWidth, p.innerHeight, 0, 0, p.width, p.height);
+		} else {
+			if (this.imageCache && this.imageCache.src !== "data:,") {
+				ctx.drawImage(this.imageCache, 0, 0, p.width, p.height);
+			} else {
+				ctx.drawImage(this.cache, 0, 0, p.width, p.height);
+			}
 		}
 	};
 	cavy.Sprite = Sprite;
@@ -3911,16 +3911,16 @@
 		this._enterframeHandler = function () {
 			self.enterframe();
 		};
-		cavy.Sprite.apply(this, [obj, param]);
+		cavy.Sprite.call(this,obj,param);
 	};
-	SpriteSheet.prototype = Object.create(cavy.Sprite.prototype);
-	SpriteSheet.prototype.constructor = SpriteSheet;
+	var p = SpriteSheet.prototype = Object.create(cavy.Sprite.prototype);
+	p.constructor = SpriteSheet;
 	/**
 	 * スプライトアニメーション実行
 	 * @public
 	 * @return {void}
 	 **/
-	SpriteSheet.prototype.play = function () {
+	p.play = function () {
 		this.timer = cavy.Timer.repeat(this._enterframeHandler, this.interval);
 	};
 	/**
@@ -3928,7 +3928,7 @@
 	 * @public
 	 * @return {void}
 	 **/
-	SpriteSheet.prototype.stop = function () {
+	p.stop = function () {
 		cavy.Timer.stop(this.timer);
 	};
 	/**
@@ -3936,7 +3936,7 @@
 	 * @private
 	 * @return {void}
 	 **/
-	SpriteSheet.prototype.enterframe = function () {
+	p.enterframe = function () {
 		var pat = this.pattern[this.sheet];
 		if (!pat) {
 			return;
@@ -4058,9 +4058,9 @@
 		 * @default false
 		 */
 		this.autoResize = true;
-		cavy.InteractiveObject.apply(this, [null, param]);
+		cavy.InteractiveObject.call(this,null,param);
 	};
-	Text.prototype = Object.create(cavy.InteractiveObject.prototype,{
+	var p = Text.prototype = Object.create(cavy.InteractiveObject.prototype,{
 		/**
 		 * 表示テキスト
 		 * @memberof cavy.Text.prototype
@@ -4186,9 +4186,9 @@
 			set: function(value) { this._shadowBlur = value;this.updateText(true); }
 		}
 	});
-	Text.prototype.constructor = Text;
+	p.constructor = Text;
 	
-	Text.prototype.updateText = function(clearCache) {
+	p.updateText = function(clearCache) {
 		this._textHeight = parseFloat(this._fontSize.replace(/[^0-9]/g,""))
 		if (!this.autoResize) {return;}
 		var ctx = cavy._textContext;
@@ -4223,7 +4223,7 @@
 	 * @param ctx {Context} Stageコンテキスト
 	 * @return {void}
 	 **/
-	Text.prototype.draw = function (ctx) {
+	p.draw = function (ctx) {
 		if (!this.text || !this.parent) {
 			return;
 		}
@@ -4234,7 +4234,7 @@
 		}
 		this._isClear = false;
 	};
-	Text.prototype._draw = function(ctx) {
+	p._draw = function(ctx) {
 		var p = this.update();
 		this.updateContext(ctx);
 		if (this.imageCache && this.imageCache.src !== "data:,") {
@@ -4246,7 +4246,7 @@
 	/**
 	 * テキストを描画
 	 */
-	Text.prototype.drawText = function(ctx) {
+	p.drawText = function(ctx) {
 		this.update();
 		this.updateContext(ctx);
 		this.setStyle(ctx);
@@ -4274,7 +4274,7 @@
 			}
 		}
 	};
-	Text.prototype.setStyle = function(ctx) {
+	p.setStyle = function(ctx) {
 		var bold = this.bold ? "bold" : "";
 		ctx.font = bold + " " + this._fontSize + " '" + this._fontFamily + "'";
 		ctx.textAlign = this.textAlign;

@@ -15,32 +15,31 @@
 	 * @type {string}
 	 */
 	cavy.userAgent = navigator.userAgent;
-	var isiOS6 = (cavy.userAgent.search(/OS 6/) !== -1);
+	var userTimeout = (cavy.userAgent.search(/OS 6/) !== -1 || cavy.userAgent.search(/android/) !== -1);
 	window.requestAnimationFrame = (function (window) {
-		var timeout = (function () {
-			var lastTime = Date.now(),
-				startTime = Date.now();
-			return function (callback) {
-				var currTime = Date.now(),
-					timeToCall = Math.max(0, 16 - (currTime - lastTime));
-				lastTime = currTime + timeToCall;
-				return window.setTimeout(callback, timeToCall, lastTime - startTime)
-			}
-		})(window);
-		if (isiOS6) {
-			return timeout;
+		if (userTimeout) {
+			return (function () {
+				var lastTime = Date.now(),
+					startTime = lastTime;
+				return function (callback) {
+					var currTime = Date.now(),
+						timeToCall = Math.max(0, 16 - (currTime - lastTime));
+					lastTime = currTime + timeToCall;
+					return window.setTimeout(callback, timeToCall, lastTime - startTime)
+				}
+			})(window);
 		} else {
 			return window.webkitRequestAnimationFrame || window.requestAnimationFrame || timeout;
 		}
 	})(window);
 	window.cancelAnimationFrame = (function (window) {
-		if (isiOS6) {
+		if (userTimeout) {
 			return window.clearTimeout;
 		} else {
 			return window.webkitCancelAnimationFrame || window.webkitCancelRequestAnimationFrame || window.clearTimeout;
 		}
 	})(window);
-	
+
 	/**
 	 * Retinaディスプレイ対応
 	 * @public
@@ -91,7 +90,7 @@
 	 */
 	cavy.bugs = {
 		//背景色つけないとcanvas消えちゃう
-		background: ["F-06E","L-05E","SC-04E"]
+		background: ["F-06E", "L-05E", "SC-04E"]
 	};
 
 	/**
@@ -113,29 +112,31 @@
 	 */
 	cavy.backgroundColor = "rgba(255,255,255,0.01)";
 
-    /**
-     * アクセス端末に指定したバグがあるかどうか
+	/**
+	 * アクセス端末に指定したバグがあるかどうか
 	 * @private
-     * @param type {string} バグタイプを表す文字列
-     * @returns {boolean}
-     */
-    cavy.isBuggyDevice = function(type) {
-        var bug = cavy.bugs[type];
-        if (!bug) { return false; }
-        var l = bug.length;
-        while(l--) {
-            if (cavy.userAgent.search(bug[l]) !== -1) {
-                return true;
-            }
-        }
-        return false;
-    };
+	 * @param type {string} バグタイプを表す文字列
+	 * @returns {boolean}
+	 */
+	cavy.isBuggyDevice = function (type) {
+		var bug = cavy.bugs[type];
+		if (!bug) {
+			return false;
+		}
+		var l = bug.length;
+		while (l--) {
+			if (cavy.userAgent.search(bug[l]) !== -1) {
+				return true;
+			}
+		}
+		return false;
+	};
 	/**
 	 * Retinaディスプレイかどうかを返却
 	 * @public
 	 * @return {boolean}
 	 */
-	cavy.isRetina = function() {
+	cavy.isRetina = function () {
 		if (window.devicePixelRatio !== 1) {
 			return true;
 		}

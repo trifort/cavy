@@ -10,7 +10,7 @@
 	 * @constructor
 	 */
 	var DisplayObject = function (source, param) {
-		cavy.EventDispatcher.apply(this);
+		cavy.EventDispatcher.call(this);
 		/**
 		 * Spirteに表示する要素
 		 * @public
@@ -220,8 +220,8 @@
 			this.set(param);
 		}
 	};
-	DisplayObject.prototype = Object.create(cavy.EventDispatcher.prototype);
-	DisplayObject.prototype.constructor = DisplayObject;
+	var p = DisplayObject.prototype = Object.create(cavy.EventDispatcher.prototype);
+	p.constructor = DisplayObject;
 
 	/**
 	 * パラメータを一括で設定
@@ -233,7 +233,7 @@
 	 * 		y: 200
      * });
 	 */
-	DisplayObject.prototype.set = function (param) {
+	p.set = function (param) {
 		for (var key in param) {
 			this[key] = param[key];
 		}
@@ -245,7 +245,7 @@
 	 * @param target {cavy.Stage} ステージオブジェクト
 	 * @returns {DisplayObject} 自身のオブジェクト
 	 */
-	DisplayObject.prototype.addTo = function (target) {
+	p.addTo = function (target) {
 		target.addChild(this);
 		return this;
 	};
@@ -255,7 +255,7 @@
 	 * @param target {cavy.Stage} ステージオブジェクト
 	 * @returns {DisplayObject} 自身のオブジェクト
 	 */
-	DisplayObject.prototype.removeFrom = function (target) {
+	p.removeFrom = function (target) {
 		target.removeChild(this);
 		return this;
 	};
@@ -265,7 +265,7 @@
 	 * @param sprite {DisplayObject} 追加要素
 	 * @returns {DisplayObject} 自身のオブジェクト
 	 */
-	DisplayObject.prototype.addChild = function (sprite) {
+	p.addChild = function (sprite) {
 		sprite.parent = this;
 		this.children.push(sprite);
 		return this;
@@ -277,7 +277,7 @@
 	 * @param index {Int} 深度
 	 * @returns {DisplayObject} 自身のオブジェクト
 	 */
-	DisplayObject.prototype.addChildAt = function (sprite, index) {
+	p.addChildAt = function (sprite, index) {
 		if (sprite.parent) {
 			sprite.parent.removeChild(sprite)
 		}
@@ -297,7 +297,7 @@
 	 * @param index {Int} 深度
 	 * @returns {DisplayObject} 自身のオブジェクト
 	 */
-	DisplayObject.prototype.replaceChild = function (sprite, index) {
+	p.replaceChild = function (sprite, index) {
 		if (sprite.parent) {
 			sprite.parent.removeChild(sprite);
 		}
@@ -316,7 +316,7 @@
 	 * @param b {DisplayObject} 子要素B
 	 * @returns {DisplayObject} 自身のオブジェクト
 	 */
-	DisplayObject.prototype.swapChild = function (a, b) {
+	p.swapChild = function (a, b) {
 		var aIndex = this.children.indexOf(a);
 		var bIndex = this.children.indexOf(b);
 		this.swapChildAt(aIndex, bIndex);
@@ -329,7 +329,7 @@
 	 * @param b {DisplayObject} 子要素B
 	 * @returns {DisplayObject} 自身のオブジェクト
 	 */
-	DisplayObject.prototype.swapChildAt = function (a, b) {
+	p.swapChildAt = function (a, b) {
 		if (a !== -1 && b !== -1) {
 			var temp = this.children[a];
 			this.children[a] = b;
@@ -343,7 +343,7 @@
 	 * @param index {Int} 深度
 	 * @returns {DisplayObject} 自身のオブジェクト
 	 */
-	DisplayObject.prototype.setIndex = function (index) {
+	p.setIndex = function (index) {
 		if (!this.parent) {
 			return this;
 		}
@@ -357,7 +357,7 @@
 	 * @param index {Int} 深度
 	 * @returns {DisplayObject} 自身のオブジェクト
 	 */
-	DisplayObject.prototype.setChildIndex = function (sprite, index) {
+	p.setChildIndex = function (sprite, index) {
 		if (index > this.children.length) {
 			window.console.error("INDEX_ERROR");
 			return this;
@@ -375,7 +375,7 @@
 	 * @param sprite {DisplayObject} 削除する子要素
 	 * @returns {DisplayObject} 自身のオブジェクト
 	 */
-	DisplayObject.prototype.removeChild = function (sprite) {
+	p.removeChild = function (sprite) {
 		var index = this.children.indexOf(sprite);
 		if (index !== -1) {
 			this.children.splice(index, 1);
@@ -389,7 +389,7 @@
 	 * @param index {Int} 深度
 	 * @returns {DisplayObject} 自身のオブジェクト
 	 */
-	DisplayObject.prototype.removeChildAt = function (index) {
+	p.removeChildAt = function (index) {
 		this.children.splice(index, 1);
 		return this;
 	};
@@ -398,7 +398,7 @@
 	 * @public
 	 * @returns {DisplayObject} 自身のオブジェクト
 	 */
-	DisplayObject.prototype.removeAllChildren = function () {
+	p.removeAllChildren = function () {
 		var l = this.children.length;
 		while (l--) {
 			this.removeChild(this.children[l]);
@@ -406,7 +406,7 @@
 		this.children = [];
 		return this;
 	};
-	DisplayObject.prototype.adjustSource = function (dir) {
+	p.adjustSource = function (dir) {
 		if (dir === "width") {
 			this.height = this.source.height * this.width / this.source.width;
 		} else {
@@ -418,7 +418,7 @@
 	 * @public
 	 * @returns {{x: number, y: number, width: Number, height: Number, sx: number, sy: number, innerWidth: Number, innerHeight: Number, visible: *}}
 	 */
-	DisplayObject.prototype.update = function () {
+	p.update = function () {
 		this._param.initialize(this);
 		if (this.fitImage && this.source) {
 			this._param.fitSource(this.source,this.fitType);
@@ -434,7 +434,7 @@
 	 * @public
 	 * @returns {cavy.Stage|null} ステージオブジェクト
 	 */
-	DisplayObject.prototype.getStage = function () {
+	p.getStage = function () {
 		if (this instanceof cavy.Stage) {
 			return this;
 		} else if (this.parent) {
@@ -447,7 +447,7 @@
 	 * @public
 	 * @returns {cavy.DisplayObject} 複製した要素
 	 */
-	DisplayObject.prototype.clone = function () {
+	p.clone = function () {
 		return cavy.Util.clone(this);
 	};
 	/**
@@ -455,7 +455,7 @@
 	 * @public
 	 * @returns {Object} bounds
 	 */
-	DisplayObject.prototype.getBoundingRect = function () {
+	p.getBoundingRect = function () {
 		this.update();
 		var bounds = this.getBounds();
 		return this.convertBoundaryRect(bounds);
@@ -466,7 +466,7 @@
 	 * @public
 	 * @returns {Object} bounds
 	 */
-	DisplayObject.prototype.getBounds = function () {
+	p.getBounds = function () {
 		var width = this.width,
 			height = this.height,
 			m = this.matrix,
@@ -502,7 +502,7 @@
 	 * @param aPoints
 	 * @returns {{left: *, right: *, top: *, bottom: *, width: number, height: number}}
 	 */
-	DisplayObject.prototype.convertBoundaryRect = function (aPoints) {
+	p.convertBoundaryRect = function (aPoints) {
 		var nMinX = aPoints[0][0],
 			nMaxX = aPoints[0][0],
 			nMinY = aPoints[0][1],
@@ -527,7 +527,7 @@
 	 * キャッシュを生成。キャッシュ生成後は子要素へのプロパティ変更が反映されません
 	 * @public
 	 */
-	DisplayObject.prototype.createCache = function () {
+	p.createCache = function () {
 		var cache = this.cache || document.createElement("canvas"),
 			ctx = cache.getContext("2d");
 		this.cache = null;
@@ -551,7 +551,7 @@
 		*/
 	};
 
-	DisplayObject.prototype.clearCanvas = function(ctx,width,height) {
+	p.clearCanvas = function(ctx,width,height) {
 		var m = (width + 255) >> 8,
 			n = (height + 255) >> 8;
 		while (m--) {
@@ -569,7 +569,7 @@
 	 * @ctx {Context}
 	 *
 	 */
-	DisplayObject.prototype._drawCache = function (children, ctx) {
+	p._drawCache = function (children, ctx) {
 		if (!children) { return;}
 		var c = children.slice();
 		var i = 0, l = c.length;
@@ -588,7 +588,7 @@
 	 * キャッシュを削除
 	 * @public
 	 */
-	DisplayObject.prototype.deleteCache = function () {
+	p.deleteCache = function () {
 		this.imageCache = null;
 		if (this.cache) {
 			var ctx = this.cache.getContext("2d");
@@ -601,8 +601,7 @@
 	 * @private
 	 * @param ctx
 	 */
-	DisplayObject.prototype.updateContext = function (ctx) {
-		if (!this.parent) {return;}
+	p.updateContext = function (ctx) {
 		var m = this.matrix,
 			mask = this.mask || this.parent.mask;
 		if (mask) {
@@ -615,6 +614,7 @@
 		}
 		ctx.globalAlpha = m.opacity;
 		ctx.transform(m.a, m.b, m.c, m.d, m.e, m.f);
+		return true;
 	};
 
 	/**
@@ -623,7 +623,7 @@
 	 * @param value {*} 保存する値
 	 * @returns {*} keyのみまたは引数がない場合は値を返却
 	 */
-	DisplayObject.prototype.data = function (key,value) {
+	p.data = function (key,value) {
 		if (typeof key === "undefined") {
 			return this._pool;
 		} else if (typeof key === "string") {
@@ -643,7 +643,7 @@
 	 * data関数で保存したデータを削除
 	 * @param key 削除する保存データ名。引数を省略するとすべてのデータを削除します。
 	 */
-	DisplayObject.prototype.clearData = function (key) {
+	p.clearData = function (key) {
 		if (!key) {
 			this._pool = {};
 		} else {
@@ -776,12 +776,12 @@
 			return data;
 		}
 	};
-	DisplayObject.prototype.on = function(type, listener) {
+	p.on = function(type, listener) {
 		this._interactive = true;
-		return cavy.EventDispatcher.prototype.on.apply(this,[type,listener]);
+		return cavy.EventDispatcher.prototype.on.call(this,type,listener);
 	};
-	DisplayObject.prototype.off = function(type, listener) {
-		var e = cavy.EventDispatcher.prototype.off.apply(this,[type,listener]);
+	p.off = function(type, listener) {
+		var e = cavy.EventDispatcher.prototype.off.call(this,type,listener);
 		if (Object.keys(this.__store__).length === 0) {
 			this._interactive = false;
 		}

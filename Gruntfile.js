@@ -30,7 +30,8 @@ module.exports = function(grunt) {
  * Copyright (c) 2010 gskinner.com, inc.\n\
  */\n',
 	 			compress: true,
-				beautify: false
+				beautify: false//,
+				//mangle: true
 				//sourceMap: 'cavy.source.js',
 				//sourceMapRoot: 'http://example.com/path/to/src/', // the location to find your original source
 			}
@@ -45,9 +46,13 @@ module.exports = function(grunt) {
 			}
 		},
 		watch: {
-			scripts: {
+			debug: {
 				files: ['js/*.js','Gruntfile.js'],
 				tasks: ['concat:debug']
+			},
+			release: {
+				files: ['js/*.js','Gruntfile.js'],
+				tasks: ['build']
 			}
 		}
 	};
@@ -61,6 +66,6 @@ module.exports = function(grunt) {
 	}
 	grunt.registerTask('build', ['concat:debug','concat:release','uglify']);
 	grunt.registerTask('compile', ['concat:debug','uglify']);
-	grunt.registerTask('default', ['watch']);
+	grunt.registerTask('default', ['watch:release']);
 	grunt.registerTask('doc', ['jsdoc']);
 };

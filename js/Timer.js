@@ -33,9 +33,8 @@
 		update: function () {
 			var t = Date.now(),
 				d = null,
-				r = this.repeats.slice(0),
+				r = this.repeats,
 				l = this.repeats.length;
-
 			this.time = t;
 			while (l--) {
 				d = r[l];

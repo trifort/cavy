@@ -21,7 +21,7 @@
 	 *  
 	 */
 	var Preload = function (data, callback, connection) {
-		cavy.EventDispatcher.apply(this);
+		cavy.EventDispatcher.call(this);
 		this.data = data;
 		this.keys = [];
 		this.result = [];
@@ -52,13 +52,13 @@
 			self.init();
 		}, 0);
 	};
-	Preload.prototype = Object.create(cavy.EventDispatcher.prototype);
-	Preload.prototype.constructor = Preload;
+	var p = Preload.prototype = Object.create(cavy.EventDispatcher.prototype);
+	p.constructor = Preload;
 	/**
 	 * 初期化
 	 * @private
 	 */
-	Preload.prototype.init = function () {
+	p.init = function () {
 		var max = this.maxConnection;
 		this.keys = Object.keys(this.data);
 		this.length = this.keys.length;
@@ -76,7 +76,7 @@
 	 * @private
 	 * @param img
 	 */
-	Preload.prototype.loaded = function (img) {
+	p.loaded = function (img) {
 		++this.loadedCount;
 		this.dispatchEvent("step", img);
 		img.removeEventListener("load", this.loadedHandler);
@@ -97,7 +97,7 @@
 	 * @private
 	 * @param i
 	 */
-	Preload.prototype.load = function (i) {
+	p.load = function (i) {
 		var img = new Image();
 		img.id = this.keys[i];
 		img.addEventListener("load", this.loadedHandler);
@@ -113,7 +113,7 @@
 	 * @param e
 	 * @returns {*}
 	 */
-	Preload.prototype._error = function (e) {
+	p._error = function (e) {
 		this.trigger("error", e);
 		return this;
 	};
@@ -123,7 +123,7 @@
 	 * @param id
 	 * @returns {ImageElement}
 	 */
-	Preload.prototype.get = function (id) {
+	p.get = function (id) {
 		return this.result[id];
 	};
 
@@ -133,10 +133,10 @@
 	 * @param callback
 	 * @returns {*}
 	 */
-	Preload.prototype.error = function (callback) {
+	p.error = function (callback) {
 		var errorFunction = function () {
 			this.removeEventListener("error", errorFunction);
-			callback.apply(this, [arguments]);
+			callback.call(this, arguments);
 		};
 		this.addEventListener("error", errorFunction);
 		return this;
@@ -147,10 +147,10 @@
 	 * @param callback
 	 * @returns {*}
 	 */
-	Preload.prototype.complete = function (callback) {
+	p.complete = function (callback) {
 		var completeFunction = function () {
 			this.removeEventListener("complete", completeFunction);
-			callback.apply(this, [arguments]);
+			callback.call(this, arguments);
 		};
 		this.addEventListener("complete", completeFunction);
 		return this;
@@ -159,7 +159,7 @@
 	 * すべてのイメージデータをクリア
 	 * @public
 	 */
-	Preload.prototype.destroy = function () {
+	p.destroy = function () {
 		delete this.result;
 		delete this.data;
 		this.result = [];

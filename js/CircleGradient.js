@@ -25,15 +25,15 @@
 		this.r1 = r1 || 0;
 		this.steps = [];
 	};
-	CircleGradient.prototype = Object.create(cavy.BackgroundColor.prototype);
-	CircleGradient.prototype.constructor = CircleGradient;
+	var p = CircleGradient.prototype = Object.create(cavy.BackgroundColor.prototype);
+	p.constructor = CircleGradient;
 	/**
 	 * グラデーションステップを追加
 	 * @public
 	 * @param step {Number} グラデーションステップ(0-1)
 	 * @param color {String} 色(#000,black)
 	 */
-	CircleGradient.prototype.addStep = function (step, color) {
+	p.addStep = function (step, color) {
 		this.steps.push([step, color]);
 	};
 	/**
@@ -44,7 +44,7 @@
 	 * @param m {cavy.Matrix2D} Matrixオブジェクト
 	 * @returns {CanvasGradient}
 	 */
-	CircleGradient.prototype.draw = function (ctx, p) {
+	p.draw = function (ctx, p) {
 		var grad = ctx.createRadialGradient(this.x0 + p.width / 2, this.y0 + p.height / 2, this.r0, this.x1 + p.width / 2, this.y1 + p.height / 2, this.r1);
 		var l = this.steps.length;
 		for (var i = 0; i < l; i++) {

@@ -103,7 +103,7 @@
 			var typeStore = this.__store__[type] || null;
 			if (typeStore) {
 				thisObj = thisObj || this;
-				var args = Array.prototype.slice.apply(arguments, [1]);
+				var args = Array.prototype.slice.call(arguments,1);
 				var t = typeStore.slice();
 				for (var i = 0, len = t.length; i < len; i++) {
 					t[i].apply(thisObj, args);

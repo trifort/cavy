@@ -46,16 +46,16 @@
 		 * @type {Array}
 		 */
 		this.queue = [];
-		cavy.InteractiveObject.apply(this, [obj, param]);
+		cavy.InteractiveObject.call(this,obj,param);
 	};
-	Graphic.prototype = Object.create(cavy.InteractiveObject.prototype);
+	var p = Graphic.prototype = Object.create(cavy.InteractiveObject.prototype);
 	/**
 	 * 角度からラジアンに変換する係数
 	 * @private
 	 * @type {number}
 	 */
 	Graphic.DEG_TO_RAD = Math.PI / 180;
-	Graphic.prototype.constructor = Graphic;
+	p.constructor = Graphic;
 	/**
 	 * パスを書き出す
 	 * @private
@@ -63,7 +63,7 @@
 	 * @param p
 	 * @param m
 	 */
-	Graphic.prototype.drawPath = function (ctx, p, m, mask) {
+	p.drawPath = function (ctx, p, m, mask) {
 		if (this.cache) {
 			if (this.imageCache && this.imageCache.src !== "data:,") {
 				ctx.drawImage(this.imageCache, 0, 0, this.imageCache.width, this.imageCache.height);
@@ -110,7 +110,7 @@
 	 * @param w {Number} width
 	 * @param h {Number} height
 	 */
-	Graphic.prototype.rect = function (x, y, w, h) {
+	p.rect = function (x, y, w, h) {
 		this.queue.push(["rect", [x, y, w, h]]);
 	};
 	/**
@@ -121,7 +121,7 @@
 	 * @param w {Number} width
 	 * @param h {Number} height
 	 */
-	Graphic.prototype.fillRect = function (x, y, w, h) {
+	p.fillRect = function (x, y, w, h) {
 		this.queue.push(["fillRect", [x, y, w, h]]);
 	};
 	/**
@@ -132,14 +132,14 @@
 	 * @param w {Number} width
 	 * @param h {Number} height
 	 */
-	Graphic.prototype.strokeRect = function (x, y, w, h) {
+	p.strokeRect = function (x, y, w, h) {
 		this.queue.push(["strokeRect", [x, y, w, h]]);
 	};
 	/**
 	 * 描画をクリアする
 	 * @public
 	 */
-	Graphic.prototype.clear = function () {
+	p.clear = function () {
 		this.queue = [];
 	};
 	/**
@@ -150,7 +150,7 @@
 	 * @param w {Number} width
 	 * @param h {Number} height
 	 */
-	Graphic.prototype.clearRect = function (x, y, w, h) {
+	p.clearRect = function (x, y, w, h) {
 		this.queue.push(["clearRect", [x, y, w, h]]);
 	};
 	/**
@@ -159,7 +159,7 @@
 	 * @param x {Number} x
 	 * @param y {Number} y
 	 */
-	Graphic.prototype.lineTo = function (x, y) {
+	p.lineTo = function (x, y) {
 		this.queue.push(["lineTo", [x, y]]);
 	};
 	/**
@@ -171,7 +171,7 @@
 	 * @param y2 {Number} y2
 	 * @param radius {Number} radius
 	 */
-	Graphic.prototype.arcTo = function (x1, y1, x2, y2, radius) {
+	p.arcTo = function (x1, y1, x2, y2, radius) {
 		this.queue.push(["arcTo", [x1, y1, x2, y2, radius]]);
 	};
 	/**
@@ -184,7 +184,7 @@
 	 * @param centerX {Number} centerX
 	 * @param centerY {Number} centerY
 	 */
-	Graphic.prototype.bezierCurveTo = function (x1, y1, x2, y2, centerX, centerY) {
+	p.bezierCurveTo = function (x1, y1, x2, y2, centerX, centerY) {
 		this.queue.push(["bezierCurveTo", [x1, y1, x2, y2, centerX, centerY]]);
 	};
 	/**
@@ -193,7 +193,7 @@
 	 * @param x {Number} x
 	 * @param y {Number} y
 	 */
-	Graphic.prototype.moveTo = function (x, y) {
+	p.moveTo = function (x, y) {
 		this.queue.push(["moveTo", [x, y]]);
 	};
 	/**
@@ -205,7 +205,7 @@
 	 * @param tilt {Number} tilt
 	 * @param angle {Number} angle
 	 */
-	Graphic.prototype.fan = function (x, y, radius, tilt, angle) {
+	p.fan = function (x, y, radius, tilt, angle) {
 		this.moveTo(x, y);
 		this.queue.push(["arc", [x, y, radius, ((tilt - 90) * Graphic.DEG_TO_RAD), (((tilt - 90) + angle) * Graphic.DEG_TO_RAD), false]]);
 	};
@@ -219,7 +219,7 @@
 	 * @param endAngle {Number} angle
 	 * @param anticlockwise {Boolean}
 	 */
-	Graphic.prototype.arc = function (x, y, radius, startAngle, endAngle, anticlockwise) {
+	p.arc = function (x, y, radius, startAngle, endAngle, anticlockwise) {
 		startAngle = startAngle * Graphic.DEG_TO_RAD;
 		endAngle = endAngle * Graphic.DEG_TO_RAD;
 		this.queue.push(["arc", [x, y, radius, startAngle, endAngle, anticlockwise]]);

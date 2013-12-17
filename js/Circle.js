@@ -38,16 +38,16 @@
 			width: radius * 2,
 			height: radius * 2
 		};
-		cavy.Graphic.apply(this, [obj, param]);
+		cavy.Graphic.call(this,obj,param);
 	};
-	Circle.prototype = Object.create(cavy.Graphic.prototype);
-	Circle.prototype.constructor = Circle;
+	var p = Circle.prototype = Object.create(cavy.Graphic.prototype);
+	p.constructor = Circle;
 	/**
 	 * 円を書き出す
 	 * @private
 	 * @param ctx {Context}
 	 */
-	Circle.prototype.draw = function (ctx,mask) {
+	p.draw = function (ctx,mask) {
 		if (!this.parent && !mask) {return;}
 		var p = this.update(),
 			m = this.matrix;

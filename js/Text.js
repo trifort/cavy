@@ -75,9 +75,9 @@
 		 * @default false
 		 */
 		this.autoResize = true;
-		cavy.InteractiveObject.apply(this, [null, param]);
+		cavy.InteractiveObject.call(this,null,param);
 	};
-	Text.prototype = Object.create(cavy.InteractiveObject.prototype,{
+	var p = Text.prototype = Object.create(cavy.InteractiveObject.prototype,{
 		/**
 		 * 表示テキスト
 		 * @memberof cavy.Text.prototype
@@ -203,9 +203,9 @@
 			set: function(value) { this._shadowBlur = value;this.updateText(true); }
 		}
 	});
-	Text.prototype.constructor = Text;
+	p.constructor = Text;
 	
-	Text.prototype.updateText = function(clearCache) {
+	p.updateText = function(clearCache) {
 		this._textHeight = parseFloat(this._fontSize.replace(/[^0-9]/g,""))
 		if (!this.autoResize) {return;}
 		var ctx = cavy._textContext;
@@ -240,7 +240,7 @@
 	 * @param ctx {Context} Stageコンテキスト
 	 * @return {void}
 	 **/
-	Text.prototype.draw = function (ctx) {
+	p.draw = function (ctx) {
 		if (!this.text || !this.parent) {
 			return;
 		}
@@ -251,7 +251,7 @@
 		}
 		this._isClear = false;
 	};
-	Text.prototype._draw = function(ctx) {
+	p._draw = function(ctx) {
 		var p = this.update();
 		this.updateContext(ctx);
 		if (this.imageCache && this.imageCache.src !== "data:,") {
@@ -263,7 +263,7 @@
 	/**
 	 * テキストを描画
 	 */
-	Text.prototype.drawText = function(ctx) {
+	p.drawText = function(ctx) {
 		this.update();
 		this.updateContext(ctx);
 		this.setStyle(ctx);
@@ -291,7 +291,7 @@
 			}
 		}
 	};
-	Text.prototype.setStyle = function(ctx) {
+	p.setStyle = function(ctx) {
 		var bold = this.bold ? "bold" : "";
 		ctx.font = bold + " " + this._fontSize + " '" + this._fontFamily + "'";
 		ctx.textAlign = this.textAlign;

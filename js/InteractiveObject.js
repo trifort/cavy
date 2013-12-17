@@ -10,11 +10,11 @@
 	 * @constructor
 	 */
 	var InteractiveObject = function (source, param) {
-		cavy.DisplayObject.apply(this, [source, param]);
+		cavy.DisplayObject.call(this,source,param);
 	};
-	InteractiveObject.prototype = Object.create(cavy.DisplayObject.prototype);
+	var p = InteractiveObject.prototype = Object.create(cavy.DisplayObject.prototype);
 
-	InteractiveObject.prototype.constructor = InteractiveObject;
+	p.constructor = InteractiveObject;
 	/**
 	 * 指定した座標に要素があるかどうか
 	 * @public
@@ -22,7 +22,7 @@
 	 * @param y {Number} y
 	 * @returns {boolean} 指定座標に要素があるかどうか
 	 */
-	InteractiveObject.prototype.hitTest = function (x, y) {
+	p.hitTest = function (x, y) {
 		if (this.mask) {
 			var maskRect = this.mask.getBoundingRect();
 			if (x >= maskRect.left && x <= maskRect.right && y >= maskRect.top && y <= maskRect.bottom) {
@@ -43,7 +43,7 @@
 	 * @param target {DisplayObject}
 	 * @returns {boolean}
 	 */
-	InteractiveObject.prototype.hitTestObject = function (target) {
+	p.hitTestObject = function (target) {
 		var rectA = this.getBoundingRect(),
 			rectB = target.getBoundingRect();
 		if (this.mask && !detail) {

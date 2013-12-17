@@ -10,10 +10,10 @@
 	 * @param param {Object} 初期パラメータ
 	 **/
 	var Sprite = function (source, param) {
-		cavy.InteractiveObject.apply(this, [source, param]);
+		cavy.InteractiveObject.call(this,source,param);
 	};
-	Sprite.prototype = Object.create(cavy.InteractiveObject.prototype);
-	Sprite.prototype.constructor = Sprite;
+	var p = Sprite.prototype = Object.create(cavy.InteractiveObject.prototype);
+	p.constructor = Sprite;
 	/**
 	 * canvasに画像を出力
 	 * @private
@@ -21,17 +21,13 @@
 	 * @param cached {Boolean} キャッシュ描画かどうか
 	 * @return {void}
 	 **/
-	Sprite.prototype.draw = function (ctx) {
-		if (!this.parent) {return;}
+	p.draw = function (ctx) {
+		if (!this.parent || !this.source || !this.source.complete) {
+			return;
+		}
 		var p = this.update();
-		this.updateContext(ctx);
-		if (this.cache) {
-			if (this.imageCache && this.imageCache.src !== "data:,") {
-				ctx.drawImage(this.imageCache, 0, 0, p.width, p.height);
-			} else {
-				ctx.drawImage(this.cache, 0, 0, p.width, p.height);
-			}
-		} else if (this.source && this.source.width !== 0 && this.source.height !== 0) {
+		this.updateContext(ctx)
+		if (this.cache === null) {
 			if (p.sx + p.innerWidth > this.source.width) {
 				p.width = this.source.width;
 				p.innerWidth = this.source.width;
@@ -41,6 +37,12 @@
 				p.innerHeight = this.source.height;
 			}
 			ctx.drawImage(this.source, p.sx, p.sy, p.innerWidth, p.innerHeight, 0, 0, p.width, p.height);
+		} else {
+			if (this.imageCache && this.imageCache.src !== "data:,") {
+				ctx.drawImage(this.imageCache, 0, 0, p.width, p.height);
+			} else {
+				ctx.drawImage(this.cache, 0, 0, p.width, p.height);
+			}
 		}
 	};
 	cavy.Sprite = Sprite;

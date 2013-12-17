@@ -216,7 +216,7 @@
 	 * @augments cavy.EventDispatcher
 	 **/
 	var TweenObject = function (sprite, autoRelease) {
-		cavy.EventDispatcher.apply(this);
+		cavy.EventDispatcher.call(this);
 		this.sprite = sprite;
 		this.autoRelease = autoRelease;
 		/**
@@ -252,8 +252,8 @@
 			self.update();
 		};
 	};
-	TweenObject.prototype = Object.create(cavy.EventDispatcher.prototype);
-	TweenObject.prototype.constructor = TweenObject;
+	var p = TweenObject.prototype = Object.create(cavy.EventDispatcher.prototype);
+	p.constructor = TweenObject;
 	/**
 	 * アニメーションの追加
 	 * @public
@@ -262,8 +262,8 @@
 	 * @example
 	 *  var t = cavy.Tween(sprite).to({x:100,y:100});
 	 **/
-	TweenObject.prototype.to = function (param) {
-		var args = Array.prototype.slice.apply(arguments);
+	p.to = function (param) {
+		var args = Array.prototype.slice.call(arguments);
 		param = args.shift();
 		var q = new TweenQueue(param, args);
 		this.__attach__.push(q);
@@ -281,7 +281,7 @@
 	 * @example
 	 *  var t = cavy.Tween(sprite).set({x:100,y:100});
 	 **/
-	TweenObject.prototype.set = function (param) {
+	p.set = function (param) {
 		var q = new ParamQueue(param);
 		this.__attach__.push(q);
 		if (!this.isPlaying) {
@@ -298,7 +298,7 @@
 	 * @example
 	 *  var t = cavy.Tween(sprite).wait(1000).to({x:100,y:100});
 	 **/
-	TweenObject.prototype.wait = function (time) {
+	p.wait = function (time) {
 		var q = new WaitQueue(time);
 		if (q.frame !== 0) {
 			this.__attach__.push(q);
@@ -317,7 +317,7 @@
 	 * @example
 	 *  var t = cavy.Tween(sprite).wait(1000).call(function(){alert("hoge")});
 	 **/
-	TweenObject.prototype.call = function (callback) {
+	p.call = function (callback) {
 		var q = new CallQueue(callback);
 		this.__attach__.push(q);
 		if (!this.isPlaying) {
@@ -335,10 +335,10 @@
 	 * @example
 	 *  var t = cavy.Tween(sprite).to({x:100,y:100}).complete(function(){});
 	 **/
-	TweenObject.prototype.complete = function (callback) {
+	p.complete = function (callback) {
 		var completeFunction = function () {
 			this.removeEventListener("complete", completeFunction);
-			callback.apply(this, [arguments]);
+			callback.call(this,arguments);
 		};
 		this.addEventListener("complete", completeFunction);
 		return this;
@@ -350,7 +350,7 @@
 	 * @example
 	 *  var t = cavy.Tween(sprite).to({x:100,y:100}).repeat();
 	 **/
-	TweenObject.prototype.repeat = function (reset, limit) {
+	p.repeat = function (reset, limit) {
 		this.isRepeat = true;
 		if (typeof reset === "number") {
 			this.isReset = false;
@@ -370,7 +370,7 @@
 	 * 次タスクを実行
 	 * @private
 	 **/
-	TweenObject.prototype._doAttach = function () {
+	p._doAttach = function () {
 		this.reverse ?  --this.index : ++this.index;
 		var q = this.__attach__[this.index];
 		q.initialize(this.sprite, this.reverse, this.isReset);
@@ -381,7 +381,7 @@
 	 * @private
 	 * @return {Boolean} 次タスクがあればtrue
 	 **/
-	TweenObject.prototype._hasAttach = function () {
+	p._hasAttach = function () {
 		var l = this.__attach__.length;
 		if (l === 0) return false;
 		if (this.reverse) {
@@ -396,7 +396,7 @@
 	 * @public
 	 * @return {TweenObject}
 	 **/
-	TweenObject.prototype.play = function () {
+	p.play = function () {
 		if (!this.isPlaying) {
 			this.stop();
 			this.time = Date.now();
@@ -410,7 +410,7 @@
 	 * @public
 	 * @return {TweenObject}
 	 **/
-	TweenObject.prototype.stop = function () {
+	p.stop = function () {
 		this.isPlaying = false;
 		if (this.timer) {
 			this.timer.stop();
@@ -422,7 +422,7 @@
 	 * @public
 	 * @return {TweenObject}
 	 **/
-	TweenObject.prototype.reset = function () {
+	p.reset = function () {
 		this.stop();
 		this.index = 0;
 		this.isReset = false;
@@ -435,7 +435,7 @@
 	 * @public
 	 * @return {void}
 	 **/
-	TweenObject.prototype.update = function () {
+	p.update = function () {
 		if (!this.sprite || !this.sprite.parent) {
 			this.stop();
 			return;
@@ -498,7 +498,7 @@
 			if (cavy.strict) {q.count++};
 		}
 		if (q.count <= q.frame && this.stepCallback) {
-			this.stepCallback.apply(this);
+			this.stepCallback.call(this);
 		}
 	};
 	/**
@@ -506,7 +506,7 @@
 	 * @public
 	 * @return {void}
 	 **/
-	TweenObject.prototype.destroy = function () {
+	p.destroy = function () {
 		this.stop();
 		this.stepCallback = null;
 		this.removeEventListener();
@@ -518,7 +518,7 @@
 	 * @public
 	 * @return {void}
 	 **/
-	TweenObject.prototype.step = function (callback) {
+	p.step = function (callback) {
 		this.stepCallback = callback;
 		return this;
 	};
@@ -651,7 +651,7 @@
 		QUEUE_TYPE: "call",
 		initialize: function (sprite) {
 			this.count = this.frame = 0;
-			this.callback.apply(sprite);
+			this.callback.call(sprite);
 		}
 	};
 	/**
