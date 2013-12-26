@@ -15,19 +15,10 @@
 	 * @type {string}
 	 */
 	cavy.userAgent = navigator.userAgent;
-	var userTimeout = (cavy.userAgent.search(/OS 6/) !== -1 || cavy.userAgent.search(/android/) !== -1);
+	var userTimeout = (cavy.userAgent.search(/OS 6|OS 5|OS 4/) !== -1 || cavy.userAgent.search(/Android/) !== -1);
 	window.requestAnimationFrame = (function (window) {
 		if (userTimeout) {
-			return (function () {
-				var lastTime = Date.now(),
-					startTime = lastTime;
-				return function (callback) {
-					var currTime = Date.now(),
-						timeToCall = Math.max(0, 16 - (currTime - lastTime));
-					lastTime = currTime + timeToCall;
-					return window.setTimeout(callback, timeToCall, lastTime - startTime)
-				}
-			})(window);
+			return window.setTimeout(callback)
 		} else {
 			return window.webkitRequestAnimationFrame || window.requestAnimationFrame || timeout;
 		}
@@ -90,7 +81,8 @@
 	 */
 	cavy.bugs = {
 		//背景色つけないとcanvas消えちゃう
-		background: ["F-06E", "L-05E", "SC-04E"]
+		background: ["F-06E", "L-05E", "SC-04E"],
+		lag: ["F-06E"]
 	};
 
 	/**
