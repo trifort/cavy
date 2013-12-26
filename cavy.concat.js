@@ -15,19 +15,10 @@
 	 * @type {string}
 	 */
 	cavy.userAgent = navigator.userAgent;
-	var userTimeout = (cavy.userAgent.search(/OS 6/) !== -1 || cavy.userAgent.search(/android/) !== -1);
+	var userTimeout = (cavy.userAgent.search(/OS 6|OS 5|OS 4/) !== -1 || cavy.userAgent.search(/Android/) !== -1);
 	window.requestAnimationFrame = (function (window) {
 		if (userTimeout) {
-			return (function () {
-				var lastTime = Date.now(),
-					startTime = lastTime;
-				return function (callback) {
-					var currTime = Date.now(),
-						timeToCall = Math.max(0, 16 - (currTime - lastTime));
-					lastTime = currTime + timeToCall;
-					return window.setTimeout(callback, timeToCall, lastTime - startTime)
-				}
-			})(window);
+			return window.setTimeout(callback)
 		} else {
 			return window.webkitRequestAnimationFrame || window.requestAnimationFrame || timeout;
 		}
@@ -90,7 +81,8 @@
 	 */
 	cavy.bugs = {
 		//背景色つけないとcanvas消えちゃう
-		background: ["F-06E", "L-05E", "SC-04E"]
+		background: ["F-06E", "L-05E", "SC-04E"],
+		lag: ["F-06E"]
 	};
 
 	/**
@@ -217,6 +209,7 @@
 	 **/
 	var EventDispatcher = function () {
 		this.__store__ = {};
+		this.__interactive__ = false;
 	};
 	EventDispatcher.prototype = {
 		constructor: EventDispatcher,
@@ -242,6 +235,7 @@
 			var typeStore = this.__store__[type] || [];
 			typeStore.push(listener);
 			this.__store__[type] = typeStore;
+			this.__interactive__ = true;
 			return this;
 		},
 		/**
@@ -276,6 +270,9 @@
 				}
 			} else {
 				delete this.__store__[type];
+			}
+			if (Object.keys(this.__store__).length === 0) {
+				this.__interactive__ = false;
 			}
 			return this;
 		},
@@ -920,18 +917,11 @@
 	 *  cavy.Timer.repeat(function(){},1000,3);    //1000ms毎に３回繰り返し
 	 *  cavy.Timer.delay(function(){},0,3);    //フレーム毎に３回繰り返し
 	 **/
-	var Timer = function () {
-		this.isTick = false;
-		this.repeats = [];
-		this.time = 0;
-		this.timer = null;
-		var self = this;
-		this._loopHandler = function () {
-			self.update();
-		};
-	};
-	Timer.prototype = {
-		constructor: Timer,
+	var isTick = false;
+	var repeats = [];
+	var time = 0;
+	var timer = null;
+	var Timer = {
 		/**
 		 * フレーム毎に行う処理
 		 * @private
@@ -941,16 +931,15 @@
 		update: function () {
 			var t = Date.now(),
 				d = null,
-				r = this.repeats,
-				l = r.length;
-			this.time = t;
+				l = repeats.length;
+			time = t;
 			while (l--) {
-				d = r[l];
+				d = repeats[l];
 				if (d && t - d.time >= d.delay) {
 					if (!isNaN(d.count)) {
 						--d.count;
 						if (d.count === 0) {
-							this.repeats.splice(l, 1);
+							repeats.splice(l, 1);
 						}
 						d.cacheCount -= d.count;
 					}
@@ -958,7 +947,7 @@
 					d.time = t;
 				}
 			}
-			this.timer = window.requestAnimationFrame(this._loopHandler);
+			timer = window.requestAnimationFrame(Timer.update);
 		},
 		/**
 		 * 繰り返し処理
@@ -969,9 +958,9 @@
 		 * @return {TimerObject} タイマーオブジェクト
 		 **/
 		repeat: function (callback, delay, count) {
-			var t = new TimerObject(this.time, callback, delay, count);
-			this.repeats.push(t);
-			this.play();
+			var t = new TimerObject(time, callback, delay, count);
+			repeats.push(t);
+			Timer.play();
 			return t;
 		},
 		/**
@@ -982,17 +971,17 @@
 		 * @return {TimerObject} タイマーオブジェクト
 		 **/
 		delay: function (callback, delay) {
-			var t = new TimerObject(this.time, callback, Math.floor(delay), 1);
-			this.repeats.push(t);
-			this.play();
+			var t = new TimerObject(time, callback, Math.floor(delay), 1);
+			repeats.push(t);
+			Timer.play();
 			return t;
 		},
 		play: function () {
-			if (!this.isTick) {
-				this.isTick = true;
-				this.update();
+			if (!isTick) {
+				isTick = true;
+				Timer.update();
 			}
-			return this;
+			return Timer;
 		},
 		/**
 		 * 遅延処理
@@ -1001,25 +990,25 @@
 		 * @return {void}
 		 **/
 		stop: function (timerObject) {
-			var index = this.repeats.indexOf(timerObject);
+			var index = repeats.indexOf(timerObject);
 			if (index !== -1) {
-				this.repeats.splice(index, 1);
+				repeats.splice(index, 1);
 			}
-			if (this.repeats.length === 0) {
-				window.cancelAnimationFrame(this.timer);
-				this.isTick = false;
+			if (repeats.length === 0) {
+				window.cancelAnimationFrame(timer);
+				isTick = false;
 			}
 			return this;
 		},
 		stopAll: function() {
-			if (this.timer) {
-				window.cancelAnimationFrame(this.timer);
-				this.isTick = false;
+			if (timer) {
+				window.cancelAnimationFrame(timer);
+				isTick = false;
 			}
-			return this;
+			return Timer;
 		}
 	};
-	cavy.Timer = new Timer();
+	cavy.Timer = Timer;
 
 	/**
 	 * タイマーオブジェクト
@@ -1047,10 +1036,10 @@
 		 * @return {void}
 		 **/
 		stop: function () {
-			cavy.Timer.stop(this);
+			Timer.stop(this);
 		},
 		play: function() {
-			cavy.Timer.repeats.push(this);
+			Timer.repeats.push(this);
 		}
 	};
 	cavy.TimerObject = TimerObject;
@@ -2350,13 +2339,6 @@
         this._visible = true;
 
 		/**
-		 * イベント保持フラグ
-		 * @private
-		 * @type {boolean}
-		 */
-		this._interactive = false;
-
-		/**
 		 * データ保存用オブジェクト
 		 * @type {object}
 		 * @private
@@ -2879,14 +2861,15 @@
 		 * @param obj
 		 */
 		setMatrix: function(obj) {
-			this.matrix.identity();
+			var m = this.matrix;
+			m.identity();
 			var op = obj.opacity;
 			if (obj.parent) {
-				this.matrix.appendMatrix(obj.parent.matrix);
+				m.appendMatrix(obj.parent.matrix);
 				op *= obj.parent.matrix.opacity;
 			}
-			this.matrix.appendTransform(this.x, this.y, obj.scaleX, obj.scaleY, obj.rotation, obj.skewX, obj.skewY, this.width * obj.originX, this.height * obj.originY);
-			this.matrix.opacity = op;
+			m.appendTransform(this.x, this.y, obj.scaleX, obj.scaleY, obj.rotation, obj.skewX, obj.skewY, this.width * obj.originX, this.height * obj.originY);
+			m.opacity = op;
 		},
 		/**
 		 * souceイメージのリサイズ後のサイズを取得
@@ -2924,17 +2907,6 @@
 			}
 			return data;
 		}
-	};
-	p.on = function(type, listener) {
-		this._interactive = true;
-		return cavy.EventDispatcher.prototype.on.call(this,type,listener);
-	};
-	p.off = function(type, listener) {
-		var e = cavy.EventDispatcher.prototype.off.call(this,type,listener);
-		if (Object.keys(this.__store__).length === 0) {
-			this._interactive = false;
-		}
-		return e;
 	};
 	cavy.DisplayObject = DisplayObject;
 })(window);
@@ -3065,12 +3037,18 @@
 		this._triggerHandler = function (e) {
 			self._triggerEvent(e);
 		};
-		this._refreshHandler = function () {
-			self._refresh();
-		};
 		this._initialize(width, height);
 	};
 	var p = Stage.prototype = Object.create(cavy.InteractiveObject.prototype);
+	var HOOK_EVENT = [
+		"touchstart",
+		"touchmove",
+		"touchend",
+		"gesturestart",
+		"gesturechange",
+		"gestureend",
+		"click"
+	];
 	p.constructor = Stage;
 	/**
 	 * 初期化
@@ -3089,7 +3067,6 @@
 		this.container.style.tapHighlightColor = "rgba(0,0,0,0)";
 		this.container.style.width = width + "px";
 		this.container.style.height = height + "px";
-		
 		
 		var style = this.canvas.style;
 		if (cavy.retina) {
@@ -3114,13 +3091,9 @@
 		}
 		
 		if (this.interactive) {
-			this.container.addEventListener("touchstart", this._triggerHandler);
-			this.container.addEventListener("touchmove", this._triggerHandler);
-			this.container.addEventListener("touchend", this._triggerHandler);
-			this.container.addEventListener("gesturestart", this._triggerHandler);
-			this.container.addEventListener("gesturechange", this._triggerHandler);
-			this.container.addEventListener("gestureend", this._triggerHandler);
-			this.container.addEventListener("click", this._triggerHandler);
+			for(var i = 0,len=HOOK_EVENT.length; i < len; i++) {
+				this.container.addEventListener(HOOK_EVENT[i], this._triggerHandler);
+			}
 		}
 		this.container.appendChild(this.canvas);
 		cavy.InteractiveObject.call(this,this.canvas);
@@ -3132,7 +3105,7 @@
 	 */
 	p.clear = function () {
 		this.clearCanvas(this.context, this.canvas.width, this.canvas.height);
-		if (cavy.isBuggyDevice("background")) {
+		if (cavy.isBuggyDevice("lag")) {
 			this.canvas.width = this.canvas.width;
 			this.context.scale(cavy.deviceRatio,cavy.deviceRatio);
 		}
@@ -3190,13 +3163,9 @@
 	p.destroy = function () {
 		this.children = [];
 		if (this.interactive) {
-			this.container.removeEventListener("touchstart", this._triggerHandler);
-			this.container.removeEventListener("touchmove", this._triggerHandler);
-			this.container.removeEventListener("touchend", this._triggerHandler);
-			this.container.removeEventListener("gesturestart", this._triggerHandler);
-			this.container.removeEventListener("gesturechange", this._triggerHandler);
-			this.container.removeEventListener("gestureend", this._triggerHandler);
-			this.container.removeEventListener("click", this._triggerHandler);
+			for(var i = 0,len=HOOK_EVENT.length; i < len; i++) {
+				this.container.removeEventListener(HOOK_EVENT[i], this._triggerHandler);
+			}
 		}
 		this.stopRender();
 		this.clear();
