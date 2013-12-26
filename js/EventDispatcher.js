@@ -8,6 +8,7 @@
 	 **/
 	var EventDispatcher = function () {
 		this.__store__ = {};
+		this.__interactive__ = false;
 	};
 	EventDispatcher.prototype = {
 		constructor: EventDispatcher,
@@ -33,6 +34,7 @@
 			var typeStore = this.__store__[type] || [];
 			typeStore.push(listener);
 			this.__store__[type] = typeStore;
+			this.__interactive__ = true;
 			return this;
 		},
 		/**
@@ -67,6 +69,9 @@
 				}
 			} else {
 				delete this.__store__[type];
+			}
+			if (Object.keys(this.__store__).length === 0) {
+				this.__interactive__ = false;
 			}
 			return this;
 		},
