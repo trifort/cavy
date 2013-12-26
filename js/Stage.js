@@ -67,12 +67,18 @@
 		this._triggerHandler = function (e) {
 			self._triggerEvent(e);
 		};
-		this._refreshHandler = function () {
-			self._refresh();
-		};
 		this._initialize(width, height);
 	};
 	var p = Stage.prototype = Object.create(cavy.InteractiveObject.prototype);
+	var HOOK_EVENT = [
+		"touchstart",
+		"touchmove",
+		"touchend",
+		"gesturestart",
+		"gesturechange",
+		"gestureend",
+		"click"
+	];
 	p.constructor = Stage;
 	/**
 	 * 初期化
@@ -91,7 +97,6 @@
 		this.container.style.tapHighlightColor = "rgba(0,0,0,0)";
 		this.container.style.width = width + "px";
 		this.container.style.height = height + "px";
-		
 		
 		var style = this.canvas.style;
 		if (cavy.retina) {
@@ -116,13 +121,9 @@
 		}
 		
 		if (this.interactive) {
-			this.container.addEventListener("touchstart", this._triggerHandler);
-			this.container.addEventListener("touchmove", this._triggerHandler);
-			this.container.addEventListener("touchend", this._triggerHandler);
-			this.container.addEventListener("gesturestart", this._triggerHandler);
-			this.container.addEventListener("gesturechange", this._triggerHandler);
-			this.container.addEventListener("gestureend", this._triggerHandler);
-			this.container.addEventListener("click", this._triggerHandler);
+			for(var i = 0,len=HOOK_EVENT.length; i < len; i++) {
+				this.container.addEventListener(HOOK_EVENT[i], this._triggerHandler);
+			}
 		}
 		this.container.appendChild(this.canvas);
 		cavy.InteractiveObject.call(this,this.canvas);
@@ -134,7 +135,7 @@
 	 */
 	p.clear = function () {
 		this.clearCanvas(this.context, this.canvas.width, this.canvas.height);
-		if (cavy.isBuggyDevice("background")) {
+		if (cavy.isBuggyDevice("lag")) {
 			this.canvas.width = this.canvas.width;
 			this.context.scale(cavy.deviceRatio,cavy.deviceRatio);
 		}
@@ -192,13 +193,9 @@
 	p.destroy = function () {
 		this.children = [];
 		if (this.interactive) {
-			this.container.removeEventListener("touchstart", this._triggerHandler);
-			this.container.removeEventListener("touchmove", this._triggerHandler);
-			this.container.removeEventListener("touchend", this._triggerHandler);
-			this.container.removeEventListener("gesturestart", this._triggerHandler);
-			this.container.removeEventListener("gesturechange", this._triggerHandler);
-			this.container.removeEventListener("gestureend", this._triggerHandler);
-			this.container.removeEventListener("click", this._triggerHandler);
+			for(var i = 0,len=HOOK_EVENT.length; i < len; i++) {
+				this.container.removeEventListener(HOOK_EVENT[i], this._triggerHandler);
+			}
 		}
 		this.stopRender();
 		this.clear();
