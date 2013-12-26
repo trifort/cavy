@@ -201,13 +201,6 @@
         this._visible = true;
 
 		/**
-		 * イベント保持フラグ
-		 * @private
-		 * @type {boolean}
-		 */
-		this._interactive = false;
-
-		/**
 		 * データ保存用オブジェクト
 		 * @type {object}
 		 * @private
@@ -730,14 +723,15 @@
 		 * @param obj
 		 */
 		setMatrix: function(obj) {
-			this.matrix.identity();
+			var m = this.matrix;
+			m.identity();
 			var op = obj.opacity;
 			if (obj.parent) {
-				this.matrix.appendMatrix(obj.parent.matrix);
+				m.appendMatrix(obj.parent.matrix);
 				op *= obj.parent.matrix.opacity;
 			}
-			this.matrix.appendTransform(this.x, this.y, obj.scaleX, obj.scaleY, obj.rotation, obj.skewX, obj.skewY, this.width * obj.originX, this.height * obj.originY);
-			this.matrix.opacity = op;
+			m.appendTransform(this.x, this.y, obj.scaleX, obj.scaleY, obj.rotation, obj.skewX, obj.skewY, this.width * obj.originX, this.height * obj.originY);
+			m.opacity = op;
 		},
 		/**
 		 * souceイメージのリサイズ後のサイズを取得
@@ -775,17 +769,6 @@
 			}
 			return data;
 		}
-	};
-	p.on = function(type, listener) {
-		this._interactive = true;
-		return cavy.EventDispatcher.prototype.on.call(this,type,listener);
-	};
-	p.off = function(type, listener) {
-		var e = cavy.EventDispatcher.prototype.off.call(this,type,listener);
-		if (Object.keys(this.__store__).length === 0) {
-			this._interactive = false;
-		}
-		return e;
 	};
 	cavy.DisplayObject = DisplayObject;
 })(window);
