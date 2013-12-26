@@ -12,18 +12,11 @@
 	 *  cavy.Timer.repeat(function(){},1000,3);    //1000ms毎に３回繰り返し
 	 *  cavy.Timer.delay(function(){},0,3);    //フレーム毎に３回繰り返し
 	 **/
-	var Timer = function () {
-		this.isTick = false;
-		this.repeats = [];
-		this.time = 0;
-		this.timer = null;
-		var self = this;
-		this._loopHandler = function () {
-			self.update();
-		};
-	};
-	Timer.prototype = {
-		constructor: Timer,
+	var isTick = false;
+	var repeats = [];
+	var time = 0;
+	var timer = null;
+	var Timer = {
 		/**
 		 * フレーム毎に行う処理
 		 * @private
@@ -33,16 +26,15 @@
 		update: function () {
 			var t = Date.now(),
 				d = null,
-				r = this.repeats,
-				l = r.length;
-			this.time = t;
+				l = repeats.length;
+			time = t;
 			while (l--) {
-				d = r[l];
+				d = repeats[l];
 				if (d && t - d.time >= d.delay) {
 					if (!isNaN(d.count)) {
 						--d.count;
 						if (d.count === 0) {
-							this.repeats.splice(l, 1);
+							repeats.splice(l, 1);
 						}
 						d.cacheCount -= d.count;
 					}
@@ -50,7 +42,7 @@
 					d.time = t;
 				}
 			}
-			this.timer = window.requestAnimationFrame(this._loopHandler);
+			timer = window.requestAnimationFrame(Timer.update);
 		},
 		/**
 		 * 繰り返し処理
@@ -61,9 +53,9 @@
 		 * @return {TimerObject} タイマーオブジェクト
 		 **/
 		repeat: function (callback, delay, count) {
-			var t = new TimerObject(this.time, callback, delay, count);
-			this.repeats.push(t);
-			this.play();
+			var t = new TimerObject(time, callback, delay, count);
+			repeats.push(t);
+			Timer.play();
 			return t;
 		},
 		/**
@@ -74,17 +66,17 @@
 		 * @return {TimerObject} タイマーオブジェクト
 		 **/
 		delay: function (callback, delay) {
-			var t = new TimerObject(this.time, callback, Math.floor(delay), 1);
-			this.repeats.push(t);
-			this.play();
+			var t = new TimerObject(time, callback, Math.floor(delay), 1);
+			repeats.push(t);
+			Timer.play();
 			return t;
 		},
 		play: function () {
-			if (!this.isTick) {
-				this.isTick = true;
-				this.update();
+			if (!isTick) {
+				isTick = true;
+				Timer.update();
 			}
-			return this;
+			return Timer;
 		},
 		/**
 		 * 遅延処理
@@ -93,25 +85,25 @@
 		 * @return {void}
 		 **/
 		stop: function (timerObject) {
-			var index = this.repeats.indexOf(timerObject);
+			var index = repeats.indexOf(timerObject);
 			if (index !== -1) {
-				this.repeats.splice(index, 1);
+				repeats.splice(index, 1);
 			}
-			if (this.repeats.length === 0) {
-				window.cancelAnimationFrame(this.timer);
-				this.isTick = false;
+			if (repeats.length === 0) {
+				window.cancelAnimationFrame(timer);
+				isTick = false;
 			}
 			return this;
 		},
 		stopAll: function() {
-			if (this.timer) {
-				window.cancelAnimationFrame(this.timer);
-				this.isTick = false;
+			if (timer) {
+				window.cancelAnimationFrame(timer);
+				isTick = false;
 			}
-			return this;
+			return Timer;
 		}
 	};
-	cavy.Timer = new Timer();
+	cavy.Timer = Timer;
 
 	/**
 	 * タイマーオブジェクト
@@ -139,10 +131,10 @@
 		 * @return {void}
 		 **/
 		stop: function () {
-			cavy.Timer.stop(this);
+			Timer.stop(this);
 		},
 		play: function() {
-			cavy.Timer.repeats.push(this);
+			Timer.repeats.push(this);
 		}
 	};
 	cavy.TimerObject = TimerObject;
