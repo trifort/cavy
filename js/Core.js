@@ -18,9 +18,9 @@
 	var userTimeout = (cavy.userAgent.search(/OS 6|OS 5|OS 4/) !== -1 || cavy.userAgent.search(/Android/) !== -1);
 	window.requestAnimationFrame = (function (window) {
 		if (userTimeout) {
-			return window.setTimeout(callback)
+			return window.setTimeout;
 		} else {
-			return window.webkitRequestAnimationFrame || window.requestAnimationFrame || timeout;
+			return window.webkitRequestAnimationFrame || window.requestAnimationFrame || window.setTimeout;
 		}
 	})(window);
 	window.cancelAnimationFrame = (function (window) {
