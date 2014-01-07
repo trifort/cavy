@@ -212,8 +212,8 @@
 	p._render = function (children) {
 		var i = 0,
 			l = children.length,
-			outRender = cavy.outOfRendering;//,
-			//useFilter = cavy.useFilter;
+			outRender = cavy.outOfRendering,
+			useFilter = cavy.useFilter;
 		for (; i < l; i++) {
 			var s = children[i];
 			if (!s || !s.visible) {
@@ -231,7 +231,6 @@
 					s._visible = true;
 				}
 			}
-			/*
 			if (useFilter) {
 				var sl = s.children.length;
 				while (sl--) {
@@ -241,7 +240,6 @@
 					}
 				}
 			}
-			*/
 			this.render(s);
 			if (s.children.length !== 0 && !s.cache) {
 				this._render(s.children);
@@ -268,6 +266,7 @@
 		x -= document.body.scrollLeft;
 		y -= document.body.scrollTop;
 		var bounds = this.canvas.getBoundingClientRect();
+		
 		this._trigger(e, x - bounds.left, y - bounds.top, this.children);
 		if (this.hasEvent(e.type)) {
 			this.dispatchEvent(e.type, e);
@@ -289,10 +288,11 @@
 			if (!s || !s.visible || !s._visible || !s.interactive) {
 				continue;
 			}
+			
 			if (s.children.length !== 0) {
 				this._trigger(e, x, y, s.children);
 			}
-			if (s._interactive && s.hasEvent(e.type) && s.hitTest(x, y, this.strictEvent)) {
+			if (s.hasEvent(e.type) && s.hitTest(x, y, this.strictEvent)) {
 				s.dispatchEvent(e.type, e);
 				if (e.returnValue === false) {
 					break;
