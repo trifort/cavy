@@ -18,9 +18,9 @@
 	var userTimeout = (cavy.userAgent.search(/OS 6|OS 5|OS 4/) !== -1 || cavy.userAgent.search(/Android/) !== -1);
 	window.requestAnimationFrame = (function (window) {
 		if (userTimeout) {
-			return window.setTimeout(callback)
+			return window.setTimeout;
 		} else {
-			return window.webkitRequestAnimationFrame || window.requestAnimationFrame || timeout;
+			return window.webkitRequestAnimationFrame || window.requestAnimationFrame || window.setTimeout;
 		}
 	})(window);
 	window.cancelAnimationFrame = (function (window) {
@@ -209,7 +209,6 @@
 	 **/
 	var EventDispatcher = function () {
 		this.__store__ = {};
-		this.__interactive__ = false;
 	};
 	EventDispatcher.prototype = {
 		constructor: EventDispatcher,
@@ -235,7 +234,6 @@
 			var typeStore = this.__store__[type] || [];
 			typeStore.push(listener);
 			this.__store__[type] = typeStore;
-			this.__interactive__ = true;
 			return this;
 		},
 		/**
@@ -270,9 +268,6 @@
 				}
 			} else {
 				delete this.__store__[type];
-			}
-			if (Object.keys(this.__store__).length === 0) {
-				this.__interactive__ = false;
 			}
 			return this;
 		},
@@ -1039,7 +1034,7 @@
 			Timer.stop(this);
 		},
 		play: function() {
-			Timer.repeats.push(this);
+			repeats.push(this);
 		}
 	};
 	cavy.TimerObject = TimerObject;
@@ -3182,8 +3177,8 @@
 	p._render = function (children) {
 		var i = 0,
 			l = children.length,
-			outRender = cavy.outOfRendering;//,
-			//useFilter = cavy.useFilter;
+			outRender = cavy.outOfRendering,
+			useFilter = cavy.useFilter;
 		for (; i < l; i++) {
 			var s = children[i];
 			if (!s || !s.visible) {
@@ -3201,7 +3196,6 @@
 					s._visible = true;
 				}
 			}
-			/*
 			if (useFilter) {
 				var sl = s.children.length;
 				while (sl--) {
@@ -3211,7 +3205,6 @@
 					}
 				}
 			}
-			*/
 			this.render(s);
 			if (s.children.length !== 0 && !s.cache) {
 				this._render(s.children);
@@ -3238,6 +3231,7 @@
 		x -= document.body.scrollLeft;
 		y -= document.body.scrollTop;
 		var bounds = this.canvas.getBoundingClientRect();
+		
 		this._trigger(e, x - bounds.left, y - bounds.top, this.children);
 		if (this.hasEvent(e.type)) {
 			this.dispatchEvent(e.type, e);
@@ -3259,10 +3253,11 @@
 			if (!s || !s.visible || !s._visible || !s.interactive) {
 				continue;
 			}
+			
 			if (s.children.length !== 0) {
 				this._trigger(e, x, y, s.children);
 			}
-			if (s._interactive && s.hasEvent(e.type) && s.hitTest(x, y, this.strictEvent)) {
+			if (s.hasEvent(e.type) && s.hitTest(x, y, this.strictEvent)) {
 				s.dispatchEvent(e.type, e);
 				if (e.returnValue === false) {
 					break;
