@@ -82,7 +82,7 @@
 	cavy.bugs = {
 		//背景色つけないとcanvas消えちゃう
 		background: ["F-06E", "L-05E", "SC-04E"],
-		lag: ["F-06E"]
+		lag: ["Galaxy Nexus","F-02E","SH-06E","F-06E","SH-04E","SO-02E","SC-01F","SC-02F","N-05E"]
 	};
 
 	/**
@@ -3569,9 +3569,6 @@
 	};
 	cavy.LinearGradient = LinearGradient;
 })(window);
-/**
- * @fileOverview CircleGradient
- **/
 (function (window) {
 	"use strict";
 	window.cavy = window.cavy || {};
