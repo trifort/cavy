@@ -1,6 +1,3 @@
-/**
- * @fileOverview CircleGradient
- **/
 (function (window) {
 	"use strict";
 	window.cavy = window.cavy || {};
