@@ -134,7 +134,7 @@
 			Timer.stop(this);
 		},
 		play: function() {
-			Timer.repeats.push(this);
+			repeats.push(this);
 		}
 	};
 	cavy.TimerObject = TimerObject;
