@@ -26,7 +26,8 @@
 		update: function () {
 			var t = Date.now(),
 				d = null,
-				l = repeats.length;
+				r = repeats.slice(),
+				l = r.length;
 			time = t;
 			while (l--) {
 				d = repeats[l];

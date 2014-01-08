@@ -596,7 +596,13 @@
 	 */
 	p.updateContext = function (ctx) {
 		var m = this.matrix,
-			mask = this.mask || this.parent.mask;
+			mask;
+		
+		if (this.mask) {
+			mask = this.mask;
+		} else if (this.parent && this.parent.mask) {
+			mask = this.parent.mask;
+		}
 		if (mask) {
 			mask.draw(ctx, true);
 			ctx.clip();

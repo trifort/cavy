@@ -211,11 +211,12 @@
 	 */
 	p._render = function (children) {
 		var i = 0,
-			l = children.length,
+			c = children.slice(),
+			l = c.length,
 			outRender = cavy.outOfRendering,
 			useFilter = cavy.useFilter;
 		for (; i < l; i++) {
-			var s = children[i];
+			var s = c[i];
 			if (!s || !s.visible) {
 				continue;
 			}
@@ -283,8 +284,9 @@
 	 */
 	p._trigger = function (e, x, y, children) {
 		var l = children.length;
+		var c = children.slice();
 		while (l--) {
-			var s = children[l];
+			var s = c[l];
 			if (!s || !s.visible || !s._visible || !s.interactive) {
 				continue;
 			}

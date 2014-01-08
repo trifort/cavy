@@ -926,7 +926,8 @@
 		update: function () {
 			var t = Date.now(),
 				d = null,
-				l = repeats.length;
+				r = repeats.slice(),
+				l = r.length;
 			time = t;
 			while (l--) {
 				d = repeats[l];
@@ -2729,7 +2730,13 @@
 	 */
 	p.updateContext = function (ctx) {
 		var m = this.matrix,
-			mask = this.mask || this.parent.mask;
+			mask;
+		
+		if (this.mask) {
+			mask = this.mask;
+		} else if (this.parent && this.parent.mask) {
+			mask = this.parent.mask;
+		}
 		if (mask) {
 			mask.draw(ctx, true);
 			ctx.clip();
@@ -3176,11 +3183,12 @@
 	 */
 	p._render = function (children) {
 		var i = 0,
-			l = children.length,
+			c = children.slice(),
+			l = c.length,
 			outRender = cavy.outOfRendering,
 			useFilter = cavy.useFilter;
 		for (; i < l; i++) {
-			var s = children[i];
+			var s = c[i];
 			if (!s || !s.visible) {
 				continue;
 			}
@@ -3248,8 +3256,9 @@
 	 */
 	p._trigger = function (e, x, y, children) {
 		var l = children.length;
+		var c = children.slice();
 		while (l--) {
-			var s = children[l];
+			var s = c[l];
 			if (!s || !s.visible || !s._visible || !s.interactive) {
 				continue;
 			}
@@ -3788,7 +3797,7 @@
 			} else {
 				ctx.drawImage(this.cache, 0, 0, p.width, p.height);
 			}
-		} else if (this.source && this.source.complete) {
+		} else if (this.source && this.source.width !== 0 && this.source.height !== 0) {
 			if (p.sx + p.innerWidth > this.source.width) {
 				p.width = this.source.width;
 				p.innerWidth = this.source.width;

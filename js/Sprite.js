@@ -31,7 +31,7 @@
 			} else {
 				ctx.drawImage(this.cache, 0, 0, p.width, p.height);
 			}
-		} else if (this.source && this.source.complete) {
+		} else if (this.source && this.source.width !== 0 && this.source.height !== 0) {
 			if (p.sx + p.innerWidth > this.source.width) {
 				p.width = this.source.width;
 				p.innerWidth = this.source.width;
