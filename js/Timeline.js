@@ -57,7 +57,7 @@
 		};
 		cavy.EventDispatcher.apply(this);
 	};
-	var p = p = Object.create(cavy.EventDispatcher.prototype);
+	var p = Timeline.prototype = Object.create(cavy.EventDispatcher.prototype);
 	p.constructor = Timeline;
 
 	/**

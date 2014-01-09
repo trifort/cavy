@@ -1099,7 +1099,7 @@
 		};
 		cavy.EventDispatcher.apply(this);
 	};
-	var p = p = Object.create(cavy.EventDispatcher.prototype);
+	var p = Timeline.prototype = Object.create(cavy.EventDispatcher.prototype);
 	p.constructor = Timeline;
 
 	/**
@@ -1728,12 +1728,15 @@
 			if (f - q.count > cavy.maxSkip) {
 				f = q.count + cavy.maxSkip;
 			}
-			if (q.count < q.frame) {
-				q.count = Math.min(~~f, q.frame);
-			}
+			q.count = Math.min(~~f, q.frame);
 		}
 		var easing = Tween.Easing[q.easing];
-		if (q.count > q.frame) {
+		if (q.count === q.frame) {
+			for (var key in q.end) {
+				var s = q.start[key],
+					e = q.end[key];
+				this.sprite[key] = easing(q.count,s, e - s, q.frame - 1);
+			}
 			if (this._hasAttach()) {
 				this._doAttach();
 			} else if (this.isRepeat) {
@@ -1766,8 +1769,6 @@
 				}
 				return;
 			}
-		} else if (q.count === q.frame) {
-			q.count++;
 		} else if (q.QUEUE_TYPE === "tween") {
 			for (var key in q.end) {
 				var s = q.start[key],
