@@ -531,6 +531,8 @@
 			this.cache = null;
 			return;
 		}
+		this.update();
+		this.updateContext(ctx);
 		this._drawCache([this], ctx);
 		this.cache = cache;
 		/*
@@ -566,14 +568,13 @@
 		if (!children) { return;}
 		var c = children.slice();
 		var i = 0, l = c.length;
-		var rect = this.getBoundingRect();
 		for (; i < l; i++) {
 			var s = c[i];
-			if (!s.visible) { continue; }
-			ctx.setTransform(cavy.deviceRatio, 0, 0, cavy.deviceRatio, -rect.left*cavy.deviceRatio, -rect.top*cavy.deviceRatio);
+			ctx.save();
 			s.draw(ctx);
+			ctx.restore();
 			if (s.children.length !== 0 && !s.cache) {
-				this._drawCache(s.children, ctx);
+				this._drawCache(s.children,ctx);
 			}
 		}
 	};
