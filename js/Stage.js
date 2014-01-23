@@ -92,7 +92,7 @@
 		this.height = height || 240;
 		this.context = this.canvas.getContext("2d");
 		
-		this.container.style.overflow = "hidden";
+		//this.container.style.overflow = "hidden";
 		this.container.style.webkitTapHighlightColor = "rgba(0,0,0,0)";
 		this.container.style.tapHighlightColor = "rgba(0,0,0,0)";
 		this.container.style.width = width + "px";
@@ -112,6 +112,7 @@
 		} else {
 			this.canvas.width = this.width;
 			this.canvas.height = this.height;
+			
 		}
 		
 		
@@ -134,12 +135,9 @@
 	 * @return {void}
 	 */
 	p.clear = function () {
-		this.clearCanvas(this.context, this.canvas.width, this.canvas.height);
-		if (cavy.isBuggyDevice("lag")) {
-			this.canvas.width = this.canvas.width;
-			this.context.scale(cavy.deviceRatio,cavy.deviceRatio);
-		}
-		//this.context.clearRect(0,0,this.canvas.width+1,this.canvas.height+1);
+		
+		//this.canvas.width = this.canvas.width;
+		this.context.setTransform(cavy.deviceRatio,0,0,cavy.deviceRatio,0,0);
 	};
 	/**
 	 * canvasのレンダリング開始
@@ -220,7 +218,6 @@
 			if (!s || !s.visible) {
 				continue;
 			}
-			
 			if (!outRender) {
 				var rect = s.getBoundingRect(),
 					hw = this.width / 2,
@@ -232,7 +229,7 @@
 					s._visible = true;
 				}
 			}
-			if (useFilter) {
+			if (useFilter && s.parent) {
 				var sl = s.children.length;
 				while (sl--) {
 					if (s.children[sl].filter !== null) {
@@ -290,7 +287,6 @@
 			if (!s || !s.visible || !s._visible || !s.interactive) {
 				continue;
 			}
-			
 			if (s.children.length !== 0) {
 				this._trigger(e, x, y, s.children);
 			}

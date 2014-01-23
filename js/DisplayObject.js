@@ -420,6 +420,7 @@
 				this.height = this._param.height;
 			}
 		}
+		this.matrix = this._param.matrix;
 		return this._param;
 	};
 	/**
@@ -438,10 +439,17 @@
 	/**
 	 * 要素を複製する
 	 * @public
+	 * @param {boolean} init 位置情報を初期化するかどうか
 	 * @returns {cavy.DisplayObject} 複製した要素
 	 */
-	p.clone = function () {
-		return cavy.Util.clone(this);
+	p.clone = function (init) {
+		var c = cavy.Util.clone(this);
+		if (init) {
+			c.x = c.y = c.skewX = c.skewY = c.rotation = 0;
+			c.scaleX = c.scaleY = c.opacity = 1;
+			c.matrix.initialize();
+		}
+		return c;
 	};
 	/**
 	 * BoundingRectを取得する
@@ -531,9 +539,12 @@
 			this.cache = null;
 			return;
 		}
-		this.update();
-		this.updateContext(ctx);
-		this._drawCache([this], ctx);
+		
+		var clone = this.clone(true);
+		clone.parent = new cavy.Sprite();
+		var rect = clone.getBoundingRect();
+		ctx.scale(cavy.deviceRatio,cavy.deviceRatio);
+		this._drawCache([clone], ctx, rect);
 		this.cache = cache;
 		/*
 		if (imageCache) {
@@ -564,17 +575,20 @@
 	 * @ctx {Context}
 	 *
 	 */
-	p._drawCache = function (children, ctx) {
+	p._drawCache = function (children, ctx, rect) {
 		if (!children) { return;}
-		var c = children.slice();
-		var i = 0, l = c.length;
+		var c = children.slice(),
+			i = 0, 
+			l = c.length;
 		for (; i < l; i++) {
 			var s = c[i];
+			if(!s.visible){continue;}
 			ctx.save();
+			ctx.transform(1,0,0,1,-rect.left*cavy.deviceRatio,-rect.top*cavy.deviceRatio);
 			s.draw(ctx);
 			ctx.restore();
 			if (s.children.length !== 0 && !s.cache) {
-				this._drawCache(s.children,ctx);
+				this._drawCache(s.children,ctx,rect);
 			}
 		}
 	};
@@ -608,6 +622,8 @@
 			mask.draw(ctx, true);
 			ctx.clip();
 		}
+		
+		//window.console.log(m);
 		
 		if (this.filter) {
 			ctx.globalCompositeOperation = this.filter;
@@ -672,6 +688,7 @@
 		this.innerHeight = 0;
 		this.visible = false;
 		this.opacity = 1;
+		this.matrix = null;
 	};
 	ParamObject.prototype = {
 		initialize: function(obj) {

@@ -82,7 +82,8 @@
 	cavy.bugs = {
 		//背景色つけないとcanvas消えちゃう
 		background: ["F-06E", "L-05E", "SC-04E"],
-		lag: ["Galaxy Nexus","F-02E","SH-06E","F-06E","SH-04E","SO-02E","SC-01F","SC-02F","N-05E","AT503"]
+		lag: []
+		//lag: ["Galaxy Nexus","F-02E","SH-06E","F-06E","SH-04E","SO-02E","SC-01F","SC-02F","N-05E","AT503"]
 	};
 
 	/**
@@ -156,7 +157,16 @@
 		 * @returns {Object}
 		 */
 		clone: function(obj) {
-			return Util.extend({}, obj);
+			var o;
+			if (obj.constructor) {
+				o = obj.constructor;
+				o.prototype = obj.constructor.prototype;
+				o = new o();
+			} else {
+				o = {};
+			}
+			o = Util.extend(o, obj);
+			return o;
 		},
 		/**
 		 * オブジェクトの継承
@@ -2555,6 +2565,7 @@
 				this.height = this._param.height;
 			}
 		}
+		this.matrix = this._param.matrix;
 		return this._param;
 	};
 	/**
@@ -2573,10 +2584,17 @@
 	/**
 	 * 要素を複製する
 	 * @public
+	 * @param {boolean} init 位置情報を初期化するかどうか
 	 * @returns {cavy.DisplayObject} 複製した要素
 	 */
-	p.clone = function () {
-		return cavy.Util.clone(this);
+	p.clone = function (init) {
+		var c = cavy.Util.clone(this);
+		if (init) {
+			c.x = c.y = c.skewX = c.skewY = c.rotation = 0;
+			c.scaleX = c.scaleY = c.opacity = 1;
+			c.matrix.initialize();
+		}
+		return c;
 	};
 	/**
 	 * BoundingRectを取得する
@@ -2666,9 +2684,12 @@
 			this.cache = null;
 			return;
 		}
-		this.update();
-		this.updateContext(ctx);
-		this._drawCache([this], ctx);
+		
+		var clone = this.clone(true);
+		clone.parent = new cavy.Sprite();
+		var rect = clone.getBoundingRect();
+		ctx.scale(cavy.deviceRatio,cavy.deviceRatio);
+		this._drawCache([clone], ctx, rect);
 		this.cache = cache;
 		/*
 		if (imageCache) {
@@ -2699,17 +2720,20 @@
 	 * @ctx {Context}
 	 *
 	 */
-	p._drawCache = function (children, ctx) {
+	p._drawCache = function (children, ctx, rect) {
 		if (!children) { return;}
-		var c = children.slice();
-		var i = 0, l = c.length;
+		var c = children.slice(),
+			i = 0, 
+			l = c.length;
 		for (; i < l; i++) {
 			var s = c[i];
+			if(!s.visible){continue;}
 			ctx.save();
+			ctx.transform(1,0,0,1,-rect.left*cavy.deviceRatio,-rect.top*cavy.deviceRatio);
 			s.draw(ctx);
 			ctx.restore();
 			if (s.children.length !== 0 && !s.cache) {
-				this._drawCache(s.children,ctx);
+				this._drawCache(s.children,ctx,rect);
 			}
 		}
 	};
@@ -2743,6 +2767,8 @@
 			mask.draw(ctx, true);
 			ctx.clip();
 		}
+		
+		//window.console.log(m);
 		
 		if (this.filter) {
 			ctx.globalCompositeOperation = this.filter;
@@ -2807,6 +2833,7 @@
 		this.innerHeight = 0;
 		this.visible = false;
 		this.opacity = 1;
+		this.matrix = null;
 	};
 	ParamObject.prototype = {
 		initialize: function(obj) {
@@ -3066,7 +3093,7 @@
 		this.height = height || 240;
 		this.context = this.canvas.getContext("2d");
 		
-		this.container.style.overflow = "hidden";
+		//this.container.style.overflow = "hidden";
 		this.container.style.webkitTapHighlightColor = "rgba(0,0,0,0)";
 		this.container.style.tapHighlightColor = "rgba(0,0,0,0)";
 		this.container.style.width = width + "px";
@@ -3086,6 +3113,7 @@
 		} else {
 			this.canvas.width = this.width;
 			this.canvas.height = this.height;
+			
 		}
 		
 		
@@ -3108,12 +3136,9 @@
 	 * @return {void}
 	 */
 	p.clear = function () {
-		this.clearCanvas(this.context, this.canvas.width, this.canvas.height);
-		if (cavy.isBuggyDevice("lag")) {
-			this.canvas.width = this.canvas.width;
-			this.context.scale(cavy.deviceRatio,cavy.deviceRatio);
-		}
-		//this.context.clearRect(0,0,this.canvas.width+1,this.canvas.height+1);
+		
+		//this.canvas.width = this.canvas.width;
+		this.context.setTransform(cavy.deviceRatio,0,0,cavy.deviceRatio,0,0);
 	};
 	/**
 	 * canvasのレンダリング開始
@@ -3194,7 +3219,6 @@
 			if (!s || !s.visible) {
 				continue;
 			}
-			
 			if (!outRender) {
 				var rect = s.getBoundingRect(),
 					hw = this.width / 2,
@@ -3206,7 +3230,7 @@
 					s._visible = true;
 				}
 			}
-			if (useFilter) {
+			if (useFilter && s.parent) {
 				var sl = s.children.length;
 				while (sl--) {
 					if (s.children[sl].filter !== null) {
@@ -3264,7 +3288,6 @@
 			if (!s || !s.visible || !s._visible || !s.interactive) {
 				continue;
 			}
-			
 			if (s.children.length !== 0) {
 				this._trigger(e, x, y, s.children);
 			}

@@ -9,7 +9,16 @@
 		 * @returns {Object}
 		 */
 		clone: function(obj) {
-			return Util.extend({}, obj);
+			var o;
+			if (obj.constructor) {
+				o = obj.constructor;
+				o.prototype = obj.constructor.prototype;
+				o = new o();
+			} else {
+				o = {};
+			}
+			o = Util.extend(o, obj);
+			return o;
 		},
 		/**
 		 * オブジェクトの継承
