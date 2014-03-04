@@ -82,8 +82,7 @@
 	cavy.bugs = {
 		//背景色つけないとcanvas消えちゃう
 		background: ["F-06E", "L-05E", "SC-04E"],
-		lag: []
-		//lag: ["Galaxy Nexus","F-02E","SH-06E","F-06E","SH-04E","SO-02E","SC-01F","SC-02F","N-05E","AT503"]
+		lag: ["Galaxy Nexus","F-02E","SH-06E","F-06E","SH-04E","SO-02E","SC-01F","SC-02F","N-05E","AT503"]
 	};
 
 	/**
@@ -91,6 +90,12 @@
 	 * @type {boolean}
 	 */
 	cavy.outOfRendering = true;
+
+	/**
+	 * ダブルバッファリングを行うかどうか
+	 * @type {boolean}
+	 */
+	cavy.doubleBuffering = true;
 
 	/**
 	 * Filter機能を使うかどうか

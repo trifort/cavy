@@ -107,9 +107,9 @@
 		}
 
 		this.removeEventListener("touchmove",this._triggerHandler);
-		this.canvas.addEventListener("touchstart", this._touchStartHandler);
-		this.canvas.addEventListener("touchmove", this._touchMoveHandler);
-		this.canvas.addEventListener("touchend", this._touchEndHandler);
+		this.container.addEventListener("touchstart", this._touchStartHandler);
+		this.container.addEventListener("touchmove", this._touchMoveHandler);
+		this.container.addEventListener("touchend", this._touchEndHandler);
 		
 		this.checkTimer = cavy.Timer.repeat(this._checkHandler);
 	};

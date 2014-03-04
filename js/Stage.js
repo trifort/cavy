@@ -29,12 +29,12 @@
 		 * 描画しているcanvas要素 * @public
 		 * @return {Canvas|null}
 		 */
-		this.canvas = document.createElement("canvas");
+		this.canvas = [];
 		/**     * canvasのcontext
 		 * @public
 		 * @return {Context}
 		 */
-		this.context = null;
+		this.context = [];
 		/**
 		 * レンダリング用タイマーID
 		 * @private
@@ -59,6 +59,12 @@
 		 * @type {boolean}
 		 */
 		this.strictEvent = strictEvent ? true : false;
+
+		/**
+		 * ダブルバッファインデックス
+		 * @type {number}
+		 */
+		this.bufferIndex = 0;
 
 		var self = this;
 		this._loopHandler = function (t) {
@@ -88,46 +94,61 @@
 	 * @return {void}
 	 */
 	p._initialize = function (width, height) {
+		var i = 0,
+			len = 0;
 		this.width = width || 320;
 		this.height = height || 240;
-		this.context = this.canvas.getContext("2d");
-		
-		//this.container.style.overflow = "hidden";
+		this.container.style.position = "relative";
+		this.container.style.overflow = "hidden";
 		this.container.style.webkitTapHighlightColor = "rgba(0,0,0,0)";
 		this.container.style.tapHighlightColor = "rgba(0,0,0,0)";
 		this.container.style.width = width + "px";
 		this.container.style.height = height + "px";
 		
-		var style = this.canvas.style;
-		if (cavy.retina) {
-			cavy.deviceRatio = window.webkitDevicePixelRatio || window.devicePixelRatio || 1;
-			style.width = this.width + "px";
-			style.height = this.height + "px";
+		this.canvas[0] = document.createElement("canvas");
+		if (cavy.doubleBuffering) {
+			this.canvas[1] = document.createElement("canvas");
+		}
+		for (i = 0,len = this.canvas.length; i < this.canvas.length; i++) {
 			
-			this.width *= cavy.deviceRatio;
-			this.height *= cavy.deviceRatio;
-			this.canvas.width = this.width;
-			this.canvas.height = this.height;
-			this.context.scale(cavy.deviceRatio,cavy.deviceRatio);
-		} else {
-			this.canvas.width = this.width;
-			this.canvas.height = this.height;
-			
+			var canvas = this.canvas[i],
+				style = canvas.style;
+			style.position = "absolute";
+			style.top = 0;
+			style.left = 0;
+			if (cavy.doubleBuffering) {
+				style.visibility = "hidden";
+			}
+			this.context[i] = this.canvas[i].getContext("2d");
+			if (cavy.retina) {
+				cavy.deviceRatio = window.webkitDevicePixelRatio || window.devicePixelRatio || 1;
+				style.width = this.width + "px";
+				style.height = this.height + "px";
+				this.width *= cavy.deviceRatio;
+				this.height *= cavy.deviceRatio;
+				canvas.width = this.width;
+				canvas.height = this.height;
+				this.context[i].scale(cavy.deviceRatio,cavy.deviceRatio);
+			} else {
+				canvas.width = this.width;
+				canvas.height = this.height;
+			}
+			this.container.appendChild(this.canvas[i]);
 		}
 		
-		
 		//Androidバグ対応 #transparentにすると１コマで消えちゃう
+		/*
 		if (!style.backgroundColor && cavy.isBuggyDevice("background")) {
 			style.backgroundColor = cavy.backgroundColor;
 		}
+		*/
 		
 		if (this.interactive) {
 			for(var i = 0,len=HOOK_EVENT.length; i < len; i++) {
 				this.container.addEventListener(HOOK_EVENT[i], this._triggerHandler);
 			}
 		}
-		this.container.appendChild(this.canvas);
-		cavy.InteractiveObject.call(this,this.canvas);
+		cavy.InteractiveObject.call(this,this.canvas[0]);
 	};
 	/**
 	 * canvasをクリア
@@ -135,9 +156,13 @@
 	 * @return {void}
 	 */
 	p.clear = function () {
-		
-		//this.canvas.width = this.canvas.width;
-		this.context.setTransform(cavy.deviceRatio,0,0,cavy.deviceRatio,0,0);
+		this.context[this.bufferIndex].clearRect(0,0,this.width+1,this.height+1);
+		/*
+		if (cavy.isBuggyDevice("lag")) {
+			this.canvas.width = this.canvas.width;
+			this.context.setTransform(cavy.deviceRatio,0,0,cavy.deviceRatio,0,0);
+		}
+		*/
 	};
 	/**
 	 * canvasのレンダリング開始
@@ -168,9 +193,9 @@
 	 * @return {void}
 	 */
 	p.render = function (s) {
-		this.context.save();
-		s.draw(this.context);
-		this.context.restore();
+		this.context[this.bufferIndex].save();
+		s.draw(this.context[this.bufferIndex]);
+		this.context[this.bufferIndex].restore();
 	};
 	/**
 	 * canvasを更新
@@ -179,8 +204,14 @@
 	 * @return {void}
 	 */
 	p.update = function (t) {
-		this.tick ? this.tick(t || 0) : 0 ;
+		var i = 0,len = this.canvas.length;
+		this.bufferIndex = cavy.doubleBuffering ? 1 - this.bufferIndex : 0;
+		if (cavy.doubleBuffering) {
+			this.canvas[this.bufferIndex].style.visibility = "visible";
+			this.canvas[1-this.bufferIndex].style.visibility = "hidden";
+		}
 		this.clear();
+		this.tick ? this.tick(t || 0) : 0 ;
 		this._render(this.children);
 	};
 	/**
@@ -189,16 +220,18 @@
 	 * @return {void}
 	 */
 	p.destroy = function () {
+		var i = 0,len = 0;
 		this.children = [];
 		if (this.interactive) {
-			for(var i = 0,len=HOOK_EVENT.length; i < len; i++) {
+			for(i = 0,len=HOOK_EVENT.length; i < len; i++) {
 				this.container.removeEventListener(HOOK_EVENT[i], this._triggerHandler);
 			}
 		}
 		this.stopRender();
-		this.clear();
-		this.container.removeChild(this.canvas);
-		this.context = this.canvas = null;
+		for (i = 0,len = 0; i < len; i++) {
+			this.container.removeChild(this.canvas[i]);
+		}
+		this.context = this.canvas = [];
 		this.container = null;
 	};
 	/**
@@ -263,7 +296,7 @@
 		}
 		x -= document.body.scrollLeft;
 		y -= document.body.scrollTop;
-		var bounds = this.canvas.getBoundingClientRect();
+		var bounds = this.canvas[this.bufferIndex].getBoundingClientRect();
 		
 		this._trigger(e, x - bounds.left, y - bounds.top, this.children);
 		if (this.hasEvent(e.type)) {

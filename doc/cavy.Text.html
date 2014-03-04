@@ -1,80 +1,365 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Text | cavy.js</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
-    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
-    <link href="styles/bootstrap.css" rel="stylesheet">
-    <link href="styles/docs.css" rel="stylesheet">
-    <link href="styles/bootstrap-custom.css" rel="stylesheet">
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-    <script src="scripts/prettify/prettify.js"> </script>
-    <script src="scripts/prettify/lang-css.js"> </script>
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <script type="text/javascript">
-    		var _gaq = _gaq || [];
-    	_gaq.push(['_setAccount', 'UA-34280482-1']);
-    	_gaq.push(['_trackPageview']);
-        (function() {
-    		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    	})();
-    </script>
-  </head>
-  <body>
-    <header class="header navbar navbar-inverse">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-          <a class="brand" href="#"><strong>cavy.js</strong> API documentation</a>
-        </div>
-      </div>
-    </header>
+<head>
+	<meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 
-    <div class="container-fluid">
-      <div class="row-fluid">
-          <div class="span3">
-              <h2><a href="index.html">Index</a></h2><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Classes</li><li><a href="cavy.BackgroundColor.html"><i class="icon-shield" style="color: #0186d1"></i> BackgroundColor</a></li><li><a href="cavy.Circle.html"><i class="icon-shield" style="color: #0186d1"></i> Circle</a></li><li><a href="cavy.CircleGradient.html"><i class="icon-shield" style="color: #0186d1"></i> CircleGradient</a></li><li><a href="cavy.DisplayObject.html"><i class="icon-shield" style="color: #0186d1"></i> DisplayObject</a></li><li><a href="cavy.EventDispatcher.html"><i class="icon-shield" style="color: #0186d1"></i> EventDispatcher</a></li><li><a href="cavy.Graphic.html"><i class="icon-shield" style="color: #0186d1"></i> Graphic</a></li><li><a href="cavy.InteractiveObject.html"><i class="icon-shield" style="color: #0186d1"></i> InteractiveObject</a></li><li><a href="cavy.LinearGradient.html"><i class="icon-shield" style="color: #0186d1"></i> LinearGradient</a></li><li><a href="cavy.Matrix2D.html"><i class="icon-shield" style="color: #0186d1"></i> Matrix2D</a></li><li><a href="cavy.Preload.html"><i class="icon-shield" style="color: #0186d1"></i> Preload</a></li><li><a href="cavy.Rectangle.html"><i class="icon-shield" style="color: #0186d1"></i> Rectangle</a></li><li><a href="cavy.Scene.html"><i class="icon-shield" style="color: #0186d1"></i> Scene</a></li><li><a href="cavy.Shape.html"><i class="icon-shield" style="color: #0186d1"></i> Shape</a></li><li><a href="cavy.Sprite.html"><i class="icon-shield" style="color: #0186d1"></i> Sprite</a></li><li><a href="cavy.SpriteSheet.html"><i class="icon-shield" style="color: #0186d1"></i> SpriteSheet</a></li><li><a href="cavy.Stage.html"><i class="icon-shield" style="color: #0186d1"></i> Stage</a></li><li><a href="cavy.Text.html"><i class="icon-shield" style="color: #0186d1"></i> Text</a></li><li><a href="cavy.Timeline.html"><i class="icon-shield" style="color: #0186d1"></i> Timeline</a></li><li><a href="cavy.Timer.html"><i class="icon-shield" style="color: #0186d1"></i> Timer</a></li><li><a href="cavy.TimerObject.html"><i class="icon-shield" style="color: #0186d1"></i> TimerObject</a></li><li><a href="cavy.Tween.html"><i class="icon-shield" style="color: #0186d1"></i> Tween</a></li><li><a href="cavy.TweenObject.html"><i class="icon-shield" style="color: #0186d1"></i> TweenObject</a></li></ul></div><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Namespaces</li><li><a href="cavy.html"><i class="icon-code"></i> cavy</a></li></ul></div>
-          </div>
+	<title>Documentation Class: Text</title>
 
-          <div class="span9">
-              <h1 class="page-header">Text</h1>
-              
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	
+	<link type="text/css" rel="stylesheet" href="styles/site.cerulean.css">
+	
+	<style>
+		.sideMenu
+		{
+			margin-left: 320px!important;
+
+		}
+		#main
+		{
+			margin-top: 46px;
+		}
+		#mainMenu
+		{
+			position: fixed;
+			left: 0px;
+			top: 0px;
+			
+		}
+
+		#searchBox
+		{
+			vertical-align: none !important;
+			padding-right: 0px;
+			width:238px;
+
+		}
+		.sideMargin
+		{
+			margin-left: 15px;
+		}
+		.sunlight-code-container
+		{
+			border:none!important;
+		}
+		.navTitle
+		{
+			font-size:15px;
+			padding:0px;
+
+		}
+		.nav-list
+		{
+			width: 100%;
+		}
+		.nav-list
+		{
+			padding-left:20px;
+		}		
+		.nav-list li
+		{
+			line-height: 16px;
+		}
+		.handCursor
+		{
+			cursor: pointer;
+		}
+		.nav-pills > li > a {
+			padding-top: 0px;
+			padding-bottom: 0px;
+		}
+
+		#projectTitle
+		{
+			position: fixed;
+			padding-left: 10px;
+			padding-top: 5px;
+			font-size: 26px;
+			font-weight: lighter;
+			letter-spacing: -1px;
+			background-color: #FFF;
+			width: 100%;
+			height: 35px;
+			line-height: 18px;
+			color: #000;
+			border-bottom: 1px solid rgba(0,0,0,.2);
+			z-index: 10;
+		}
+		h1, h2, h3, h4, h5, h6 {
+			font-family: 'Helvetica Neue';
+			font-weight: lighter;
+		}
+		h3
+		{
+			font-size: 22px;
+			font-weight: lighter;
+		}
+		.page-title
+		{
+			font-weight: lighter;
+			font-size: 28px;
+			letter-spacing: -2px;
+			padding-top:0px;
+		}
+
+		.well
+		{
+			padding: 5px;
+			width:280px;
+			margin-left:0px;
+		}
+
+
+		.menuFrame
+		{
+			margin-top: 20px;
+			overflow:hidden; 
+			overflow-y:auto;
+		}
+		.menuFrame::-webkit-scrollbar {
+		    -webkit-appearance: none;
+		}
+
+		.menuFrame::-webkit-scrollbar:vertical {
+		    width: 11px;
+		}
+
+		.menuFrame::-webkit-scrollbar:horizontal {
+		    height: 11px;
+		}
+
+		.menuFrame::-webkit-scrollbar-thumb {
+		    border-radius: 8px;
+		    border: 2px solid white; /* should match background, can't be transparent */
+		    background-color: rgba(0, 0, 0, .5);
+		}
+		
+		.container-fluid
+		{
+			padding-left: 10px;
+		}
+
+		#side-menu
+		{
+			height: 415px;
+			box-shadow: inset 0 0 10px rgba(0,0,0,.5);
+			border: 1px solid #999;
+		}
+
+		#menuAside
+		{
+			margin-top:50px;
+			position:fixed;
+		}
+
+		.member {
+			font-size: 14px;
+			color:#000;
+			background-color:#FFF;
+			border:1px solid #2fa4e7;
+		}
+		.member:hover {
+
+			background-color:#F6F6F6;
+		}		
+		.member-open .paramSignature{
+			font-size: 14px;
+			color: #2fa4e7;
+		}
+		.member-collapsed .paramSignature{
+			font-size: 14px;
+			color: #2fa4e7;
+		}
+		.routeTitle{
+		    cursor: pointer;
+		}
+
+		.genericAnnotation
+		{
+		    color:#2fa4e7;
+		}
+
+		.sourceBar
+		{
+			margin-top: -5px;
+		}
 
 
 
+.twitter-typeahead
+{
+	top: -5px;
+}
+.twitter-typeahead .tt-query,
+.twitter-typeahead .tt-hint {
+  margin-bottom: 0;
+  background-color: #F00;
+  border-radius: 20px;
+
+}
+
+.tt-hint
+{
+	top: 2px!important;
+
+    padding-left: 10px!important;  
+    width: 188px;
+    text-indent: 4px;
+}
+.tt-dropdown-menu {
+  min-width: 160px;
+  margin-top: 2px;
+  padding: 5px 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0,0,0,.2);
+  *border-right-width: 2px;
+  *border-bottom-width: 2px;
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+          box-shadow: 0 5px 10px rgba(0,0,0,.2);
+  -webkit-background-clip: padding-box;
+     -moz-background-clip: padding;
+          background-clip: padding-box;
+}
+
+.tt-suggestion {
+  display: block;
+  padding: 3px 20px;
+}
+
+.tt-suggestion.tt-is-under-cursor {
+  color: #fff;
+  background-color: #0081c2;
+  background-image: -moz-linear-gradient(top, #0088cc, #0077b3);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0077b3));
+  background-image: -webkit-linear-gradient(top, #0088cc, #0077b3);
+  background-image: -o-linear-gradient(top, #0088cc, #0077b3);
+  background-image: linear-gradient(to bottom, #0088cc, #0077b3);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0)
+}
+
+.tt-suggestion.tt-is-under-cursor a {
+  color: #fff;
+}
+
+.tt-suggestion p {
+  margin: 0;
+}
+
+	</style>
+</head>
+
+<body>
+<div id="projectTitle">
+	<div id="btnCollapse" class="btn collapseSidebarButton btn-primary"><i class="icon-th-list icon-white"></i></div>
+	Documentation
+</div>	
+<div class="container-fluid">
+
+	<div id="menuAside">
+    <aside class="well span3 oc" id="side-menu" role="navigation">
+
+    	<div style="margin-left: 10px; margin-top: 10px;">
+			<input type="text" id="searchBox" class="search-query typeahead" placeholder="Search">
+		</div>
+		<div class="menuFrame" id="sideMenuFrame">
+		<ul id="menuContainer" class="nav nav-pills nav-stacked">
+			<li class="nav-header navTitle"><a href="index.html">INDEX</a></li>
+				<li class="divider"></li>
+				
+				
+					    <li id="navTitle_Namespaces" class="nav-header navTitle">
+                            <a class="handCursor" data-toggle="collapse" data-id="T_Namespaces" data-target="#collapse_Namespaces">Namespaces<span class="badge badge-info pull-right">1</span></a>
+                        </li>
+                        <li id="navContents_Namespaces">
+                            <div id="collapse_Namespaces" class="collapse">
+                                <ul class="nav nav-list" style="width:100%;margin-left:-8px;">
+                                    
+                                        <?j
+                                    <li>
+                                        
+                                        
+                                        	<a href="cavy.html">cavy</a>
+                                        
+                                    </li>
+                                    
+                             <li class="divider"></li>
+                        
+                                    </ul>
+                                </div>
+                            </li>
+                        
+					    <li id="navTitle_Classes" class="nav-header navTitle">
+                            <a class="handCursor" data-toggle="collapse" data-id="T_Classes" data-target="#collapse_Classes">Classes<span class="badge badge-info pull-right">22</span></a>
+                        </li>
+                        <li id="navContents_Classes">
+                            <div id="collapse_Classes" class="collapse">
+                                <ul class="nav nav-list" style="width:100%;margin-left:-8px;">
+                                    <li><div class="routeTitle">cavy</div><ul class="children nav nav-list"><li><a href="cavy.BackgroundColor.html">BackgroundColor</a></li><li><a href="cavy.Circle.html">Circle</a></li><li><a href="cavy.CircleGradient.html">CircleGradient</a></li><li><a href="cavy.DisplayObject.html">DisplayObject</a></li><li><a href="cavy.EventDispatcher.html">EventDispatcher</a></li><li><a href="cavy.Graphic.html">Graphic</a></li><li><a href="cavy.InteractiveObject.html">InteractiveObject</a></li><li><a href="cavy.LinearGradient.html">LinearGradient</a></li><li><a href="cavy.Matrix2D.html">Matrix2D</a></li><li><a href="cavy.Preload.html">Preload</a></li><li><a href="cavy.Rectangle.html">Rectangle</a></li><li><a href="cavy.Scene.html">Scene</a></li><li><a href="cavy.Shape.html">Shape</a></li><li><a href="cavy.Sprite.html">Sprite</a></li><li><a href="cavy.SpriteSheet.html">SpriteSheet</a></li><li><a href="cavy.Stage.html">Stage</a></li><li><a href="cavy.Text.html">Text</a></li><li><a href="cavy.Timeline.html">Timeline</a></li><li><a href="cavy.Timer.html">Timer</a></li><li><a href="cavy.TimerObject.html">TimerObject</a></li><li><a href="cavy.Tween.html">Tween</a></li><li><a href="cavy.TweenObject.html">TweenObject</a></li></ul></li>
+                            
+                                    </ul>
+                                </div>
+                            </li>
+                        
+
+		</ul>
+		</div>
+
+		<script>
+			var searchMembers = [{"realName":"cavy","link":"cavy"},{"realName":"cavy.BackgroundColor","link":"cavy.BackgroundColor"},{"realName":"cavy.Circle","link":"cavy.Circle"},{"realName":"cavy.CircleGradient","link":"cavy.CircleGradient"},{"realName":"cavy.DisplayObject","link":"cavy.DisplayObject"},{"realName":"cavy.EventDispatcher","link":"cavy.EventDispatcher"},{"realName":"cavy.Graphic","link":"cavy.Graphic"},{"realName":"cavy.InteractiveObject","link":"cavy.InteractiveObject"},{"realName":"cavy.LinearGradient","link":"cavy.LinearGradient"},{"realName":"cavy.Matrix2D","link":"cavy.Matrix2D"},{"realName":"cavy.Preload","link":"cavy.Preload"},{"realName":"cavy.Rectangle","link":"cavy.Rectangle"},{"realName":"cavy.Scene","link":"cavy.Scene"},{"realName":"cavy.Shape","link":"cavy.Shape"},{"realName":"cavy.Sprite","link":"cavy.Sprite"},{"realName":"cavy.SpriteSheet","link":"cavy.SpriteSheet"},{"realName":"cavy.Stage","link":"cavy.Stage"},{"realName":"cavy.Text","link":"cavy.Text"},{"realName":"cavy.Timeline","link":"cavy.Timeline"},{"realName":"cavy.Timer","link":"cavy.Timer"},{"realName":"cavy.TimerObject","link":"cavy.TimerObject"},{"realName":"cavy.Tween","link":"cavy.Tween"},{"realName":"cavy.TweenObject","link":"cavy.TweenObject"}];
+		</script>
+    </aside>
+	</div>
+    <div id="docContents" class="sideMenu sideMargin">
+
+		
+			<div style="width:100%">
+		
+				<div id="main">
+					
+
+
+	<h1 class="page-title">
+        Class:
+        <span class="ancestors"><a href="cavy.html">cavy</a>.</span>Text
+        
+    </h1>
 <section>
-    
+
 <header>
-    <!--h2>
-        <span class="ancestors"><a href="cavy.html">cavy</a>.</span>
     
-    Text
-    </h2-->
-    
-</header>  
+</header>
 
 <article>
-    <div class="container-overview hero-unit">
+    <div class="container-overview">
     
 
-            
-        <ul class="breadcrumb">
-            <li>Extends</li>
-            <li><a href="cavy.DisplayObject.html" class="btn btn-primary">cavy.DisplayObject</a></li>
-        </ul>
-    
-
-    
-    
     
         
 <dt>
-    <h4 class="name" id="Text">new Text<span class="signature">(text, param)</span><span class="type-signature"></span></h4>
+    <a name="Text"></a>
+
+    <h4 class="name" id="Text"><span class="btn btn-mini btn btn-danger">C</span> new Text( text: <span class="paramSignature">Object</span>, param: <span class="paramSignature">Object</span> ) &rarr; {void}
+
+    
+
+    <div style="font-weight:lighter; float:right;" class="btn sourceBar"><i class="icon-eye-open"></i></div>
+
+    
+
+    </h4>
     
     
 </dt>
@@ -86,6 +371,8 @@
     </div>
     
 
+
+
     
     
     
@@ -94,7 +381,7 @@
         <h5>Parameters:</h5>
         
 
-<table class="params table table-bordered table-condensed">
+<table class="params table table-striped">
     <thead>
 	<tr>
 		
@@ -116,7 +403,7 @@
 
         <tr>
             
-                <td class="name">text</td>
+                <td class="name"><code>text</code></td>
             
 
             <td class="type">
@@ -139,7 +426,7 @@
 
         <tr>
             
-                <td class="name">param</td>
+                <td class="name"><code>param</code></td>
             
 
             <td class="type">
@@ -167,29 +454,32 @@
     
 <dl class="details">
     
-        
-    
-    
+
     
 
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> Text.js</dt>
+    -->
+
+    
+
+    
+
     
 </dl>
 
@@ -207,27 +497,44 @@
     
         <h5>Example</h5>
         
-    <pre class="prettyprint"><code>   var t = new Text("hoge");</code></pre>
+    <pre class="sunlight-highlight-javascript">   var t = new Text("hoge");</pre>
+
 
     
 </dd>
 
+ 
     
     </div>
+
+   
+
     
+        <h3 class="subsection-title">Extends</h3>
+
+        <ul>
+            <li><a href="cavy.DisplayObject.html">cavy.DisplayObject</a></li>
+        </ul>
     
+
     
+
     
+
     
+
+
     
+
     
+
     
-        <h3 class="subsection-title">Members</h3>
-        
-        <dl class="bs-docs-example bs-members">
+        <h3 class="subsection-title">Properties</h3>
+
+        <dl>
             
 <dt>
-    <h4 class="name" id="_pool"><span class="label label-info">private</span> _pool<span class="type-signature"> :object</span></h4>
+    <a name="_pool"></a><h4 class="name" id="_pool"><span class="btn btn-mini btn-danger" title="private">P</span> _pool<span class="type-signature"> :object</span></h4>
     
     
 </dt>
@@ -239,35 +546,51 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">object</span>
+
+
+            </li>
+        </ul>
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+<dl class="details">
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#_pool">cavy.DisplayObject#_pool</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> DisplayObject.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -278,7 +601,7 @@
         
             
 <dt>
-    <h4 class="name" id="_visible"><span class="label label-info">private</span> _visible<span class="type-signature"> :boolean</span></h4>
+    <a name="_visible"></a><h4 class="name" id="_visible"><span class="btn btn-mini btn-danger" title="private">P</span> _visible<span class="type-signature"> :boolean</span></h4>
     
     
 </dt>
@@ -290,35 +613,51 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">boolean</span>
+
+
+            </li>
+        </ul>
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+<dl class="details">
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#_visible">cavy.DisplayObject#_visible</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> DisplayObject.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -329,7 +668,7 @@
         
             
 <dt>
-    <h4 class="name" id="autoResize">autoResize<span class="type-signature"> :boolean</span></h4>
+    <a name="autoResize"></a><h4 class="name" id="autoResize"><span class="btn btn-mini btn-success" title="public">P</span> autoResize<span class="type-signature"> :boolean</span></h4>
     
     
 </dt>
@@ -341,34 +680,49 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">boolean</span>
+
+
+            </li>
+        </ul>
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
+
     
     <dt class="tag-default">Default Value:</dt>
     <dd class="tag-default"><ul class="dummy"><li>false</li></ul></dd>
     
 
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> Text.js</dt>
+    -->
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
@@ -379,7 +733,7 @@
         
             
 <dt>
-    <h4 class="name" id="bold">bold<span class="type-signature"> :boolean</span></h4>
+    <a name="bold"></a><h4 class="name" id="bold"><span class="btn btn-mini btn-success" title="public">P</span> bold<span class="type-signature"> :boolean</span></h4>
     
     
 </dt>
@@ -391,34 +745,49 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">boolean</span>
+
+
+            </li>
+        </ul>
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
+
     
     <dt class="tag-default">Default Value:</dt>
     <dd class="tag-default"><ul class="dummy"><li>false</li></ul></dd>
     
 
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> Text.js</dt>
+    -->
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
@@ -429,7 +798,7 @@
         
             
 <dt>
-    <h4 class="name" id="cache"><span class="label label-info">private</span> cache<span class="type-signature"> :HTMLCanvasElement|null</span></h4>
+    <a name="cache"></a><h4 class="name" id="cache"><span class="btn btn-mini btn-danger" title="private">P</span> cache<span class="type-signature"> :HTMLCanvasElement|null</span></h4>
     
     
 </dt>
@@ -441,35 +810,54 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">HTMLCanvasElement</span>
+|
+
+<span class="param-type">null</span>
+
+
+            </li>
+        </ul>
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+<dl class="details">
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#cache">cavy.DisplayObject#cache</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> DisplayObject.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -480,7 +868,7 @@
         
             
 <dt>
-    <h4 class="name" id="children">children<span class="type-signature"> :Array</span></h4>
+    <a name="children"></a><h4 class="name" id="children"><span class="btn btn-mini btn-success" title="public">P</span> children<span class="type-signature"> :Array</span></h4>
     
     
 </dt>
@@ -492,35 +880,51 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Array</span>
+
+
+            </li>
+        </ul>
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+<dl class="details">
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#children">cavy.DisplayObject#children</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> DisplayObject.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -531,7 +935,7 @@
         
             
 <dt>
-    <h4 class="name" id="color">color<span class="type-signature"> :string</span></h4>
+    <a name="color"></a><h4 class="name" id="color"><span class="btn btn-mini btn-success" title="public">P</span> color<span class="type-signature"> :string</span></h4>
     
     
 </dt>
@@ -543,34 +947,49 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">string</span>
+
+
+            </li>
+        </ul>
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
+
     
     <dt class="tag-default">Default Value:</dt>
     <dd class="tag-default"><ul class="dummy"><li>"#000"</li></ul></dd>
     
 
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> Text.js</dt>
+    -->
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
@@ -581,7 +1000,7 @@
         
             
 <dt>
-    <h4 class="name" id="filter">filter<span class="type-signature"> :String</span></h4>
+    <a name="filter"></a><h4 class="name" id="filter"><span class="btn btn-mini btn-success" title="public">P</span> filter<span class="type-signature"> :String</span></h4>
     
     
 </dt>
@@ -593,38 +1012,54 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">String</span>
+
+
+            </li>
+        </ul>
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+<dl class="details">
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#filter">cavy.DisplayObject#filter</a>
     </li></dd>
     
+
     
+
     
+
     
+
     
-    
-    
-    
-    
-    
+
     
     <dt class="tag-default">Default Value:</dt>
     <dd class="tag-default"><ul class="dummy"><li>null</li></ul></dd>
     
 
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> DisplayObject.js</dt>
+    -->
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
@@ -635,7 +1070,7 @@
         
             
 <dt>
-    <h4 class="name" id="fitImage">fitImage<span class="type-signature"> :boolean</span></h4>
+    <a name="fitImage"></a><h4 class="name" id="fitImage"><span class="btn btn-mini btn-success" title="public">P</span> fitImage<span class="type-signature"> :boolean</span></h4>
     
     
 </dt>
@@ -647,35 +1082,51 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">boolean</span>
+
+
+            </li>
+        </ul>
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+<dl class="details">
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#fitImage">cavy.DisplayObject#fitImage</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> DisplayObject.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -686,7 +1137,7 @@
         
             
 <dt>
-    <h4 class="name" id="fitType">fitType<span class="type-signature"> :String</span></h4>
+    <a name="fitType"></a><h4 class="name" id="fitType"><span class="btn btn-mini btn-success" title="public">P</span> fitType<span class="type-signature"> :String</span></h4>
     
     
 </dt>
@@ -698,35 +1149,51 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">String</span>
+
+
+            </li>
+        </ul>
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+<dl class="details">
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#fitType">cavy.DisplayObject#fitType</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> DisplayObject.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -737,7 +1204,7 @@
         
             
 <dt>
-    <h4 class="name" id="fontFamily">fontFamily<span class="type-signature"> :string</span></h4>
+    <a name="fontFamily"></a><h4 class="name" id="fontFamily"><span class="btn btn-mini btn-success" title="public">P</span> fontFamily<span class="type-signature"> :string</span></h4>
     
     
 </dt>
@@ -749,34 +1216,49 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">string</span>
+
+
+            </li>
+        </ul>
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
+
     
     <dt class="tag-default">Default Value:</dt>
     <dd class="tag-default"><ul class="dummy"><li>"Arial"</li></ul></dd>
     
 
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> Text.js</dt>
+    -->
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
@@ -787,7 +1269,7 @@
         
             
 <dt>
-    <h4 class="name" id="fontSize">fontSize<span class="type-signature"> :string</span></h4>
+    <a name="fontSize"></a><h4 class="name" id="fontSize"><span class="btn btn-mini btn-success" title="public">P</span> fontSize<span class="type-signature"> :string</span></h4>
     
     
 </dt>
@@ -799,34 +1281,49 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">string</span>
+
+
+            </li>
+        </ul>
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
+
     
     <dt class="tag-default">Default Value:</dt>
     <dd class="tag-default"><ul class="dummy"><li>"14px"</li></ul></dd>
     
 
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> Text.js</dt>
+    -->
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
@@ -837,7 +1334,7 @@
         
             
 <dt>
-    <h4 class="name" id="height">height<span class="type-signature"> :boolean</span></h4>
+    <a name="height"></a><h4 class="name" id="height"><span class="btn btn-mini btn-success" title="public">P</span> height<span class="type-signature"> :boolean</span></h4>
     
     
 </dt>
@@ -849,34 +1346,49 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">boolean</span>
+
+
+            </li>
+        </ul>
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
+
     
     <dt class="tag-default">Default Value:</dt>
     <dd class="tag-default"><ul class="dummy"><li>false</li></ul></dd>
     
 
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> Text.js</dt>
+    -->
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
@@ -887,7 +1399,7 @@
         
             
 <dt>
-    <h4 class="name" id="imageCache"><span class="label label-info">private</span> imageCache<span class="type-signature"> :HTMLImageElement|null</span></h4>
+    <a name="imageCache"></a><h4 class="name" id="imageCache"><span class="btn btn-mini btn-danger" title="private">P</span> imageCache<span class="type-signature"> :HTMLImageElement|null</span></h4>
     
     
 </dt>
@@ -899,35 +1411,54 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">HTMLImageElement</span>
+|
+
+<span class="param-type">null</span>
+
+
+            </li>
+        </ul>
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+<dl class="details">
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#imageCache">cavy.DisplayObject#imageCache</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> DisplayObject.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -938,7 +1469,7 @@
         
             
 <dt>
-    <h4 class="name" id="interactive">interactive<span class="type-signature"> :boolean</span></h4>
+    <a name="interactive"></a><h4 class="name" id="interactive"><span class="btn btn-mini btn-success" title="public">P</span> interactive<span class="type-signature"> :boolean</span></h4>
     
     
 </dt>
@@ -950,35 +1481,51 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">boolean</span>
+
+
+            </li>
+        </ul>
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+<dl class="details">
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#interactive">cavy.DisplayObject#interactive</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> DisplayObject.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -989,7 +1536,7 @@
         
             
 <dt>
-    <h4 class="name" id="lineHeight">lineHeight<span class="type-signature"> :number</span></h4>
+    <a name="lineHeight"></a><h4 class="name" id="lineHeight"><span class="btn btn-mini btn-success" title="public">P</span> lineHeight<span class="type-signature"> :number</span></h4>
     
     
 </dt>
@@ -1001,34 +1548,49 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">number</span>
+
+
+            </li>
+        </ul>
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
+
     
     <dt class="tag-default">Default Value:</dt>
     <dd class="tag-default"><ul class="dummy"><li>1.5</li></ul></dd>
     
 
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> Text.js</dt>
+    -->
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
@@ -1039,7 +1601,7 @@
         
             
 <dt>
-    <h4 class="name" id="mask">mask<span class="type-signature"> :<a href="cavy.Graphic.html">cavy.Graphic</a>|null</span></h4>
+    <a name="mask"></a><h4 class="name" id="mask"><span class="btn btn-mini btn-success" title="public">P</span> mask<span class="type-signature"> :<a href="cavy.Graphic.html">cavy.Graphic</a>|null</span></h4>
     
     
 </dt>
@@ -1051,35 +1613,54 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type"><a href="cavy.Graphic.html">cavy.Graphic</a></span>
+|
+
+<span class="param-type">null</span>
+
+
+            </li>
+        </ul>
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+<dl class="details">
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#mask">cavy.DisplayObject#mask</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> DisplayObject.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -1090,7 +1671,7 @@
         
             
 <dt>
-    <h4 class="name" id="matrix">matrix<span class="type-signature"> :<a href="cavy.Matrix2D.html">cavy.Matrix2D</a></span></h4>
+    <a name="matrix"></a><h4 class="name" id="matrix"><span class="btn btn-mini btn-success" title="public">P</span> matrix<span class="type-signature"> :<a href="cavy.Matrix2D.html">cavy.Matrix2D</a></span></h4>
     
     
 </dt>
@@ -1102,35 +1683,51 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type"><a href="cavy.Matrix2D.html">cavy.Matrix2D</a></span>
+
+
+            </li>
+        </ul>
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+<dl class="details">
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#matrix">cavy.DisplayObject#matrix</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> DisplayObject.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -1141,7 +1738,7 @@
         
             
 <dt>
-    <h4 class="name" id="offsetX">offsetX<span class="type-signature"> :number</span></h4>
+    <a name="offsetX"></a><h4 class="name" id="offsetX"><span class="btn btn-mini btn-success" title="public">P</span> offsetX<span class="type-signature"> :number</span></h4>
     
     
 </dt>
@@ -1153,35 +1750,51 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">number</span>
+
+
+            </li>
+        </ul>
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+<dl class="details">
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#offsetX">cavy.DisplayObject#offsetX</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> DisplayObject.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -1192,7 +1805,7 @@
         
             
 <dt>
-    <h4 class="name" id="offsetY">offsetY<span class="type-signature"> :number</span></h4>
+    <a name="offsetY"></a><h4 class="name" id="offsetY"><span class="btn btn-mini btn-success" title="public">P</span> offsetY<span class="type-signature"> :number</span></h4>
     
     
 </dt>
@@ -1204,35 +1817,51 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">number</span>
+
+
+            </li>
+        </ul>
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+<dl class="details">
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#offsetY">cavy.DisplayObject#offsetY</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> DisplayObject.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -1243,7 +1872,7 @@
         
             
 <dt>
-    <h4 class="name" id="opacity">opacity<span class="type-signature"> :number</span></h4>
+    <a name="opacity"></a><h4 class="name" id="opacity"><span class="btn btn-mini btn-success" title="public">P</span> opacity<span class="type-signature"> :number</span></h4>
     
     
 </dt>
@@ -1255,35 +1884,51 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">number</span>
+
+
+            </li>
+        </ul>
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+<dl class="details">
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#opacity">cavy.DisplayObject#opacity</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> DisplayObject.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -1294,7 +1939,7 @@
         
             
 <dt>
-    <h4 class="name" id="originX">originX<span class="type-signature"> :number</span></h4>
+    <a name="originX"></a><h4 class="name" id="originX"><span class="btn btn-mini btn-success" title="public">P</span> originX<span class="type-signature"> :number</span></h4>
     
     
 </dt>
@@ -1306,35 +1951,51 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">number</span>
+
+
+            </li>
+        </ul>
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+<dl class="details">
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#originX">cavy.DisplayObject#originX</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> DisplayObject.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -1345,7 +2006,7 @@
         
             
 <dt>
-    <h4 class="name" id="originY">originY<span class="type-signature"> :number</span></h4>
+    <a name="originY"></a><h4 class="name" id="originY"><span class="btn btn-mini btn-success" title="public">P</span> originY<span class="type-signature"> :number</span></h4>
     
     
 </dt>
@@ -1357,35 +2018,51 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">number</span>
+
+
+            </li>
+        </ul>
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+<dl class="details">
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#originY">cavy.DisplayObject#originY</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> DisplayObject.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -1396,7 +2073,7 @@
         
             
 <dt>
-    <h4 class="name" id="outline">outline<span class="type-signature"> :boolean</span></h4>
+    <a name="outline"></a><h4 class="name" id="outline"><span class="btn btn-mini btn-success" title="public">P</span> outline<span class="type-signature"> :boolean</span></h4>
     
     
 </dt>
@@ -1408,34 +2085,49 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">boolean</span>
+
+
+            </li>
+        </ul>
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
+
     
     <dt class="tag-default">Default Value:</dt>
     <dd class="tag-default"><ul class="dummy"><li>false</li></ul></dd>
     
 
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> Text.js</dt>
+    -->
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
@@ -1446,7 +2138,7 @@
         
             
 <dt>
-    <h4 class="name" id="parent">parent<span class="type-signature"> :null|DisplayObject</span></h4>
+    <a name="parent"></a><h4 class="name" id="parent"><span class="btn btn-mini btn-success" title="public">P</span> parent<span class="type-signature"> :null|DisplayObject</span></h4>
     
     
 </dt>
@@ -1458,35 +2150,54 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">null</span>
+|
+
+<span class="param-type">DisplayObject</span>
+
+
+            </li>
+        </ul>
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+<dl class="details">
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#parent">cavy.DisplayObject#parent</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> DisplayObject.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -1497,7 +2208,7 @@
         
             
 <dt>
-    <h4 class="name" id="positionX">positionX<span class="type-signature"> :number</span></h4>
+    <a name="positionX"></a><h4 class="name" id="positionX"><span class="btn btn-mini btn-success" title="public">P</span> positionX<span class="type-signature"> :number</span></h4>
     
     
 </dt>
@@ -1509,35 +2220,51 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">number</span>
+
+
+            </li>
+        </ul>
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+<dl class="details">
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#positionX">cavy.DisplayObject#positionX</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> DisplayObject.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -1548,7 +2275,7 @@
         
             
 <dt>
-    <h4 class="name" id="positionY">positionY<span class="type-signature"> :number</span></h4>
+    <a name="positionY"></a><h4 class="name" id="positionY"><span class="btn btn-mini btn-success" title="public">P</span> positionY<span class="type-signature"> :number</span></h4>
     
     
 </dt>
@@ -1560,35 +2287,51 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">number</span>
+
+
+            </li>
+        </ul>
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+<dl class="details">
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#positionY">cavy.DisplayObject#positionY</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> DisplayObject.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -1599,7 +2342,7 @@
         
             
 <dt>
-    <h4 class="name" id="rotation">rotation<span class="type-signature"> :number</span></h4>
+    <a name="rotation"></a><h4 class="name" id="rotation"><span class="btn btn-mini btn-success" title="public">P</span> rotation<span class="type-signature"> :number</span></h4>
     
     
 </dt>
@@ -1611,35 +2354,51 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">number</span>
+
+
+            </li>
+        </ul>
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+<dl class="details">
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#rotation">cavy.DisplayObject#rotation</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> DisplayObject.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -1650,7 +2409,7 @@
         
             
 <dt>
-    <h4 class="name" id="scaleX">scaleX<span class="type-signature"> :number</span></h4>
+    <a name="scaleX"></a><h4 class="name" id="scaleX"><span class="btn btn-mini btn-success" title="public">P</span> scaleX<span class="type-signature"> :number</span></h4>
     
     
 </dt>
@@ -1662,35 +2421,51 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">number</span>
+
+
+            </li>
+        </ul>
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+<dl class="details">
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#scaleX">cavy.DisplayObject#scaleX</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> DisplayObject.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -1701,7 +2476,7 @@
         
             
 <dt>
-    <h4 class="name" id="scaleY">scaleY<span class="type-signature"> :number</span></h4>
+    <a name="scaleY"></a><h4 class="name" id="scaleY"><span class="btn btn-mini btn-success" title="public">P</span> scaleY<span class="type-signature"> :number</span></h4>
     
     
 </dt>
@@ -1713,35 +2488,51 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">number</span>
+
+
+            </li>
+        </ul>
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+<dl class="details">
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#scaleY">cavy.DisplayObject#scaleY</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> DisplayObject.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -1752,7 +2543,7 @@
         
             
 <dt>
-    <h4 class="name" id="shadow">shadow<span class="type-signature"> :boolean</span></h4>
+    <a name="shadow"></a><h4 class="name" id="shadow"><span class="btn btn-mini btn-success" title="public">P</span> shadow<span class="type-signature"> :boolean</span></h4>
     
     
 </dt>
@@ -1764,34 +2555,49 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">boolean</span>
+
+
+            </li>
+        </ul>
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
+
     
     <dt class="tag-default">Default Value:</dt>
     <dd class="tag-default"><ul class="dummy"><li>false</li></ul></dd>
     
 
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> Text.js</dt>
+    -->
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
@@ -1802,7 +2608,7 @@
         
             
 <dt>
-    <h4 class="name" id="shadowBlur">shadowBlur<span class="type-signature"> :number</span></h4>
+    <a name="shadowBlur"></a><h4 class="name" id="shadowBlur"><span class="btn btn-mini btn-success" title="public">P</span> shadowBlur<span class="type-signature"> :number</span></h4>
     
     
 </dt>
@@ -1814,34 +2620,49 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">number</span>
+
+
+            </li>
+        </ul>
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
+
     
     <dt class="tag-default">Default Value:</dt>
     <dd class="tag-default"><ul class="dummy"><li>0</li></ul></dd>
     
 
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> Text.js</dt>
+    -->
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
@@ -1852,7 +2673,7 @@
         
             
 <dt>
-    <h4 class="name" id="shadowColor">shadowColor<span class="type-signature"> :string</span></h4>
+    <a name="shadowColor"></a><h4 class="name" id="shadowColor"><span class="btn btn-mini btn-success" title="public">P</span> shadowColor<span class="type-signature"> :string</span></h4>
     
     
 </dt>
@@ -1864,34 +2685,49 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">string</span>
+
+
+            </li>
+        </ul>
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
+
     
     <dt class="tag-default">Default Value:</dt>
     <dd class="tag-default"><ul class="dummy"><li>"#000"</li></ul></dd>
     
 
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> Text.js</dt>
+    -->
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
@@ -1902,7 +2738,7 @@
         
             
 <dt>
-    <h4 class="name" id="shadowX">shadowX<span class="type-signature"> :number</span></h4>
+    <a name="shadowX"></a><h4 class="name" id="shadowX"><span class="btn btn-mini btn-success" title="public">P</span> shadowX<span class="type-signature"> :number</span></h4>
     
     
 </dt>
@@ -1914,34 +2750,49 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">number</span>
+
+
+            </li>
+        </ul>
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
+
     
     <dt class="tag-default">Default Value:</dt>
     <dd class="tag-default"><ul class="dummy"><li>0</li></ul></dd>
     
 
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> Text.js</dt>
+    -->
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
@@ -1952,7 +2803,7 @@
         
             
 <dt>
-    <h4 class="name" id="shadowY">shadowY<span class="type-signature"> :number</span></h4>
+    <a name="shadowY"></a><h4 class="name" id="shadowY"><span class="btn btn-mini btn-success" title="public">P</span> shadowY<span class="type-signature"> :number</span></h4>
     
     
 </dt>
@@ -1964,34 +2815,49 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">number</span>
+
+
+            </li>
+        </ul>
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
+
     
     <dt class="tag-default">Default Value:</dt>
     <dd class="tag-default"><ul class="dummy"><li>0</li></ul></dd>
     
 
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> Text.js</dt>
+    -->
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
@@ -2002,7 +2868,7 @@
         
             
 <dt>
-    <h4 class="name" id="skewX">skewX<span class="type-signature"> :number</span></h4>
+    <a name="skewX"></a><h4 class="name" id="skewX"><span class="btn btn-mini btn-success" title="public">P</span> skewX<span class="type-signature"> :number</span></h4>
     
     
 </dt>
@@ -2014,35 +2880,51 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">number</span>
+
+
+            </li>
+        </ul>
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+<dl class="details">
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#skewX">cavy.DisplayObject#skewX</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> DisplayObject.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -2053,7 +2935,7 @@
         
             
 <dt>
-    <h4 class="name" id="skewY">skewY<span class="type-signature"> :number</span></h4>
+    <a name="skewY"></a><h4 class="name" id="skewY"><span class="btn btn-mini btn-success" title="public">P</span> skewY<span class="type-signature"> :number</span></h4>
     
     
 </dt>
@@ -2065,35 +2947,51 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">number</span>
+
+
+            </li>
+        </ul>
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+<dl class="details">
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#skewY">cavy.DisplayObject#skewY</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> DisplayObject.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -2104,7 +3002,7 @@
         
             
 <dt>
-    <h4 class="name" id="source">source<span class="type-signature"> :*</span></h4>
+    <a name="source"></a><h4 class="name" id="source"><span class="btn btn-mini btn-success" title="public">P</span> source<span class="type-signature"> :*</span></h4>
     
     
 </dt>
@@ -2116,35 +3014,51 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">*</span>
+
+
+            </li>
+        </ul>
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+<dl class="details">
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#source">cavy.DisplayObject#source</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> DisplayObject.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -2155,7 +3069,7 @@
         
             
 <dt>
-    <h4 class="name" id="text">text<span class="type-signature"> :string</span></h4>
+    <a name="text"></a><h4 class="name" id="text"><span class="btn btn-mini btn-success" title="public">P</span> text<span class="type-signature"> :string</span></h4>
     
     
 </dt>
@@ -2167,34 +3081,49 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">string</span>
+
+
+            </li>
+        </ul>
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
+
     
     <dt class="tag-default">Default Value:</dt>
     <dd class="tag-default"><ul class="dummy"><li>""</li></ul></dd>
     
 
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> Text.js</dt>
+    -->
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
@@ -2205,7 +3134,7 @@
         
             
 <dt>
-    <h4 class="name" id="textAlign">textAlign<span class="type-signature"> :string</span></h4>
+    <a name="textAlign"></a><h4 class="name" id="textAlign"><span class="btn btn-mini btn-success" title="public">P</span> textAlign<span class="type-signature"> :string</span></h4>
     
     
 </dt>
@@ -2217,34 +3146,49 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">string</span>
+
+
+            </li>
+        </ul>
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
+
     
     <dt class="tag-default">Default Value:</dt>
     <dd class="tag-default"><ul class="dummy"><li>"left"</li></ul></dd>
     
 
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> Text.js</dt>
+    -->
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
@@ -2255,7 +3199,7 @@
         
             
 <dt>
-    <h4 class="name" id="textBaseline">textBaseline<span class="type-signature"> :string</span></h4>
+    <a name="textBaseline"></a><h4 class="name" id="textBaseline"><span class="btn btn-mini btn-success" title="public">P</span> textBaseline<span class="type-signature"> :string</span></h4>
     
     
 </dt>
@@ -2267,34 +3211,49 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">string</span>
+
+
+            </li>
+        </ul>
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
+
     
     <dt class="tag-default">Default Value:</dt>
     <dd class="tag-default"><ul class="dummy"><li>"alphabetic"</li></ul></dd>
     
 
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> Text.js</dt>
+    -->
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
@@ -2305,7 +3264,7 @@
         
             
 <dt>
-    <h4 class="name" id="visible">visible<span class="type-signature"> :boolean</span></h4>
+    <a name="visible"></a><h4 class="name" id="visible"><span class="btn btn-mini btn-success" title="public">P</span> visible<span class="type-signature"> :boolean</span></h4>
     
     
 </dt>
@@ -2317,35 +3276,51 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">boolean</span>
+
+
+            </li>
+        </ul>
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+<dl class="details">
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#visible">cavy.DisplayObject#visible</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> DisplayObject.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -2356,7 +3331,7 @@
         
             
 <dt>
-    <h4 class="name" id="width">width<span class="type-signature"> :boolean</span></h4>
+    <a name="width"></a><h4 class="name" id="width"><span class="btn btn-mini btn-success" title="public">P</span> width<span class="type-signature"> :boolean</span></h4>
     
     
 </dt>
@@ -2368,34 +3343,49 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">boolean</span>
+
+
+            </li>
+        </ul>
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
+
     
     <dt class="tag-default">Default Value:</dt>
     <dd class="tag-default"><ul class="dummy"><li>false</li></ul></dd>
     
 
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> Text.js</dt>
+    -->
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
@@ -2406,7 +3396,7 @@
         
             
 <dt>
-    <h4 class="name" id="x">x<span class="type-signature"> :number</span></h4>
+    <a name="x"></a><h4 class="name" id="x"><span class="btn btn-mini btn-success" title="public">P</span> x<span class="type-signature"> :number</span></h4>
     
     
 </dt>
@@ -2418,35 +3408,51 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">number</span>
+
+
+            </li>
+        </ul>
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+<dl class="details">
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#x">cavy.DisplayObject#x</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> DisplayObject.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -2457,7 +3463,7 @@
         
             
 <dt>
-    <h4 class="name" id="y">y<span class="type-signature"> :number</span></h4>
+    <a name="y"></a><h4 class="name" id="y"><span class="btn btn-mini btn-success" title="public">P</span> y<span class="type-signature"> :number</span></h4>
     
     
 </dt>
@@ -2469,35 +3475,51 @@
     
     
     
-<dl class="details">
-    
-        
-    
-    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">number</span>
+
+
+            </li>
+        </ul>
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+<dl class="details">
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#y">cavy.DisplayObject#y</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> DisplayObject.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -2507,14 +3529,20 @@
 
         </dl>
     
-    
+
     
         <h3 class="subsection-title">Methods</h3>
-        
-        <dl class="bs-docs-example bs-methods">
+
+        <dl>
             
 <dt>
-    <h4 class="name" id="hasEvent">hasEvent<span class="signature">(type)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <a name="hasEvent"></a>
+
+    <h4 class="name" id="hasEvent"><span class="btn btn-mini btn-success" title="public">M</span> hasEvent( type: <span class="paramSignature">String</span> ) &rarr; { <span class='paramSignature'>Boolean</span> }
+
+    
+
+    </h4>
     
     
 </dt>
@@ -2526,6 +3554,8 @@
     </div>
     
 
+
+
     
     
     
@@ -2534,7 +3564,7 @@
         <h5>Parameters:</h5>
         
 
-<table class="params table table-bordered table-condensed">
+<table class="params table table-striped">
     <thead>
 	<tr>
 		
@@ -2556,7 +3586,7 @@
 
         <tr>
             
-                <td class="name">type</td>
+                <td class="name"><code>type</code></td>
             
 
             <td class="type">
@@ -2584,33 +3614,37 @@
     
 <dl class="details">
     
-        
-    
-    
+
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#hasEvent">cavy.DisplayObject#hasEvent</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> EventDispatcher.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -2624,32 +3658,37 @@
     
     
     
-    <h5>Returns:</h5>
+    <span>Returns:</span>
     
-            <div class="returns">
+            
 
-
-    
+→ { 
 <span class="param-type">Boolean</span>
 
+ }
 
-
-
-<span class="param-desc">
+<div class="param-desc">
     イベントが登録されているかどうか
-</span>
-
 </div>
+
+
 
         
     
     
 </dd>
 
+ 
         
             
 <dt>
-    <h4 class="name" id="off">off<span class="signature">(type, listener)</span><span class="type-signature"> &rarr; {<a href="EventDispatcher_.html">EventDispatcher</a>}</span></h4>
+    <a name="off"></a>
+
+    <h4 class="name" id="off"><span class="btn btn-mini btn-success" title="public">M</span> off( type: <span class="paramSignature">String</span>, listener: <span class="paramSignature">Function</span> ) &rarr; { <span class='paramSignature'>EventDispatcher</span> }
+
+    
+
+    </h4>
     
     
 </dt>
@@ -2661,6 +3700,8 @@
     </div>
     
 
+
+
     
     
     
@@ -2669,7 +3710,7 @@
         <h5>Parameters:</h5>
         
 
-<table class="params table table-bordered table-condensed">
+<table class="params table table-striped">
     <thead>
 	<tr>
 		
@@ -2691,7 +3732,7 @@
 
         <tr>
             
-                <td class="name">type</td>
+                <td class="name"><code>type</code></td>
             
 
             <td class="type">
@@ -2714,7 +3755,7 @@
 
         <tr>
             
-                <td class="name">listener</td>
+                <td class="name"><code>listener</code></td>
             
 
             <td class="type">
@@ -2742,33 +3783,37 @@
     
 <dl class="details">
     
-        
-    
-    
+
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#off">cavy.DisplayObject#off</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> EventDispatcher.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -2782,28 +3827,27 @@
     
     
     
-    <h5>Returns:</h5>
+    <span>Returns:</span>
     
-            <div class="returns">
+            
 
-
-    
-<span class="param-type"><a href="EventDispatcher_.html">EventDispatcher</a></span>
-
-
-
-
-</div>
 
         
     
     
 </dd>
 
+ 
         
             
 <dt>
-    <h4 class="name" id="on">on<span class="signature">(type, listener)</span><span class="type-signature"> &rarr; {<a href="EventDispatcher_.html">EventDispatcher</a>}</span></h4>
+    <a name="on"></a>
+
+    <h4 class="name" id="on"><span class="btn btn-mini btn-success" title="public">M</span> on( type: <span class="paramSignature">String</span>, listener: <span class="paramSignature">Function</span> ) &rarr; { <span class='paramSignature'>EventDispatcher</span> }
+
+    
+
+    </h4>
     
     
 </dt>
@@ -2815,6 +3859,8 @@
     </div>
     
 
+
+
     
     
     
@@ -2823,7 +3869,7 @@
         <h5>Parameters:</h5>
         
 
-<table class="params table table-bordered table-condensed">
+<table class="params table table-striped">
     <thead>
 	<tr>
 		
@@ -2845,7 +3891,7 @@
 
         <tr>
             
-                <td class="name">type</td>
+                <td class="name"><code>type</code></td>
             
 
             <td class="type">
@@ -2868,7 +3914,7 @@
 
         <tr>
             
-                <td class="name">listener</td>
+                <td class="name"><code>listener</code></td>
             
 
             <td class="type">
@@ -2896,33 +3942,37 @@
     
 <dl class="details">
     
-        
-    
-    
+
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#on">cavy.DisplayObject#on</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> EventDispatcher.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -2936,28 +3986,27 @@
     
     
     
-    <h5>Returns:</h5>
+    <span>Returns:</span>
     
-            <div class="returns">
+            
 
-
-    
-<span class="param-type"><a href="EventDispatcher_.html">EventDispatcher</a></span>
-
-
-
-
-</div>
 
         
     
     
 </dd>
 
+ 
         
             
 <dt>
-    <h4 class="name" id="trigger">trigger<span class="signature">(type, e, thisObj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <a name="trigger"></a>
+
+    <h4 class="name" id="trigger"><span class="btn btn-mini btn-success" title="public">M</span> trigger( type: <span class="paramSignature">String</span>, e: <span class="paramSignature">Object</span>, thisObj: <span class="paramSignature">Object</span> ) &rarr; { <span class='paramSignature'>Boolean</span> }
+
+    
+
+    </h4>
     
     
 </dt>
@@ -2969,6 +4018,8 @@
     </div>
     
 
+
+
     
     
     
@@ -2977,7 +4028,7 @@
         <h5>Parameters:</h5>
         
 
-<table class="params table table-bordered table-condensed">
+<table class="params table table-striped">
     <thead>
 	<tr>
 		
@@ -2999,7 +4050,7 @@
 
         <tr>
             
-                <td class="name">type</td>
+                <td class="name"><code>type</code></td>
             
 
             <td class="type">
@@ -3022,7 +4073,7 @@
 
         <tr>
             
-                <td class="name">e</td>
+                <td class="name"><code>e</code></td>
             
 
             <td class="type">
@@ -3045,7 +4096,7 @@
 
         <tr>
             
-                <td class="name">thisObj</td>
+                <td class="name"><code>thisObj</code></td>
             
 
             <td class="type">
@@ -3073,33 +4124,37 @@
     
 <dl class="details">
     
-        
-    
-    
+
     
 
     
-    <dd class="inherited-from"><ul class="dummy breadcrumb"><li>Inherited From:</li><li>
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="cavy.DisplayObject.html#trigger">cavy.DisplayObject#trigger</a>
     </li></dd>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
 
     
+
     
+
     
+
     
+
+    <!-- xperiments
     
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> EventDispatcher.js</dt>
+    -->
+
     
+
+    
+
     
 </dl>
 
@@ -3113,52 +4168,212 @@
     
     
     
-    <h5>Returns:</h5>
+    <span>Returns:</span>
     
-            <div class="returns">
+            
 
-
-    
+→ { 
 <span class="param-type">Boolean</span>
 
+ }
 
-
-
-<span class="param-desc">
+<div class="param-desc">
     イベントが登録されているかどうか
-</span>
-
 </div>
+
+
 
         
     
     
 </dd>
 
+ 
         </dl>
     
+
     
+
     
+
     
+<dl class="details">
     
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <!-- xperiments
+    
+    <dt style="font-weight:lighter;" class="btn"><i class="icon-eye-open"></i> Text.js</dt>
+    -->
+
+    
+
+    
+
+    
+</dl>
+
 </article>
 
-</section>  
+</section>
 
 
 
 
-          </div>
-      </div>
+				</div>
 
-        <br clear="both">
+				<div class="clearfix"></div>
+				<footer>
+					
+					
+						<span class="jsdoc-message">
+						Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a>
+						on Thu Jan 23 2014 13:12:55 GMT+0900 (JST) using the <a href="https://github.com/xperiments/TSDoc">TSDoc template</a>.
+						</span>
+				</footer>
+			</div>
+			<!--
+			
+			<div class="span3">
+				<div id="toc"></div>
+			</div>
+			
+			-->
+			<br clear="both">
+		</div>
 
-      <footer>
-        Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Tue Jan 07 2014 16:21:19 GMT+0900 (JST)
-        <br>
-        &copy; TriFort.inc
-      </footer>
-      <script> prettyPrint(); </script>
-    </div>
-  </body>
+	</div>
+
+	<script src="scripts/sunlight.js"></script>
+	<script src="scripts/sunlight.javascript.js"></script>
+	<script src="scripts/sunlight-plugin.doclinks.js"></script>
+	<script src="scripts/sunlight-plugin.linenumbers.js"></script>
+	<script src="scripts/sunlight-plugin.menu.js"></script>
+	<script src="scripts/jquery.min.js"></script>
+	<script src="scripts/jquery.scrollTo.js"></script>
+	<script src="scripts/jquery.localScroll.js"></script>
+	<script src="scripts/bootstrap.min.js"></script>
+
+
+
+	<script>  Sunlight.highlightAll({lineNumbers:false,  showMenu: true, enableDoclinks :true}); </script>
+
+	<script>
+		$( function () {
+
+			var searchItems = [];
+			var searchMap = {};
+			var mapName = "";
+			for( var i=0; i<searchMembers.length; i++ )
+			{
+				realName = searchMembers[i].realName;
+				searchItems.push( realName );
+				searchMap[ realName ] = searchMembers[ i ];
+			}
+
+
+			$('.typeahead').typeahead({
+			  source: searchItems,
+			  matcher: function(item) {
+			  	//console.log('aaa'+item, this.query, item.indexOf( this.query.toLowerCase() )==-1?false:true)
+                // evaluate item variable and return true if the item was matched.
+                return item.toLowerCase().indexOf( this.query.toLowerCase() )==-1?false:true;
+             },
+			  updater: function (item) {
+					window.location.href = searchMap[ item ].link+'.html';
+			  }
+
+			});
+
+
+            // Move Tutorials to bottom
+            //$('#menuContainer').append($('#navTitle_Tutorials'));
+            //$('#menuContainer').append($('#navContents_Tutorials'));
+			$(window).resize(function() {
+			  $('#side-menu').height( $(window).height()-70 );
+			  $('#sideMenuFrame').height( $(window).height()-140 );
+			  if( $(window).width() <480 )
+			  {
+			  	$('#side-menu').hide();
+				$('#docContents').removeClass('sideMenu');
+			  }
+			});
+
+			$(window).trigger('resize')
+			$('#btnCollapse').click(function()
+			{
+				$('#side-menu').toggle();
+				$('#docContents').toggleClass('sideMenu');
+
+			})
+			$('#btnHome').click(function()
+			{
+				document.location.href="index.html"
+
+			})		
+
+			$('.sourceBar').click(function(){})
+			var lastMenuSelection = window.localStorage.getItem('lastMenuSelection') || null;
+			if( lastMenuSelection ) $('a[data-id='+lastMenuSelection+']').click();
+			$('a[data-toggle=collapse]').click(function(){
+				if( lastMenuSelection == $(this).attr('data-id') ) return;
+				if( lastMenuSelection ) $('a[data-id='+lastMenuSelection+']').click();
+				lastMenuSelection = $(this).attr('data-id');
+				window.localStorage.setItem('lastMenuSelection', lastMenuSelection )
+			});	
+
+
+		} );
+	</script>
+
+	
+	<script>
+		$( function () {
+			$('#main').localScroll({
+				offset: { top: 56 } //offset by the height of your header (give or take a few px, see what works for you)
+			});
+			$(".routeTitle").on('click', function(){
+			    $(this).next().slideToggle();
+			});
+			$( "dt h4.name" ).each( function () {
+				var $this = $( this );
+				//var icon = $( "<i/>" ).addClass( "icon-plus-sign" ).addClass( "pull-right" );
+				var dt = $this.parents( "dt" );
+				var children = dt.next( "dd" );
+
+				//$this.append( icon ).css( {cursor : "pointer"} );
+				$this.addClass( "member-collapsed" ).addClass( "member" );
+
+				children.hide();
+				$this.toggle( function () {
+					//icon.addClass( "icon-minus-sign" ).removeClass( "icon-plus-sign" );
+					$this.addClass( "member-open" ).removeClass( "member-collapsed" );
+					children.slideDown();
+				}, function () {
+					//icon.addClass( "icon-plus-sign" ).removeClass( "icon-minus-sign" );
+					$this.addClass( "member-collapsed" ).removeClass( "member-open" );
+					children.slideUp();
+				} );
+			} );
+			$('.sourceBar').click(function(event){event.stopPropagation();})
+		} );
+	</script>
+	
+
+</body>
 </html>

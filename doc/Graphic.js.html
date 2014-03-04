@@ -1,55 +1,157 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Source: Graphic.js | cavy.js</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
-    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
-    <link href="styles/bootstrap.css" rel="stylesheet">
-    <link href="styles/docs.css" rel="stylesheet">
-    <link href="styles/bootstrap-custom.css" rel="stylesheet">
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-    <script src="scripts/prettify/prettify.js"> </script>
-    <script src="scripts/prettify/lang-css.js"> </script>
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <script type="text/javascript">
-    		var _gaq = _gaq || [];
-    	_gaq.push(['_setAccount', 'UA-34280482-1']);
-    	_gaq.push(['_trackPageview']);
-        (function() {
-    		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    	})();
-    </script>
-  </head>
-  <body>
-    <header class="header navbar navbar-inverse">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-          <a class="brand" href="#"><strong>cavy.js</strong> API documentation</a>
-        </div>
-      </div>
-    </header>
+<head>
+	<meta charset="utf-8">
+	<title>Documentation Source: js/Graphic.js</title>
 
-    <div class="container-fluid">
-      <div class="row-fluid">
-          <div class="span3">
-              <h2><a href="index.html">Index</a></h2><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Classes</li><li><a href="cavy.BackgroundColor.html"><i class="icon-shield" style="color: #0186d1"></i> BackgroundColor</a></li><li><a href="cavy.Circle.html"><i class="icon-shield" style="color: #0186d1"></i> Circle</a></li><li><a href="cavy.CircleGradient.html"><i class="icon-shield" style="color: #0186d1"></i> CircleGradient</a></li><li><a href="cavy.DisplayObject.html"><i class="icon-shield" style="color: #0186d1"></i> DisplayObject</a></li><li><a href="cavy.EventDispatcher.html"><i class="icon-shield" style="color: #0186d1"></i> EventDispatcher</a></li><li><a href="cavy.Graphic.html"><i class="icon-shield" style="color: #0186d1"></i> Graphic</a></li><li><a href="cavy.InteractiveObject.html"><i class="icon-shield" style="color: #0186d1"></i> InteractiveObject</a></li><li><a href="cavy.LinearGradient.html"><i class="icon-shield" style="color: #0186d1"></i> LinearGradient</a></li><li><a href="cavy.Matrix2D.html"><i class="icon-shield" style="color: #0186d1"></i> Matrix2D</a></li><li><a href="cavy.Preload.html"><i class="icon-shield" style="color: #0186d1"></i> Preload</a></li><li><a href="cavy.Rectangle.html"><i class="icon-shield" style="color: #0186d1"></i> Rectangle</a></li><li><a href="cavy.Scene.html"><i class="icon-shield" style="color: #0186d1"></i> Scene</a></li><li><a href="cavy.Shape.html"><i class="icon-shield" style="color: #0186d1"></i> Shape</a></li><li><a href="cavy.Sprite.html"><i class="icon-shield" style="color: #0186d1"></i> Sprite</a></li><li><a href="cavy.SpriteSheet.html"><i class="icon-shield" style="color: #0186d1"></i> SpriteSheet</a></li><li><a href="cavy.Stage.html"><i class="icon-shield" style="color: #0186d1"></i> Stage</a></li><li><a href="cavy.Text.html"><i class="icon-shield" style="color: #0186d1"></i> Text</a></li><li><a href="cavy.Timeline.html"><i class="icon-shield" style="color: #0186d1"></i> Timeline</a></li><li><a href="cavy.Timer.html"><i class="icon-shield" style="color: #0186d1"></i> Timer</a></li><li><a href="cavy.TimerObject.html"><i class="icon-shield" style="color: #0186d1"></i> TimerObject</a></li><li><a href="cavy.Tween.html"><i class="icon-shield" style="color: #0186d1"></i> Tween</a></li><li><a href="cavy.TweenObject.html"><i class="icon-shield" style="color: #0186d1"></i> TweenObject</a></li></ul></div><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Namespaces</li><li><a href="cavy.html"><i class="icon-code"></i> cavy</a></li></ul></div>
-          </div>
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
 
-          <div class="span9">
-              <h1 class="page-header">Source: Graphic.js</h1>
-              
+	
+	<link type="text/css" rel="stylesheet" href="styles/site.simplex.css">
+	
+</head>
+
+<body>
+<div class="container-fluid">
+	<div class="navbar navbar-fixed-top ">
+		<div class="navbar-inner">
+			<a class="brand" href="index.html">Documentation</a>
+			<ul class="nav">
+				
+				<li class="dropdown">
+					<a href="namespaces.list.html" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b
+						class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="cavy.html">cavy</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+				<li class="dropdown">
+					<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b
+						class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="cavy.BackgroundColor.html">BackgroundColor</a>
+						</li>
+						
+						<li>
+							<a href="cavy.Circle.html">Circle</a>
+						</li>
+						
+						<li>
+							<a href="cavy.CircleGradient.html">CircleGradient</a>
+						</li>
+						
+						<li>
+							<a href="cavy.DisplayObject.html">DisplayObject</a>
+						</li>
+						
+						<li>
+							<a href="cavy.EventDispatcher.html">EventDispatcher</a>
+						</li>
+						
+						<li>
+							<a href="cavy.Graphic.html">Graphic</a>
+						</li>
+						
+						<li>
+							<a href="cavy.InteractiveObject.html">InteractiveObject</a>
+						</li>
+						
+						<li>
+							<a href="cavy.LinearGradient.html">LinearGradient</a>
+						</li>
+						
+						<li>
+							<a href="cavy.Matrix2D.html">Matrix2D</a>
+						</li>
+						
+						<li>
+							<a href="cavy.Preload.html">Preload</a>
+						</li>
+						
+						<li>
+							<a href="cavy.Rectangle.html">Rectangle</a>
+						</li>
+						
+						<li>
+							<a href="cavy.Scene.html">Scene</a>
+						</li>
+						
+						<li>
+							<a href="cavy.Shape.html">Shape</a>
+						</li>
+						
+						<li>
+							<a href="cavy.Sprite.html">Sprite</a>
+						</li>
+						
+						<li>
+							<a href="cavy.SpriteSheet.html">SpriteSheet</a>
+						</li>
+						
+						<li>
+							<a href="cavy.Stage.html">Stage</a>
+						</li>
+						
+						<li>
+							<a href="cavy.Text.html">Text</a>
+						</li>
+						
+						<li>
+							<a href="cavy.Timeline.html">Timeline</a>
+						</li>
+						
+						<li>
+							<a href="cavy.Timer.html">Timer</a>
+						</li>
+						
+						<li>
+							<a href="cavy.TimerObject.html">TimerObject</a>
+						</li>
+						
+						<li>
+							<a href="cavy.Tween.html">Tween</a>
+						</li>
+						
+						<li>
+							<a href="cavy.TweenObject.html">TweenObject</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+			</ul>
+		</div>
+	</div>
+
+	<div class="row-fluid">
+
+		
+			<div class="span12">
+				
+				<div id="main">
+					
 
 
+		<h1 class="page-title">Source: js/Graphic.js</h1>
     
     <section>
         <article>
-            <pre class="prettyprint source"><code>(function (window) {
+            <pre class="sunlight-highlight-javascript ">(function (window) {
 	"use strict";
 	window.cavy = window.cavy || {};
 	/**
@@ -276,24 +378,63 @@
 		this.queue.push(["arc", [x, y, radius, startAngle, endAngle, anticlockwise]]);
 	};
 	cavy.Graphic = Graphic;
-})(window);</code></pre>
+})(window);</pre>
         </article>
     </section>
 
 
 
 
-          </div>
-      </div>
 
-        <br clear="both">
+				</div>
 
-      <footer>
-        Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Tue Jan 07 2014 16:21:18 GMT+0900 (JST)
-        <br>
-        &copy; TriFort.inc
-      </footer>
-      <script> prettyPrint(); </script>
-    </div>
-  </body>
+				<div class="clearfix"></div>
+				<footer>
+					
+					
+		<span class="jsdoc-message">
+		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a>
+		on Thu Jan 23 2014 13:09:47 GMT+0900 (JST) using the <a href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
+		</span>
+				</footer>
+			</div>
+
+			
+			<br clear="both">
+		</div>
+
+	</div>
+	<script src="scripts/sunlight.js"></script>
+	<script src="scripts/sunlight.javascript.js"></script>
+	<script src="scripts/sunlight-plugin.doclinks.js"></script>
+	<script src="scripts/sunlight-plugin.linenumbers.js"></script>
+	<script src="scripts/sunlight-plugin.menu.js"></script>
+	<script src="scripts/jquery.min.js"></script>
+	<script src="scripts/jquery.scrollTo.js"></script>
+	<script src="scripts/jquery.localScroll.js"></script>
+	<script src="scripts/bootstrap-dropdown.js"></script>
+	<script src="scripts/toc.js"></script>
+
+
+	<script>  Sunlight.highlightAll({lineNumbers:,  showMenu: true, enableDoclinks :true}); </script>
+
+	<script>
+		$( function () {
+			$( "#toc" ).toc( {
+			    anchorName  : function(i, heading, prefix) {
+					return $(heading).attr("id") || ( prefix + i );
+				},
+				selectors   : "h1,h2,h3,h4",
+				showAndHide : false,
+				scrollTo    : 60
+			} );
+			$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
+			$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+
+		} );
+	</script>
+
+	
+
+</body>
 </html>

@@ -12,6 +12,17 @@ module.exports = function(grunt) {
 				dest: '<%= pkg.name %>.js'
 			}
 		},
+		ts: {
+			dist: {
+				src: ['ts/**/*.ts'],
+				outDir: 'dist',
+				options: {
+					sourcemap: false,
+					declaration: false,
+					removeComments: false
+				}
+			}
+		},
 		uglify: {
 			my_target: {
 				files: {
@@ -35,7 +46,7 @@ module.exports = function(grunt) {
 		},
 		jsdoc : {
 			dist : {
-				src: ['<%= pkg.readmeFilename %>','js/*.js'],
+				src: ['<%= pkg.readmeFilename %>','dist/*.js'],
 				options: {
 					destination: 'doc',
 					template: 'themes/bootstrap'
@@ -43,13 +54,13 @@ module.exports = function(grunt) {
 			}
 		},
 		watch: {
-			debug: {
-				files: ['js/*.js','Gruntfile.js'],
-				tasks: ['concat:debug']
-			},
-			release: {
+			script: {
 				files: ['js/*.js','Gruntfile.js'],
 				tasks: ['build']
+			},
+			typescript: {
+				files: ['ts/**/*.ts','Gruntfile.js'],
+				tasks: ['ts']
 			}
 		}
 	};
@@ -62,7 +73,6 @@ module.exports = function(grunt) {
 		}
 	}
 	grunt.registerTask('build', ['concat:debug','concat:release','uglify']);
-	grunt.registerTask('compile', ['concat:debug','uglify']);
-	grunt.registerTask('default', ['watch:release']);
+	grunt.registerTask('default', ['watch:script']);
 	grunt.registerTask('doc', ['jsdoc']);
 };

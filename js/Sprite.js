@@ -33,12 +33,10 @@
 			}
 		} else if (this.source && this.source.width !== 0 && this.source.height !== 0) {
 			if (p.sx + p.innerWidth > this.source.width) {
-				p.width = this.source.width;
-				p.innerWidth = this.source.width;
+				p.sx = this.source.width - p.innerWidth;
 			}
 			if (p.sy + p.innerHeight > this.source.height) {
-				p.height = this.source.height
-				p.innerHeight = this.source.height;
+				p.sy = this.source.height - p.innerHeight;
 			}
 			ctx.drawImage(this.source, p.sx, p.sy, p.innerWidth, p.innerHeight, 0, 0, p.width, p.height);
 		}
