@@ -95,7 +95,7 @@
 	 * ダブルバッファリングを行うかどうか
 	 * @type {boolean}
 	 */
-	cavy.doubleBuffering = true;
+	cavy.doubleBuffering = false;
 
 	/**
 	 * Filter機能を使うかどうか

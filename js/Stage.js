@@ -204,15 +204,14 @@
 	 * @return {void}
 	 */
 	p.update = function (t) {
-		var i = 0,len = this.canvas.length;
 		this.bufferIndex = cavy.doubleBuffering ? 1 - this.bufferIndex : 0;
+		this.clear();
+		this.tick ? this.tick(t || 0) : 0 ;
+		this._render(this.children);
 		if (cavy.doubleBuffering) {
 			this.canvas[this.bufferIndex].style.visibility = "visible";
 			this.canvas[1-this.bufferIndex].style.visibility = "hidden";
 		}
-		this.clear();
-		this.tick ? this.tick(t || 0) : 0 ;
-		this._render(this.children);
 	};
 	/**
 	 * canvasを破棄
