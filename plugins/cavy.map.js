@@ -218,12 +218,8 @@
 	};
 
 	MapStage.prototype.update = function (t) {
-		if (this.tick) {
-			this.tick(t);
-		}
 		this._checkGrid();
-		this.clear();
-		this._render(this.children);
+		cavy.Stage.prototype.update.call(this);
 	};
 	MapStage.prototype.connectMarkers = function(width,color) {
 		if (!width) {
